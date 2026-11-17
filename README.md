@@ -2,9 +2,9 @@
 
 # CompanionKit
 
-### A companion that remembers. A toolkit you can make your own.
+### Give your AI companion a personality. Let the conversation grow.
 
-Self-hosted companion AI with a complete web app and reusable components.
+A self-hosted AI companion with personality, memory, and conversations that carry on.
 
 [![CI](https://github.com/DZ9/companion-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/DZ9/companion-kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-8b7355.svg)](LICENSE)
@@ -18,13 +18,17 @@ English · [简体中文](README.zh-CN.md)
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/first-meeting.jpg" width="250" alt="Original portrait and first-meeting screen"><br><sub>A place to start</sub></td>
+    <td align="center"><img src="docs/screenshots/first-meeting-en.jpg" width="250" alt="English first-meeting screen with the original portrait"><br><sub>A place to start</sub></td>
     <td align="center"><img src="docs/screenshots/conversation.jpg" width="250" alt="Streaming conversation with suggested replies"><br><sub>A conversation that continues</sub></td>
     <td align="center"><img src="docs/screenshots/memory.jpg" width="250" alt="Your companion's memory panel"><br><sub>The things that stay</sub></td>
   </tr>
 </table>
 
-CompanionKit combines **streaming conversations, reply chips, long-term memory, mood check-ins and weekly letters** in one application. Keep the complete experience, or reuse the individual components in your own product.
+CompanionKit is a companion you can make your own. Choose a name, an appearance and a speaking style. Talk about your day, share what matters, and return to a conversation with a little more continuity.
+
+**Personality makes a conversation feel familiar. Memory helps it continue.** CompanionKit brings both together with streaming replies, contextual reply chips, mood check-ins and weekly letters.
+
+Run the complete web app on your own instance, connect the model you choose, or reuse its individual components to build your own companion experience.
 
 The interface carries over the original companion product's portrait artwork, warm/violet themes, compact navigation and slide-in panels. Branding, language and model provider remain configurable.
 
@@ -69,9 +73,9 @@ Open <http://localhost:4317>. Records persist in a named volume. Set `PUBLIC_ORI
 
 </details>
 
-## More than a chat window
+## A companion, shaped around you
 
-| Conversations with continuity | A companion you can shape |
+| Keep the conversation going | Make your companion your own |
 | --- | --- |
 | Streamed, multi-bubble replies and contextual reply chips | Companion appearance, name, voice and relationship preferences |
 | Saved history, reconnect recovery and idempotent requests | Original portrait backgrounds and day/night themes |
