@@ -1,0 +1,14 @@
+[
+  { "id": "filler-zh", "text": "嗯嗯", "pass": false },
+  { "id": "filler-en", "text": "OK", "pass": false },
+  { "id": "symbols", "text": "！！！", "pass": false },
+  { "id": "short-preference", "text": "我不吃香菜", "pass": true },
+  { "id": "short-relation", "text": "我家猫叫橘子", "pass": true },
+  { "id": "short-profile", "text": "我叫小雨", "pass": true },
+  { "id": "correction", "text": "我现在吃香菜了", "pass": true },
+  { "id": "name-correction", "text": "不是橘子，是橘橘", "pass": true },
+  { "id": "filler-prefix", "text": "好朋友叫小李", "pass": true },
+  { "id": "english-fact", "text": "I live in Hangzhou", "pass": true },
+  { "id": "event", "text": "我下周去杭州", "pass": true },
+  { "id": "thanks", "text": "谢谢", "pass": false }
+]

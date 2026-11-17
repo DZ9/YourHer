@@ -1,0 +1,17 @@
+services:
+  companion:
+    build: .
+    ports:
+      - "127.0.0.1:4317:4317"
+    environment:
+      MODEL_PROVIDER: ${MODEL_PROVIDER:-demo}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:4317}
+      AUTO_WEEKLY_LETTERS: ${AUTO_WEEKLY_LETTERS:-false}
+    volumes:
+      - companion-data:/data
+    restart: unless-stopped
+volumes:
+  companion-data:

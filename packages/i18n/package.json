@@ -1,0 +1,11 @@
+{
+  "name": "@companion-kit/i18n",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./config": "./config.js"
+  },
+  "license": "MIT"
+}

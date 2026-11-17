@@ -1,0 +1,13 @@
+{
+  "name": "@companion-kit/ui",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./dom": "./dom.js",
+    "./chat": "./chat.js",
+    "./panels": "./panels.js",
+    "./dialogs": "./dialogs.js"
+  },
+  "license": "MIT"
+}

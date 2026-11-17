@@ -1,0 +1,10 @@
+{
+  "name": "@companion-kit/storage",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./product-store.js"
+  },
+  "license": "MIT"
+}

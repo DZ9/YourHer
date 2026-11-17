@@ -1,0 +1,10 @@
+{
+  "name": "@companion-kit/providers",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "license": "MIT"
+}

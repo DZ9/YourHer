@@ -1,0 +1,12 @@
+{
+  "name": "@companion-kit/companion-core",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./letters": "./letters.js",
+    "./mood": "./mood.js",
+    "./profile": "./profile.js"
+  },
+  "license": "MIT"
+}
