@@ -51,7 +51,7 @@ async function refresh({ initial = false, messages = true, panel = true } = {}) 
   if (previousId && previousId !== S.user.id) { extraMessages = []; $('message').value = ''; returnState = null; }
   setAiGender(S.user.profile.aiGender); C = getCopy(S.user.profile.aiGender); applyTheme();
   $('ai-name').textContent = S.user.profile.aiName;
-  $('portrait').src = S.user.profile.aiGender === 'neutral' ? '/assets/companion-neutral.svg' : `/assets/companion-portrait${S.user.profile.aiGender === 'female' ? '-female' : ''}.jpg`;
+  $('portrait').src = S.user.profile.aiGender === 'neutral' ? '/assets/companion-portrait-female.jpg' : `/assets/companion-portrait${S.user.profile.aiGender === 'female' ? '-female' : ''}.jpg`;
   $('message').placeholder = `把心里的话，写给${S.user.profile.aiName}…`;
   $('mode-label').textContent = S.mode === 'demo' ? '◌ 离线规则演示' : '● 模型已连接';
   $('mode-caption').textContent = S.mode === 'demo' ? '离线演示 · 不是模型效果' : '内容由 AI 生成';
@@ -60,7 +60,7 @@ async function refresh({ initial = false, messages = true, panel = true } = {}) 
   if (messages) renderChat(); if (panel) renderPanel();
   localizeDOM(document.body);
   for (const link of document.querySelectorAll('[data-route]')) if (S.config.features[link.dataset.route] === false) link.hidden = true;
-  $('mic').hidden = !S.config.features.voice;
+  setBusyUI();
   if (initial) {
     const last = allMessages().filter(m => m.role === 'assistant').at(-1);
     returnState = last ? computeA5State({ gapMs: Date.now() - new Date(last.createdAt).getTime(), messages: allMessages() }) : null;
@@ -157,13 +157,13 @@ document.addEventListener('change', async event => {
   const reader = new FileReader(); reader.onload = () => { attachedImage = reader.result; $('attachment-preview').src = attachedImage; $('attachment-preview').hidden = false; }; reader.readAsDataURL(file);
 });
 $('chat-form').onsubmit = event => { event.preventDefault(); sendMessage($('message').value.trim()).catch(error => toast(error.message)); };
-$('message').oninput = () => { $('message').style.height = 'auto'; $('message').style.height = Math.min(120, $('message').scrollHeight) + 'px'; renderChips(); };
+$('message').oninput = () => { $('message').style.height = 'auto'; $('message').style.height = Math.min(120, $('message').scrollHeight) + 'px'; renderChips(); setBusyUI(); };
 $('message').onkeydown = event => { if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); $('chat-form').requestSubmit(); } };
 $('older').onclick = () => loadOlder().catch(error => toast(error.message));
 $('panel-back').onclick = () => { location.hash = '/chat'; };
 $('menu-toggle').onclick = () => { $('mobile-menu').hidden = !$('mobile-menu').hidden; $('menu-toggle').setAttribute('aria-expanded', String(!$('mobile-menu').hidden)); };
 $('theme-toggle').onclick = async () => { try { const theme = document.documentElement.dataset.theme === 'night' ? 'day' : 'night'; await api('/api/profile', { method: 'PATCH', body: JSON.stringify({ theme }) }); await refresh({ messages: false, panel: route === 'about' }); } catch (error) { toast(error.message); } };
-attachVoiceInput({button:$('mic'),input:$('message'),getLocale:()=>S.config.i18n.locales.find(l=>l.code===loadedLocale)?.speechLocale || loadedLocale,onRecording:value=>{recording=value;renderChips();},onStatus:text=>{$('chat-status').textContent=t(text);},onError:toast});
+attachVoiceInput({button:$('mic'),input:$('message'),getLocale:()=>S.config.i18n.locales.find(l=>l.code===loadedLocale)?.speechLocale || loadedLocale,onRecording:value=>{recording=value;renderChips();setBusyUI();},onStatus:text=>{$('chat-status').textContent=t(text);},onError:toast});
 window.addEventListener('hashchange', navigate);
 window.addEventListener('visibilitychange', () => { if (!document.hidden && S) { if (busy || S.activeTurn) poll(); else refresh({ messages: false, panel: false }).catch(() => {}); } });
 setInterval(() => { if (S) applyTheme(); }, 60000);

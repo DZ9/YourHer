@@ -1,1 +1,1 @@
-export const DEFAULT_PROFILE = { aiName: 'Alex', aiGender: 'neutral', locale: 'en', nickname: '', city: '', companionPreference: 'gentle', relationshipMode: 'friend', theme: 'auto', consentAt: null, onboardingDone: false, aiNameHistory: [], nicknameHistory: [] };
+export const DEFAULT_PROFILE = { aiName: 'Alex', aiGender: 'female', locale: 'en', nickname: '', city: '', companionPreference: 'gentle', relationshipMode: 'friend', theme: 'auto', consentAt: null, onboardingDone: false, aiNameHistory: [], nicknameHistory: [] };

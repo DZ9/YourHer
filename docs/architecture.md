@@ -42,3 +42,5 @@ UI factories accept state getters and callbacks. They do not require this HTTP s
 ## Deliberate limits
 
 Exact memory deduplication does not resolve semantic contradictions. Memory and conversation updates are serialized but not one cross-domain transaction. Browser speech availability and provider compatibility vary. Deployment to multiple processes requires a database implementation with real transactions and uniqueness guarantees.
+
+The web host keeps the original mobile composition in a centered viewport on large displays. Navigation is the source product’s compact vertical menu, and feature panels slide over the chat instead of introducing a desktop sidebar.

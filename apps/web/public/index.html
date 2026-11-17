@@ -9,13 +9,24 @@
       <nav id="navigation"><a href="#/chat" data-route="chat"><span>◌</span> 聊天</a><a href="#/letters" data-route="letters"><span>✉</span> 信</a><a href="#/memory" data-route="memory"><span>◇</span> 记得</a><a href="#/mood" data-route="mood"><span>◡</span> 心情</a><a href="#/about" data-route="about"><span>☷</span> 关于</a></nav>
       <div class="rail-footer"><label class="language-label" for="language-switch">Language</label><select id="language-switch" aria-label="Language"></select><span class="connection" id="mode-label">正在连接</span><a href="#/security">账户与数据</a><a href="#/feedback">问题反馈</a><a href="#/privacy">隐私政策</a><small>一个可以自己部署的陪伴者。<br>她是 AI，会陪你，也会出错。</small></div>
     </aside>
+      <header class="chat-top">
+        <div class="identity"><span id="ai-name">Alex</span><span id="presence">在 · 一直</span></div>
+        <button id="theme-toggle" hidden aria-label="切换日夜模式"></button>
+        <div class="source-nav">
+          <a href="#/memory" data-route="memory" class="source-nav-item"><span class="material-symbols" aria-hidden="true">bookmark</span><span>记得</span></a>
+          <nav id="mobile-menu" hidden aria-label="快捷功能">
+            <a href="#/mood" data-route="mood" class="source-nav-item"><span class="material-symbols" aria-hidden="true">favorite</span><span>心情</span></a>
+            <a href="#/letters" data-route="letters" class="source-nav-item"><span class="material-symbols" aria-hidden="true">mail</span><span>信</span></a>
+            <a href="#/about" data-route="about" class="source-nav-item"><span class="material-symbols" aria-hidden="true">person</span><span>关于</span></a>
+          </nav>
+          <button id="menu-toggle" class="menu-chevron" aria-label="打开功能菜单" aria-expanded="false"><span class="material-symbols" aria-hidden="true">expand_more</span></button>
+        </div>
+      </header>
     <main class="chat-stage" aria-label="聊天">
-      <div class="art" aria-hidden="true"><img id="portrait" src="/assets/companion-neutral.svg" alt=""><div class="art-wash"></div><div class="art-top"></div><div class="art-bottom"></div></div><div class="stars" aria-hidden="true">·　 ✧　　·　　　✦　　·　　✧</div>
-      <header class="chat-top"><a class="mobile-wordmark" href="#/chat" data-brand>CompanionKit</a><div class="identity"><span class="presence-dot"></span><span id="ai-name">林夕</span><span id="presence">在 · 一直</span></div><div class="top-actions"><a class="language-shortcut" href="#/about" aria-label="Language">文/A</a><button id="theme-toggle" class="icon-button" aria-label="切换日夜模式">☾</button><button id="menu-toggle" class="icon-button" aria-label="打开功能菜单" aria-expanded="false">☷</button></div></header>
-      <nav id="mobile-menu" hidden aria-label="快捷功能"><a href="#/letters">信</a><a href="#/memory">记得</a><a href="#/mood">心情</a><a href="#/about">关于</a></nav>
+      <div class="art" aria-hidden="true"><img id="portrait" src="/assets/companion-portrait-female.jpg" alt=""><div class="art-wash"></div><div class="art-top"></div><div class="art-bottom"></div></div><div class="stars" aria-hidden="true"></div>
       <div id="banners" class="banners" aria-live="polite"></div>
-      <div id="thread-scroll" class="thread-scroll"><button id="older" class="older" hidden>更早的话</button><div id="first-touch" class="first-touch"><span class="intro-kicker">此刻 · 有人在听</span><h1>有些话，<br>找不到人说，<br>也不想被人知道。</h1><p>那就说给我。<br>不必想好从哪里开始。</p><span class="ai-disclosure">AI 陪伴 · 不是专业心理服务</span></div><div id="messages" class="messages" role="log" aria-label="对话记录" aria-live="polite"></div><div id="return-opener"></div><div id="reply-chips" class="reply-chips" aria-label="续聊建议"></div></div>
-      <footer class="composer-wrap"><form id="chat-form"><label class="sr-only" for="message">把此刻想说的话写下来</label><textarea id="message" rows="1" maxlength="4000" placeholder="把心里的话，写给林夕…"></textarea><button id="mic" type="button" class="icon-button mic" aria-label="语音输入">♩</button><button id="send" type="submit" aria-label="发送消息">↑</button></form><div class="composer-caption"><label id="consent-label"><input id="consent" type="checkbox">我已阅读并同意 <a href="#/privacy">《隐私政策》</a></label><span id="chat-status" role="status">不急，慢慢说。</span><span class="mode-caption" id="mode-caption"></span></div></footer>
+      <div id="thread-scroll" class="thread-scroll"><button id="older" class="older" hidden>更早的话</button><div id="first-touch" class="first-touch"><h1>有些话，<br>找不到人说，也不想被人知道。</h1><p>那就说给我 —— 不会有人评判你。</p></div><div id="messages" class="messages" role="log" aria-label="对话记录" aria-live="polite"></div><div id="return-opener"></div><div id="reply-chips" class="reply-chips" aria-label="续聊建议"></div></div>
+      <footer class="composer-wrap"><form id="chat-form"><label class="sr-only" for="message">把此刻想说的话写下来</label><div class="composer-field"><textarea id="message" rows="1" maxlength="4000" placeholder="把心里的话，写给林夕…"></textarea></div><button id="mic" type="button" class="icon-button mic" aria-label="语音输入"><span class="material-symbols" aria-hidden="true">mic</span></button><button id="send" type="submit" aria-label="发送消息"><span class="material-symbols" aria-hidden="true">arrow_upward</span></button></form><div class="composer-caption"><label id="consent-label"><input id="consent" type="checkbox">我已阅读并同意 <a href="#/privacy">《隐私政策》</a></label><span id="chat-status" role="status">不急，慢慢说。</span><span class="mode-caption" id="mode-caption"></span></div></footer>
     </main>
     <section id="panel" class="panel" hidden aria-label="功能面板"><header class="panel-header"><button id="panel-back" class="back-button">‹ 聊天</button><span id="panel-kicker"></span></header><div id="panel-content" class="panel-content"></div></section>
   </div>

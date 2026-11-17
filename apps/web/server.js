@@ -108,7 +108,7 @@ export function createWebApp({ store, model = new ProductDemoModel(), mode = 'de
       if (req.method === 'GET' && !url.pathname.startsWith('/api/')) {
         let asset = STATIC[url.pathname];
         if (/^\/assets\/companion-portrait(?:-female)?\.jpg$/.test(url.pathname)) asset = [`public${url.pathname}`, 'image/jpeg'];
-        if (url.pathname === '/assets/companion-neutral.svg') asset = ['public/assets/companion-neutral.svg', 'image/svg+xml'];
+        if (url.pathname === '/assets/material-symbols-rounded.ttf') asset = ['public/assets/material-symbols-rounded.ttf', 'font/ttf'];
         if (/^\/ui\/(dom|chat|panels|dialogs|voice|privacy)\.js$/.test(url.pathname)) asset = ['../../packages' + url.pathname, 'text/javascript'];
         if (url.pathname === '/shared/sse-client.js') asset = ['../../packages/conversation/sse-client.js', 'text/javascript'];
         if (url.pathname === '/i18n/index.js') asset = ['../../packages/i18n/index.js', 'text/javascript'];

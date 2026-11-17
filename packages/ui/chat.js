@@ -24,7 +24,7 @@ function renderChips() { sync();
   $('return-opener').innerHTML = visible && returnState?.tier === 'opener' ? `<p>${h(returnState.openerText)}</p><small>· ${h(returnState.footerText)} ·</small>` : '';
   localizeDOM($('reply-chips')); localizeDOM($('return-opener'));
 }
-function setBusyUI() { sync(); $('send').disabled = busy; $('mic').disabled = busy; $('presence').textContent = t(busy ? '在想…' : '在 · 一直'); }
+function setBusyUI() { sync(); $('send').disabled = busy; $('mic').disabled = busy; $('presence').textContent = t(busy ? '在想…' : '在 · 一直'); const hasInput = Boolean($('message').value.trim()); $('send').hidden = !hasInput; $('mic').hidden = hasInput || !S?.config.features.voice; document.body.classList.toggle('first-visit', !getMessages().length); }
 
 return {renderChat,renderChips,setBusyUI};
 }

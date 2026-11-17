@@ -94,12 +94,12 @@ test('consent and cross-origin checks protect state-changing routes', async t =>
 });
 test('all page routes, shared product code and original portrait assets are served', async t => {
   const { base } = await setup(t);
-  for (const path of ['/', '/app.js', '/style.css', '/shared/copy.js', '/shared/protocol.js', '/shared/returning.js', '/shared/candidates.js', '/assets/companion-portrait-female.jpg', '/assets/companion-portrait.jpg', '/assets/companion-neutral.svg', '/ui/chat.js', '/ui/panels.js', '/ui/dialogs.js', '/ui/privacy.js', '/ui/voice.js', '/i18n/index.js']) assert.equal((await fetch(base + path)).status, 200, path);
+  for (const path of ['/', '/app.js', '/style.css', '/shared/copy.js', '/shared/protocol.js', '/shared/returning.js', '/shared/candidates.js', '/assets/companion-portrait-female.jpg', '/assets/companion-portrait.jpg', '/assets/material-symbols-rounded.ttf', '/ui/chat.js', '/ui/panels.js', '/ui/dialogs.js', '/ui/privacy.js', '/ui/voice.js', '/i18n/index.js']) assert.equal((await fetch(base + path)).status, 200, path);
   assert.equal((await fetch(base + '/.env')).status, 404);
 });
 test('locale settings expose public catalogues and default to a generic English companion', async t => {
   const { client } = await setup(t); const c = await client(); let state = await c.state();
-  assert.equal(state.user.profile.locale, 'en'); assert.equal(state.user.profile.aiGender, 'neutral'); assert.equal(state.user.profile.aiName, 'Alex');
+  assert.equal(state.user.profile.locale, 'en'); assert.equal(state.user.profile.aiGender, 'female'); assert.equal(state.user.profile.aiName, 'Alex');
   const catalogue = await (await c.request('/api/i18n/en')).json(); assert.equal(catalogue.messages['聊天'], 'Chat');
   assert.ok(!JSON.stringify(state.config).includes('LLM_API_KEY')); assert.ok(!('dictionaries' in state.config));
   assert.equal((await c.request('/api/profile', 'PATCH', { locale: 'unknown' })).status, 400);
