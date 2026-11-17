@@ -1,6 +1,6 @@
 # Provenance
 
-CompanionKit is a general-purpose, self-hosted web edition derived from the owner's personal companion product, formerly maintained in the private `DZ9/chatNPC` repository. The private production repository and its history remain separate.
+YourHer AI is a general-purpose, self-hosted web edition derived from the owner's personal companion product, formerly maintained in the private `DZ9/chatNPC` repository. The private production repository and its history remain separate.
 
 Reviewed source revision: `f2121dc1e323bc7143ba6d7e22c8c70fbbceb0fb`.
 

@@ -216,5 +216,5 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const config = process.env.CONFIG_FILE ? await loadConfig(resolve(process.env.CONFIG_FILE)) : DEFAULT_CONFIG;
   const server = createWebApp({ store, model, mode, config, publicOrigin: process.env.PUBLIC_ORIGIN || '', autoLetters: process.env.AUTO_WEEKLY_LETTERS === 'true' });
   await server.ready;
-  server.listen(Number(process.env.PORT || 4317), process.env.HOST || '127.0.0.1', () => console.log(`CompanionKit: http://127.0.0.1:${server.address().port} (${mode})`));
+  server.listen(Number(process.env.PORT || 4317), process.env.HOST || '127.0.0.1', () => console.log(`YourHer AI: http://127.0.0.1:${server.address().port} (${mode})`));
 }

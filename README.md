@@ -1,12 +1,12 @@
 <div align="center">
 
-# CompanionKit
+# YourHer AI
 
-### Give your AI companion a personality. Let the conversation grow.
+### A familiar voice. A connection that grows.
 
 A self-hosted AI companion with personality, memory, and conversations that carry on.
 
-[![CI](https://github.com/DZ9/companion-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/DZ9/companion-kit/actions/workflows/ci.yml)
+[![CI](https://github.com/DZ9/YourHerAI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/DZ9/YourHerAI/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-8b7355.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-24%2B-607a58.svg)](https://nodejs.org/)
 
@@ -18,15 +18,15 @@ English · [简体中文](README.zh-CN.md)
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/first-meeting-en.jpg" width="250" alt="English first-meeting screen with the original portrait"><br><sub>A place to start</sub></td>
+    <td align="center"><img src="docs/screenshots/first-meeting-english.jpg" width="250" alt="English first-meeting screen with the original portrait"><br><sub>A place to start</sub></td>
     <td align="center"><img src="docs/screenshots/conversation.jpg" width="250" alt="Streaming conversation with suggested replies"><br><sub>A conversation that continues</sub></td>
     <td align="center"><img src="docs/screenshots/memory.jpg" width="250" alt="Your companion's memory panel"><br><sub>The things that stay</sub></td>
   </tr>
 </table>
 
-CompanionKit is a companion you can make your own. Choose a name, an appearance and a speaking style. Talk about your day, share what matters, and return to a conversation with a little more continuity.
+YourHer AI is a companion you can make your own. Choose a name, an appearance and a speaking style. Talk about your day, share what matters, and return to a conversation with a little more continuity.
 
-**Personality makes a conversation feel familiar. Memory helps it continue.** CompanionKit brings both together with streaming replies, contextual reply chips, mood check-ins and weekly letters.
+**Personality makes a conversation feel familiar. Memory helps it continue.** YourHer AI brings both together with streaming replies, contextual reply chips, mood check-ins and weekly letters.
 
 Run the complete web app on your own instance, connect the model you choose, or reuse its individual components to build your own companion experience.
 
@@ -37,8 +37,8 @@ The interface carries over the original companion product's portrait artwork, wa
 **Node.js 24+**. No dependency installation is needed for the built-in demo.
 
 ```sh
-git clone https://github.com/DZ9/companion-kit.git
-cd companion-kit
+git clone https://github.com/DZ9/YourHerAI.git
+cd YourHerAI
 npm start
 ```
 
