@@ -1,12 +1,12 @@
 <div align="center">
 
-# YourHer AI
+# YourHer
 
 ### 熟悉的声音，慢慢建立的联结。
 
 有个性、能记忆、可以持续交流的自托管 AI 陪伴。
 
-[![CI](https://github.com/DZ9/YourHerAI/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/DZ9/YourHerAI/actions/workflows/ci.yml)
+[![CI](https://github.com/DZ9/YourHer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/DZ9/YourHer/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/License-MIT-8b7355.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-24%2B-607a58.svg)](https://nodejs.org/)
 
@@ -22,15 +22,15 @@
 <td align="center"><img src="docs/screenshots/memory.jpg" width="250" alt="可查看和删除的记忆"><br><sub>记下重要的小事</sub></td>
 </tr></table>
 
-YourHer AI 是可以由你塑造的 AI 陪伴者。选择名字、外观和说话风格，聊聊日常，分享在意的事，再回来接着聊。个性让对话有熟悉感，记忆让它能继续。流式多气泡回复、续聊 chips、长期记忆、心情打卡和每周信件共同构成完整体验。界面沿用原应用的人物立绘、日夜主题、右上纵向导航与滑入面板，同时保留通用品牌、多语言和模型配置。
+YourHer 是可以由你塑造的 AI 陪伴者。选择名字、外观和说话风格，聊聊日常，分享在意的事，再回来接着聊。个性让对话有熟悉感，记忆让它能继续。流式多气泡回复、续聊 chips、长期记忆、心情打卡和每周信件共同构成完整体验。界面沿用原应用的人物立绘、日夜主题、右上纵向导航与滑入面板，同时保留通用品牌、多语言和模型配置。
 
 ## 快速启动
 
 需要 Node.js 24+，内置演示不需要安装第三方依赖。
 
 ```sh
-git clone https://github.com/DZ9/YourHerAI.git
-cd YourHerAI
+git clone https://github.com/DZ9/YourHer.git
+cd YourHer
 npm start
 ```
 

@@ -8,5 +8,5 @@ export function renderPrivacy(t) {
     ['No default tracking', 'This edition includes no default third-party analytics, original-product payment connection or production monitoring. Accounts belong to this instance and do not pretend to be a third-party login.'],
     ['The limits of AI', 'The companion is AI and can misunderstand, remember incorrectly or give unreliable answers. It is not a doctor or a professional mental-health service. You can correct facts, delete memories or stop using the application at any time.']
   ];
-  return `<h1>${h(t('隐私政策'))}</h1><p class="panel-sub">YourHer AI · ${h(t('Self-hosted edition'))} · 2026-11-17</p><div class="privacy-text">${paragraphs.map(([heading, body]) => `<h2>${h(t(heading))}</h2><p>${h(t(body))}</p>`).join('')}</div>`;
+  return `<h1>${h(t('隐私政策'))}</h1><p class="panel-sub">YourHer · ${h(t('Self-hosted edition'))} · 2026-11-17</p><div class="privacy-text">${paragraphs.map(([heading, body]) => `<h2>${h(t(heading))}</h2><p>${h(t(body))}</p>`).join('')}</div>`;
 }
