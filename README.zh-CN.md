@@ -26,6 +26,16 @@ YourHer 是可以自己部署的 AI 陪伴应用。选择陪伴者的名字、�
 
 可以直接部署网页版，也可以将对话、记忆等组件用于自己的项目。
 
+## 工作原理
+
+网页的模型调用、记忆处理和数据存储统一在你自己的服务器上完成。
+
+![YourHer architecture](docs/diagrams/architecture.svg)
+
+回复先保存，再进行可选的信息抽取。通过验证的记忆参与后续对话；抽取失败不会丢失已经保存的回复。
+
+![YourHer conversation lifecycle](docs/diagrams/conversation-loop.svg)
+
 ## 快速启动
 
 需要 Node.js 24+，内置演示不需要安装第三方依赖。
@@ -64,16 +74,6 @@ LLM_MODEL=your-model
 | 数据管理 | 自托管、导出记录与删除账户数据 |
 
 网页内置英文和简体中文。新增语言与修改默认设置见[多语言配置指南](docs/i18n.md)。
-
-## 工作原理
-
-网页的模型调用、记忆处理和数据存储统一在你自己的服务器上完成。
-
-![YourHer architecture](docs/diagrams/architecture.svg)
-
-回复先保存，再进行可选的信息抽取。通过验证的记忆参与后续对话；抽取失败不会丢失已经保存的回复。
-
-![YourHer conversation lifecycle](docs/diagrams/conversation-loop.svg)
 
 ## 组件
 

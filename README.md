@@ -26,6 +26,16 @@ YourHer is an AI companion you can host yourself. Choose a name, appearance and 
 
 Run the web app on your own server, or reuse its conversation and memory packages in your own project.
 
+## How it works
+
+The web app keeps model calls, memory processing and data storage on your server.
+
+![YourHer architecture](docs/diagrams/architecture.svg)
+
+Replies are saved before optional fact analysis. Accepted memories enter later context; extraction failures do not discard the conversation.
+
+![YourHer conversation lifecycle](docs/diagrams/conversation-loop.svg)
+
 ## Quickstart
 
 **Node.js 24+**. No dependency installation is needed for the built-in demo.
@@ -78,16 +88,6 @@ Open <http://localhost:4317>. Records persist in a named volume. Set `PUBLIC_ORI
 | Data control | Self-hosting, record export and account data deletion |
 
 The web interface includes English and Simplified Chinese. Add languages and configure defaults in [`companion.config.json`](companion.config.json); see the [language guide](docs/i18n.md).
-
-## How it works
-
-The web app keeps model calls, memory processing and data storage on your server.
-
-![YourHer architecture](docs/diagrams/architecture.svg)
-
-Replies are saved before optional fact analysis. Accepted memories enter later context; extraction failures do not discard the conversation.
-
-![YourHer conversation lifecycle](docs/diagrams/conversation-loop.svg)
 
 ## Components
 
