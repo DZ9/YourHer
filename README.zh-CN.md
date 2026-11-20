@@ -103,4 +103,4 @@ LLM_MODEL=your-model
 
 ## 许可证
 
-[MIT](LICENSE) · [来源说明](docs/provenance.md) · [第三方声明](docs/third-party-notices.md)
+本项目采用 [MIT 许可证](LICENSE)。

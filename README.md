@@ -117,4 +117,4 @@ See the [setup guide](docs/miniapp.md) for local networking and optional voice s
 
 ## License
 
-[MIT](LICENSE). [Provenance](docs/provenance.md) · [Third-party notices](docs/third-party-notices.md).
+Licensed under the [MIT License](LICENSE).
