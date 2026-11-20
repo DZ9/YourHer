@@ -31,6 +31,38 @@ export class ProductStore {
     await this.db.transact(rows => rows.push(user));
     return { user, token: await this.startSession(user.id) };
   }
+  matchesWechat(user, appId, openId) {
+    return user.wechatIdentity === hashToken(JSON.stringify([appId, openId]));
+  }
+  async linkWechat(id, appId, openId) {
+    const key = hashToken(JSON.stringify([appId, openId]));
+    return this.db.transact(rows => {
+      const current = rows.find(row => row.kind === 'user' && row.id === id);
+      if (!current) throw new Error('当前会话已失效');
+      if (current.wechatIdentity && current.wechatIdentity !== key) throw new Error('当前会话已绑定其他微信');
+      const existing = rows.find(row => row.kind === 'user' && row.wechatIdentity === key);
+      if (existing) {
+        existing.wechatOpenId = openId;
+        existing.wechatAppId = appId;
+        return existing.id;
+      }
+      current.wechatIdentity = key;
+      current.wechatOpenId = openId;
+      current.wechatAppId = appId;
+      return id;
+    });
+  }
+  async bindWechatPhone(id, phone) {
+    const digest = hashToken(phone);
+    return this.db.transact(rows => {
+      const current = rows.find(row => row.kind === 'user' && row.id === id && row.wechatIdentity);
+      if (!current) throw new Error('请先关联微信账号');
+      if (rows.some(row => row.kind === 'user' && row.id !== id && row.phoneDigest === digest)) throw new Error('手机号已绑定其他账号');
+      current.phoneDigest = digest;
+      current.phoneMasked = phone.slice(0, 3) + '****' + phone.slice(-4);
+      return current;
+    });
+  }
   async register(id, email, password) {
     email = String(email || '').trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 160 || typeof password !== 'string' || password.length < 10 || password.length > 128) throw new Error('请输入有效邮箱和 10–128 位密码');
@@ -89,10 +121,10 @@ export class ProductStore {
     const item = { ...value, id: value.id || randomUUID(), kind, userId, createdAt: value.createdAt || new Date(this.clock()).toISOString() };
     await this.db.transact(rows => { if (!rows.some(r => r.kind === 'user' && r.id === userId)) throw new Error('账户不存在'); rows.push(item); }); return item;
   }
-  async checkin(id, mood, source = 'manual') { return recordMood(this.db, id, mood, {source, clock: this.clock, timeZone: this.timeZone}); }
+  async checkin(id, mood, source = 'manual', note) { return recordMood(this.db, id, mood, {source, note, clock: this.clock, timeZone: this.timeZone}); }
   async export(id) {
-    return (await this.db.read()).filter(r => r.userId === id && r.kind !== 'session' || r.kind === 'user' && r.id === id)
-      .map(({ passwordHash, salt, digest, ...record }) => record);
+    return (await this.db.read()).filter(r => r.userId === id && r.kind !== 'session' && r.kind !== 'wechatOrder' || r.kind === 'user' && r.id === id)
+      .map(({ passwordHash, salt, digest, wechatIdentity, wechatOpenId, wechatAppId, phoneDigest, ...record }) => record);
   }
   async deleteUser(id) { await this.db.transact(rows => { for (let i = rows.length - 1; i >= 0; i--) if (rows[i].userId === id || rows[i].kind === 'user' && rows[i].id === id) rows.splice(i, 1); }); }
 }

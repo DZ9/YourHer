@@ -1,14 +1,38 @@
 import { randomUUID } from 'node:crypto';
-import { localDate, visibleStreamText, splitBubbles } from '../../packages/conversation/protocol.js';
+import { localDate, visibleStreamText, splitBubbles, finalizeReply } from '../../packages/conversation/protocol.js';
+
+import { buildSystem } from '../../packages/providers/index.js';
+import { normalizeFact } from '../../packages/memory/index.js';
 
 /** Compatibility boundary for the native miniapp. Uses the web app's store and turn pipeline. */
-export function createMiniappApi({ store, memory, active, runTurn, generateLetter, config, clock = Date.now, mode = "demo", letterLocks = new Set() }) {
+export function createMiniappApi({ store, memory, active, runTurn, generateLetter, config, model, clock = Date.now, mode = "demo", letterLocks = new Set(), wechat = null }) {
   const now = () => new Date(clock()).toISOString();
+  function billing(user) {
+    const account = user.miniapp || {};
+    const enabled = Boolean(wechat?.paymentEnabled && user.wechatAppId === wechat.appId);
+    const subscribed = Date.parse(account.subscriptionExpireAt || '') > clock();
+    const used = (account.trialDates || []).length;
+    const total = account.surveyCompletedAt ? 14 : 7;
+    const state = subscribed ? 'subscribed' : used < total ? 'trial'
+      : account.surveyCompletedAt || account.surveyDismissedAt ? 'paywall' : 'survey_invite';
+    return {
+      billingState: enabled ? state : 'self-hosted',
+      trialPhase: enabled ? (account.surveyCompletedAt ? 2 : 1) : 0,
+      trialNightsTotal: enabled ? total : 0,
+      trialNightsUsed: enabled ? Math.min(used, total) : 0
+    };
+  }
   const viewUser = user => ({
     id: user.id, modelMode: mode, ...user.profile, ...(user.miniapp || {}), currentCity: user.profile.city,
     privacyConsentAt: user.profile.consentAt, sessionActive: true,
-    loginSummary: '自托管设备会话', wechatBound: false, phoneBound: false,
-    subscriptionActive: false, billingState: 'self-hosted', trialPhase: 0,
+    loginSummary: user.wechatIdentity ? '已关联微信' : '自托管设备会话',
+    wechatLoginAvailable: Boolean(wechat), wechatBound: Boolean(user.wechatIdentity),
+    phoneBound: Boolean(user.phoneMasked), phoneMasked: user.phoneMasked || '',
+    weeklyTemplateId: user.wechatAppId && user.wechatAppId === wechat?.appId ? wechat.weeklyTemplateId || null : null,
+    paymentAvailable: Boolean(wechat?.paymentEnabled && user.wechatAppId === wechat.appId),
+    paymentPriceFen: wechat?.paymentPrice || 0,
+    subscriptionExpireAt: user.miniapp?.subscriptionExpireAt || '',
+    subscriptionActive: Date.parse(user.miniapp?.subscriptionExpireAt || '') > clock(), ...billing(user),
     onboardingCompleted: user.profile.onboardingDone,
     createdAt: user.createdAt, avatar: '/assets/images/profile-avatar-stitch-me.jpg'
   });
@@ -44,9 +68,62 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
       turn.promise = runTurn(user, turn, data.content.trim());
       await turn.promise;
       if (!turn.assistant) throw new Error('模型未返回回复，消息已保存');
+      if (wechat?.paymentEnabled && user.wechatAppId === wechat.appId) {
+        await store.db.transact(rows => {
+          const account = rows.find(row => row.kind === 'user' && row.id === user.id);
+          if (!account || billing(account).billingState !== 'trial') return;
+          const dates = new Set(account.miniapp?.trialDates || []);
+          dates.add(localDate(clock(), config.timeZone));
+          account.miniapp = { ...account.miniapp, trialDates: [...dates] };
+        });
+      }
       return resultFor(user, turn);
     } finally { if (active.get(user.id) === turn) active.delete(user.id); }
   }
+  function checkinSummary(items) {
+    const today = localDate(clock(), config.timeZone);
+    const dates = new Set(items.filter(item => item.source !== 'inferred').map(item => item.date));
+    const cursor = new Date(today + 'T12:00:00Z');
+    if (!dates.has(today)) cursor.setUTCDate(cursor.getUTCDate() - 1);
+    let streak = 0;
+    while (dates.has(cursor.toISOString().slice(0, 10))) {
+      streak++;
+      cursor.setUTCDate(cursor.getUTCDate() - 1);
+    }
+    return { checkin: items.find(item => item.date === today) || null, streak, date: today };
+  }
+
+  async function regenerate(user) {
+    if (!user.profile.consentAt) throw new Error('请先同意隐私说明');
+    if (active.has(user.id)) throw new Error('请等上一条回复完成');
+    const turn = { id: randomUUID(), raw: '', status: 'generating', clients: new Set(), controller: new AbortController() };
+    active.set(user.id, turn);
+    try {
+      const all = await messages(user.id);
+      const previous = all.at(-1);
+      if (previous?.role !== 'assistant') throw new Error('没有可以重新生成的回复');
+      const summary = (await store.read('summary', user.id)).at(-1)?.content || '';
+      const context = await memory.context(user.id);
+      const history = all.slice(-21, -1).map(row => ({ role: row.role, content: row.rawContent || row.content }));
+      const request = [{ role: 'system', content: buildSystem(user.profile, context, summary) }, ...history];
+      for await (const delta of model.stream(request, { signal: turn.controller.signal })) {
+        turn.raw += delta;
+        if (turn.raw.length > 30000) throw new Error('回复过长');
+      }
+      const reply = finalizeReply(turn.raw);
+      if (!reply.content) throw new Error('未收到正文');
+      const saved = await store.db.transact(rows => {
+        const row = rows.find(item => item.kind === 'message' && item.userId === user.id && item.id === previous.id);
+        if (!row) throw new Error('原回复不存在');
+        Object.assign(row, reply, { updatedAt: now() });
+        return row;
+      });
+      return { assistantMessages: message(saved) };
+    } finally {
+      active.delete(user.id);
+    }
+  }
+
   return async function miniapp(user, input) {
     if (typeof input.path !== 'string' || input.path.length > 300) throw new Error('无效路径');
     const url = new URL(input.path, 'http://miniapp.local');
@@ -56,7 +133,16 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
       if (store.locales.includes(input.locale)) user.profile = await store.patchProfile(user.id, { locale: input.locale });
       return viewUser(user);
     }
-    if (p === '/api/home') return { quickStarts: [], resumeCard: null, todayCheckin: null };
+    if (p === '/api/home' && method === 'GET') {
+      const all = await messages(user.id);
+      const last = all.at(-1);
+      const assistant = all.findLast(row => row.role === 'assistant');
+      const { checkin, streak } = checkinSummary(await store.read('checkin', user.id));
+      return {
+        resumeCard: last ? { conversationId: 'main', title: user.profile.aiName, lastMessageAt: last.createdAt, lastAssistantMessage: assistant?.content || '' } : null,
+        todayCheckin: checkin, checkinStreak: streak
+      };
+    }
     if (p === '/api/me') return viewUser(user);
     if (['/api/me/profile', '/api/me/settings', '/api/onboarding'].includes(p)) {
       const patch = {};
@@ -75,8 +161,27 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
       if (Object.keys(extra).length) await store.db.transact(rows => { const saved = rows.find(r => r.kind === 'user' && r.id === user.id); saved.miniapp = { ...saved.miniapp, ...extra }; user.miniapp = saved.miniapp; });
       return viewUser(user);
     }
-    if (p === '/api/me/letters-read') return viewUser(user);
-    if (p === '/api/me/security') return { sessionActive: true, wechatBound: false, phoneBound: false, profileCompleted: true };
+    if (p === '/api/me/weekly-subscription' && method === 'POST') {
+      if (!wechat?.weeklyTemplateId || user.wechatAppId !== wechat.appId || data.templateId !== wechat.weeklyTemplateId) throw new Error('订阅消息未配置');
+      await store.db.transact(rows => {
+        const account = rows.find(row => row.kind === 'user' && row.id === user.id);
+        account.miniapp = { ...account.miniapp, weeklySubscriptionRequested: true };
+      });
+      return { ok: true };
+    }
+    if (p === '/api/me/letters-read' && method === 'POST') {
+      if (!Number.isFinite(data.ts) || data.ts <= 0 || data.ts > clock() + 60000) throw new Error('已读时间无效');
+      return store.db.transact(rows => {
+        const saved = rows.find(row => row.kind === 'user' && row.id === user.id);
+        saved.miniapp = { ...saved.miniapp, lettersLastReadAt: Math.max(saved.miniapp?.lettersLastReadAt || 0, data.ts) };
+        return viewUser(saved);
+      });
+    }
+    if (p === '/api/me/security') return viewUser(user);
+    if (p === '/api/me/phone' && method === 'POST') {
+      if (!wechat || !user.wechatIdentity) throw new Error('请先关联微信账号');
+      return viewUser(await store.bindWechatPhone(user.id, await wechat.phone(data.code)));
+    }
     if (p === '/api/companion/stats') return { daysTogether: Math.max(1, Math.floor((clock() - Date.parse(user.createdAt)) / 86400000) + 1), userMessageCount: (await messages(user.id)).filter(m => m.role === 'user').length, memoryCount: (await memory.list(user.id)).length, aiName: user.profile.aiName };
     if (p === '/api/conversations') {
       if (method === 'POST') return conversation(user);
@@ -84,6 +189,7 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
     }
     if (/^\/api\/conversations\/[^/]+$/.test(p)) return { conversation: conversation(user), messages: (await messages(user.id)).flatMap(message) };
     if (/^\/api\/conversations\/[^/]+\/(stream-generate|messages)$/.test(p)) return generate(user, data);
+    if (p === '/api/conversations/main/regenerate' && method === 'POST') return regenerate(user);
     if (p === '/api/stream-poll') {
       const live = active.get(user.id);
       if (live?.sessionId === data.sessionId) return { content: visibleStreamText(live.raw), done: false };
@@ -94,14 +200,34 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
       if (method === 'GET') return { items: await memory.list(user.id, { limit: 100 }) };
       if (active.has(user.id)) throw new Error('请等回复保存后再修改记忆');
       if (method === 'POST') return (await memory.remember(user.id, { ...data, source: 'manual' })).memory;
+      if (method === 'PATCH') {
+        const id = p.split('/').at(-1);
+        return memory.store.transact(rows => {
+          const row = rows.find(item => item.userId === user.id && item.id === id && !item.deletedAt);
+          if (!row) throw new Error('记忆不存在');
+          const fact = normalizeFact({ ...row, ...data });
+          if (!fact) throw new Error('记忆内容无效');
+          Object.assign(row, fact, { updatedAt: now() });
+          return row;
+        });
+      }
       if (method === 'DELETE') return { ok: await memory.forget(user.id, p.split('/').at(-1)) };
     }
     if (p.startsWith('/api/checkin')) {
       if (!config.features.mood) throw new Error('心情功能已关闭');
-      if (method === 'POST') return { checkin: await store.checkin(user.id, data.mood), reply: '记下了。', isNew: true };
+      if (p === '/api/checkin' && method === 'POST') {
+        const saved = await store.checkin(user.id, data.mood, 'manual', data.note);
+        return { ...checkinSummary(await store.read('checkin', user.id)), checkin: saved, reply: '记下了。' };
+      }
       const items = await store.read('checkin', user.id);
-      if (p.endsWith('/today')) return { checkin: items.find(c => c.date === localDate(clock(), config.timeZone)) || null, streak: 0 };
-      return { items };
+      if (p === '/api/checkin/today' && method === 'GET') return checkinSummary(items);
+      if (p === '/api/checkin/recent' && method === 'GET') {
+        const days = Math.min(365, Math.max(1, Number(url.searchParams.get('days')) || 30));
+        const date = new Date(localDate(clock(), config.timeZone) + 'T12:00:00Z');
+        date.setUTCDate(date.getUTCDate() - (days - 1));
+        return { items: items.filter(item => item.date >= date.toISOString().slice(0, 10)) };
+      }
+      throw new Error('打卡操作无效');
     }
     if (p === '/api/weekly-notes') {
       if (!config.features.letters) throw new Error('信件功能已关闭');
@@ -128,6 +254,32 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
       user.profile = await store.patchProfile(user.id, { city: data.city });
       return viewUser(user);
     }
+    if (p === '/api/pay/order' && method === 'POST') {
+      if (!wechat?.paymentEnabled || !user.wechatIdentity) throw new Error('微信支付未配置或账号未关联');
+      const id = randomUUID().replaceAll('-', '');
+      const { openId, client } = await wechat.signOrder(data.code, id);
+      if (!store.matchesWechat(user, wechat.appId, openId)) throw new Error('微信身份与当前账号不一致');
+      await store.save('wechatOrder', user.id, { id, openId, offerId: wechat.offerId, priceFen: wechat.paymentPrice, status: 'pending' });
+      return { orderId: id, ...client };
+    }
+    if (p === '/api/pay/confirm' && method === 'POST') {
+      if (!wechat?.paymentEnabled || !user.wechatIdentity) throw new Error('微信支付未配置或账号未关联');
+      const order = (await store.read('wechatOrder', user.id)).find(row => row.id === data.orderId);
+      if (!order) throw new Error('订单不存在');
+      if (order.status === 'paid') return { ok: true, user: viewUser(await store.user(user.id)) };
+      if (!await wechat.verifyOrder(order)) return { ok: false };
+      return store.db.transact(rows => {
+        const record = rows.find(row => row.kind === 'wechatOrder' && row.id === order.id && row.userId === user.id);
+        const account = rows.find(row => row.kind === 'user' && row.id === user.id);
+        if (!record || !account) throw new Error('订单或账号不存在');
+        if (record.status !== 'paid') {
+          const start = Math.max(clock(), Date.parse(account.miniapp?.subscriptionExpireAt || '') || 0);
+          account.miniapp = { ...account.miniapp, subscriptionExpireAt: new Date(start + 30 * 86400000).toISOString() };
+          record.status = 'paid';
+        }
+        return { ok: true, user: viewUser(account) };
+      });
+    }
     if (p === '/api/trial/survey') {
       const answers = data.answers || {};
       if (!['caught', 'sometimes', 'no'].includes(answers.caught) || !['yes', 'later'].includes(answers.recommend) || typeof answers.wish !== 'string' || answers.wish.length > 200) throw new Error('请完成问卷');
@@ -140,7 +292,14 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
       });
       return {ok:true};
     }
-    if (p.startsWith('/api/trial/')) return { granted: false, dismissed: true, selfHosted: true };
+    if (['/api/trial/accept', '/api/trial/survey/dismiss'].includes(p) && method === 'POST') {
+      const key = p.endsWith('/accept') ? 'trialCardAcceptedAt' : 'surveyDismissedAt';
+      return store.db.transact(rows => {
+        const account = rows.find(row => row.kind === 'user' && row.id === user.id);
+        account.miniapp = { ...account.miniapp, [key]: account.miniapp?.[key] || now() };
+        return viewUser(account);
+      });
+    }
     if (p === '/api/export') return { records: await store.export(user.id) };
     if (p === '/api/account' && method === 'DELETE') {
       if (data.confirm !== 'DELETE ALL MY DATA') throw new Error('需要明确确认删除');

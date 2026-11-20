@@ -1,0 +1,179 @@
+<view class="onboard-page onboard-page--{{stepKey}}">
+
+  <view wx:if="{{stepKey === 'hello'}}" class="onboard-hello" bindtap="handleNext">
+    <view class="onboard-hello__halo"></view>
+    <text class="onboard-hello__line sans">你好</text>
+    <text class="onboard-hello__intro sans">这是「YourHer」——
+一个 AI 在陪你的小地方。</text>
+    <text class="onboard-hello__sub sans">不想一个人的时候，
+随时来。</text>
+    <text class="onboard-hello__hint sans">· 轻触屏幕继续 ·</text>
+  </view>
+
+
+  <block wx:if="{{stepKey === 'chair'}}">
+    <view class="onboard-chair-bg">
+      <view class="onboard-chair-bg__floor"></view>
+    </view>
+    <view class="onboard-chair-page">
+      <view class="onboard-chair-page__header" style="padding-top: {{statusBarHeight}}px;">
+        <text class="onboard-chair-page__kicker mono">· 你的 AI · 第一次见 ·</text>
+        <text class="onboard-chair-page__title serif">
+          她从今天起，会一直陪你 ——
+          先坐下来，
+          一会儿给她起个名。
+        </text>
+      </view>
+      <view class="onboard-chair-page__art">
+        <image class="onboard-chair-scene" src="/assets/desk/onboard/chair-scene.svg" mode="aspectFit" />
+      </view>
+      <view class="onboard-chair-page__footer" style="padding-bottom: calc(40rpx + env(safe-area-inset-bottom));">
+        <view class="btn-matcha" bindtap="handleNext">
+          <text class="serif">坐下来 ›</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+
+  <block wx:if="{{stepKey === 'name'}}">
+    <view class="onboard-name-bg"></view>
+    <view class="onboard-name-page">
+      <view class="onboard-name-page__header" style="padding-top: {{statusBarHeight}}px;">
+        <text class="onboard-name-page__kicker mono">· 给彼此一个名字 ·</text>
+        <text class="onboard-name-page__title serif">给彼此起个名 ——</text>
+        <text class="onboard-name-page__sub serif">以后陪你的日子，长着呢。</text>
+      </view>
+
+      <view class="onboard-name-page__cards">
+
+        <view class="onboard-card">
+          <view class="onboard-card__sign">
+            <text class="onboard-card__sign-label mono">HER NAME</text>
+            <input
+              class="onboard-card__input serif"
+              value="{{aiName}}"
+              maxlength="6"
+              placeholder="她的名字"
+              placeholder-class="onboard-card__placeholder"
+              bindinput="handleAiNameInput"
+              confirm-type="done"
+            />
+            <text class="onboard-card__caption serif">她的名字</text>
+          </view>
+          <view class="onboard-card__chips">
+            <block wx:for="{{aiNameSuggestions}}" wx:key="*this" wx:for-item="suggestion">
+              <view
+                class="onboard-card__chip {{aiName === suggestion ? 'onboard-card__chip--active' : ''}}"
+                data-name="{{suggestion}}"
+                bindtap="handlePickAiName"
+              >
+                <text class="serif">{{suggestion}}</text>
+              </view>
+            </block>
+          </view>
+        </view>
+
+
+        <view class="onboard-card">
+          <view class="onboard-card__sign">
+            <text class="onboard-card__sign-label mono">YOUR NAME</text>
+            <input
+              class="onboard-card__input serif"
+              value="{{nickname}}"
+              maxlength="6"
+              placeholder="写一个"
+              placeholder-class="onboard-card__placeholder"
+              bindinput="handleNicknameInput"
+              confirm-type="done"
+            />
+            <text class="onboard-card__caption serif">你的名字</text>
+          </view>
+          <view class="onboard-card__chips">
+            <block wx:for="{{nicknameSuggestions}}" wx:key="*this" wx:for-item="suggestion">
+              <view
+                class="onboard-card__chip {{nickname === suggestion ? 'onboard-card__chip--active' : ''}}"
+                data-name="{{suggestion}}"
+                bindtap="handlePickNickname"
+              >
+                <text class="serif">{{suggestion}}</text>
+              </view>
+            </block>
+          </view>
+        </view>
+      </view>
+
+
+      <view class="onboard-name-page__quote">
+        <view class="onboard-name-page__quote-avatar">
+          <text class="serif">{{aiNameInitial}}</text>
+        </view>
+        <view class="onboard-name-page__quote-bubble">
+          <text wx:if="{{namesReady}}" class="serif">
+            好。{{nickname}}，我是 {{aiName}} —— 以后我陪你。
+          </text>
+          <text wx:else class="serif">
+            名字之后能改。但以后的日子，我都陪着你。
+          </text>
+        </view>
+      </view>
+
+      <view class="onboard-name-page__footer" style="padding-bottom: calc(40rpx + env(safe-area-inset-bottom));">
+        <view
+          class="btn-matcha {{namesReady ? '' : 'btn-matcha--disabled'}}"
+          bindtap="handleNameSubmit"
+        >
+          <text class="serif">{{namesReady ? '好了 · ' + aiName + ' 与 ' + nickname : '两张牌都立起来'}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+
+  <block wx:if="{{stepKey === 'setTable'}}">
+    <view class="onboard-set-bg"></view>
+    <view class="onboard-set-page">
+      <view class="onboard-set-page__header" style="padding-top: {{statusBarHeight}}px;">
+        <text class="onboard-set-page__kicker mono">· 把陪你的地方准备好 ·</text>
+        <text wx:if="{{setPhase < 4}}" class="onboard-set-page__title serif">
+          这是以后我陪你的地方 ——
+          想说话就来，我都在。
+        </text>
+        <view wx:else class="onboard-set-page__title-wrap">
+          <text class="onboard-set-page__title serif">
+            好了 ——
+          </text>
+          <text class="onboard-set-page__title-sub sans">· 此刻就在 ·</text>
+        </view>
+      </view>
+
+      <view class="onboard-set-stage">
+        <image class="onboard-set-table" src="/assets/desk/onboard/set-table.svg" mode="aspectFit" />
+        <view class="onboard-set-letter onboard-set-letter--{{setPhase >= 1 ? 'on' : 'off'}}">
+          <image class="onboard-set-letter__img" src="/assets/desk/onboard/set-letter.svg" mode="aspectFit" />
+          <text class="onboard-set-letter__seal-text serif">{{aiNameInitial}}</text>
+        </view>
+        <view class="onboard-set-cup onboard-set-cup--{{setPhase >= 2 ? 'on' : 'off'}}">
+          <view class="onboard-set-cup__steam onboard-set-cup__steam--1"></view>
+          <view class="onboard-set-cup__steam onboard-set-cup__steam--2"></view>
+          <view class="onboard-set-cup__steam onboard-set-cup__steam--3"></view>
+          <image class="onboard-set-cup__img" src="/assets/desk/onboard/set-cup.svg" mode="aspectFit" />
+        </view>
+        <view class="onboard-set-vase onboard-set-vase--{{setPhase >= 3 ? 'on' : 'off'}}">
+          <image class="onboard-set-vase__img" src="/assets/desk/vase.svg" mode="aspectFit" />
+        </view>
+      </view>
+
+      <view class="onboard-set-page__footer" style="padding-bottom: calc(40rpx + env(safe-area-inset-bottom));">
+        <view
+          class="btn-matcha {{setPhase >= 4 ? '' : 'btn-matcha--disabled'}} {{submitting ? 'btn-matcha--disabled' : ''}}"
+          bindtap="handleFinish"
+        >
+          <text wx:if="{{submitting}}" class="serif">· 正在记下 ·</text>
+          <text wx:elif="{{setPhase >= 4}}" class="serif">进来聊聊吧 ›</text>
+          <text wx:else class="serif">· 她还在收拾 ·</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

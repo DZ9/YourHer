@@ -1890,3 +1890,6 @@ page {
   color: #8a7d6e;
   font-size: 24rpx;
 }
+
+.chat-desk-link { position: fixed; left: 22rpx; z-index: 20; padding: 0 14rpx; margin: 0; line-height: 52rpx; color: #fff4e7; background: rgba(40,25,22,.35); border-radius: 26rpx; font-size: 24rpx; }
+.chat-desk-link::after { border: none; }

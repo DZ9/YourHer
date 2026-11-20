@@ -1,0 +1,549 @@
+/* === Onboarding · 4 屏诗意叙事 ===
+   不是问卷，是她邀请你坐下
+*/
+page {
+  background: #15110C;
+}
+
+.onboard-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   ① 黑屏 · 你好
+   ============================================================ */
+.onboard-page--hello {
+  background: radial-gradient(ellipse at 50% 45%, #2A2218 0%, #15110C 100%);
+}
+
+.onboard-hello {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.onboard-hello__halo {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360rpx;
+  height: 360rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 210, 140, 0.18) 0%, transparent 70%);
+}
+
+.onboard-hello__line {
+  position: relative;
+  font-size: 88rpx;
+  color: #FFFCF4;
+  font-weight: 500;
+  letter-spacing: 8rpx;
+  opacity: 0;
+  animation: onboard-hello-fade 1.4s ease-out 0.6s forwards;
+}
+
+.onboard-hello__intro {
+  position: relative;
+  margin-top: 56rpx;
+  font-size: 30rpx;
+  line-height: 1.8;
+  color: rgba(255, 252, 244, 0.7);
+  letter-spacing: 1.2rpx;
+  text-align: center;
+  white-space: pre-line;
+  opacity: 0;
+  animation: onboard-hello-fade 1.2s ease-out 1.4s forwards;
+}
+
+.onboard-hello__sub {
+  position: relative;
+  margin-top: 36rpx;
+  font-size: 30rpx;
+  line-height: 1.8;
+  color: rgba(255, 252, 244, 0.7);
+  letter-spacing: 1.2rpx;
+  text-align: center;
+  white-space: pre-line;
+  opacity: 0;
+  animation: onboard-hello-fade 1.2s ease-out 2s forwards;
+}
+
+.onboard-hello__hint {
+  margin-top: 48rpx;
+  font-size: 24rpx;
+  color: rgba(255, 252, 244, 0.45);
+  letter-spacing: 1.2rpx;
+  opacity: 0;
+  animation: onboard-hello-fade 1s ease-out 2.8s forwards;
+}
+
+@keyframes onboard-hello-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   ② 一把空椅子
+   ============================================================ */
+.onboard-page--chair {
+  background: linear-gradient(to bottom, #C9A87D 0%, #A88562 60%, #8E6840 100%);
+}
+
+.onboard-chair-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.onboard-chair-bg__floor {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(0deg, transparent 95%, rgba(92, 70, 49, 0.32) 95.5%, transparent 96%);
+  background-size: 100% 110rpx;
+  background-position: 0 30rpx;
+  opacity: 0.5;
+}
+
+.onboard-chair-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboard-chair-page__header {
+  text-align: center;
+  padding: 80rpx 64rpx 0;
+}
+
+.onboard-chair-page__kicker {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 22rpx;
+  color: rgba(255, 252, 244, 0.7);
+  letter-spacing: 3.2rpx;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.onboard-chair-page__title {
+  display: block;
+  margin-top: 28rpx;
+  white-space: pre-line;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 44rpx;
+  color: #FFFCF4;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.8rpx;
+}
+
+.onboard-chair-page__art {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32rpx;
+}
+
+/* 椅子 + 桌沿 + 茶杯 整组场景，从设计稿 screens.jsx 抠出来的 inline SVG。
+   显式给方形尺寸 —— 父容器是 flex:1，image 的 height:100% 在没有定高父级时会塌成 0。 */
+.onboard-chair-scene {
+  width: 600rpx;
+  height: 600rpx;
+  display: block;
+}
+
+@keyframes onboard-cup-steam {
+  0%   { opacity: 0.5;  transform: translateY(0); }
+  50%  { opacity: 0.15; transform: translateY(-6px); }
+  100% { opacity: 0.5;  transform: translateY(0); }
+}
+
+.onboard-chair-page__footer {
+  padding: 28rpx 28rpx 0;
+}
+
+/* ============================================================
+   ③ 互相起名
+   ============================================================ */
+.onboard-page--name {
+  background: #F4EBD3;
+}
+
+.onboard-name-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(50% 30% at 50% 0%, rgba(232, 182, 106, 0.16) 0%, transparent 70%),
+    #F4EBD3;
+  z-index: 0;
+}
+
+.onboard-name-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboard-name-page__header {
+  padding: 60rpx 56rpx 0;
+}
+
+.onboard-name-page__kicker {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 22rpx;
+  color: #7A9869;
+  letter-spacing: 3.2rpx;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.onboard-name-page__title {
+  display: block;
+  margin-top: 24rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 44rpx;
+  color: #3B3528;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.6rpx;
+}
+
+.onboard-name-page__sub {
+  display: block;
+  margin-top: 8rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 28rpx;
+  color: #9A8F77;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.onboard-name-page__cards {
+  margin-top: 48rpx;
+  padding: 0 40rpx;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24rpx;
+}
+
+.onboard-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.onboard-card__sign {
+  background: #FFFCF4;
+  border: 3rpx solid #3B3528;
+  padding: 32rpx 24rpx 28rpx;
+  min-height: 260rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20rpx;
+  box-shadow: 6rpx 10rpx 0 rgba(59, 53, 40, 0.15);
+}
+
+.onboard-card__sign-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 18rpx;
+  color: #9A8F77;
+  letter-spacing: 2.4rpx;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.onboard-card__input {
+  width: 100%;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 44rpx;
+  line-height: 1.4;
+  min-height: 72rpx;
+  color: #3B3528;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1rpx dashed #9A8F77;
+  padding: 16rpx 0 12rpx;
+  letter-spacing: 2rpx;
+}
+
+.onboard-card__placeholder {
+  color: rgba(154, 143, 119, 0.6);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.onboard-card__caption {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 20rpx;
+  color: #9A8F77;
+  font-style: italic;
+  text-align: center;
+}
+
+.onboard-card__chips {
+  margin-top: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  justify-content: center;
+}
+
+.onboard-card__chip {
+  padding: 10rpx 18rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid #3B3528;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 22rpx;
+  color: #3B3528;
+  background: transparent;
+  letter-spacing: 0.6rpx;
+  font-weight: 500;
+}
+
+.onboard-card__chip--active {
+  background: #E5ECDA;
+  border-color: #C8D6B4;
+  color: #7A9869;
+}
+
+.onboard-name-page__quote {
+  margin-top: 56rpx;
+  padding: 0 56rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+}
+
+.onboard-name-page__quote-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: #7A9869;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.onboard-name-page__quote-avatar text {
+  color: #FFFCF4;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.onboard-name-page__quote-bubble {
+  flex: 1;
+  background: #FFFCF4;
+  border: 1rpx solid #E8DFC9;
+  border-radius: 28rpx;
+  padding: 20rpx 28rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 26rpx;
+  color: #3B3528;
+  line-height: 1.55;
+  box-shadow: 0 4rpx 14rpx -6rpx rgba(120, 100, 60, 0.15);
+}
+
+.onboard-name-page__footer {
+  margin-top: auto;
+  padding: 32rpx 28rpx 0;
+}
+
+/* ============================================================
+   ④ 她为你布置桌子
+   ============================================================ */
+.onboard-page--setTable {
+  background: radial-gradient(ellipse at 50% 40%, #C9A87D 0%, #A88562 60%, #7A5D3F 100%);
+}
+
+.onboard-set-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(0deg, transparent 95%, rgba(142, 104, 64, 0.32) 95.5%, transparent 96%);
+  background-size: 100% 90rpx;
+  opacity: 0.55;
+  z-index: 0;
+}
+
+.onboard-set-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboard-set-page__header {
+  text-align: center;
+  padding: 76rpx 64rpx 0;
+}
+
+.onboard-set-page__kicker {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 22rpx;
+  color: rgba(255, 252, 244, 0.72);
+  letter-spacing: 3.2rpx;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.onboard-set-page__title {
+  display: block;
+  margin-top: 28rpx;
+  white-space: pre-line;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 44rpx;
+  color: #FFFCF4;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.8rpx;
+  min-height: 130rpx;
+}
+
+.onboard-set-page__title-wrap {
+  margin-top: 28rpx;
+  min-height: 130rpx;
+}
+
+.onboard-set-page__title-sub {
+  display: block;
+  margin-top: 12rpx;
+  font-family: "PingFang SC", "Helvetica Neue", system-ui, sans-serif;
+  font-size: 26rpx;
+  color: rgba(255, 252, 244, 0.78);
+  font-style: italic;
+  letter-spacing: 0.6rpx;
+}
+
+.onboard-set-stage {
+  position: relative;
+  flex: 1;
+  margin-top: 32rpx;
+}
+
+/* 桌面（俯视椭圆）—— 设计稿 inline SVG，full-width 居中渲染 */
+.onboard-set-table {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 480rpx;
+  display: block;
+}
+
+/* 信件外壳 —— 内部 image + 印章 text 叠加，rotate -8° 跟设计稿一致 */
+.onboard-set-letter {
+  position: absolute;
+  left: 12%;
+  top: 24%;
+  width: 200rpx;
+  height: 124rpx;
+  transform: rotate(-8deg);
+  transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.onboard-set-letter--off {
+  opacity: 0;
+  transform: rotate(-8deg) translateY(-80rpx);
+}
+
+.onboard-set-letter__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 印章上面叠的 aiNameInitial 文字 —— SVG 里只有圆形印章底色，名字单独用 text 叠出来。
+   位置算法：SVG viewBox 100x62 里印章 cx=80 cy=12 r=8；wrapper 200x124，所以印章中心 (160,24) r=16，
+   左上角 (144,8) 32x32。 */
+.onboard-set-letter__seal-text {
+  position: absolute;
+  top: 8rpx;
+  left: 144rpx;
+  width: 32rpx;
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFCF4;
+  font-size: 18rpx;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.onboard-set-cup {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 140rpx;
+  height: 100rpx;
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.onboard-set-cup--off {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+}
+
+.onboard-set-cup__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.onboard-set-cup__steam {
+  position: absolute;
+  top: -32rpx;
+  width: 6rpx;
+  height: 32rpx;
+  border-left: 2rpx solid rgba(59, 53, 40, 0.5);
+  border-right: 2rpx solid rgba(59, 53, 40, 0.5);
+  border-radius: 8rpx 0 8rpx 0;
+  animation: onboard-cup-steam 2.6s ease-in-out infinite;
+}
+
+.onboard-set-cup__steam--1 { left: 36rpx; animation-delay: 0s; }
+.onboard-set-cup__steam--2 { left: 64rpx; animation-delay: 0.4s; }
+.onboard-set-cup__steam--3 { left: 92rpx; animation-delay: 0.8s; }
+
+.onboard-set-vase {
+  position: absolute;
+  right: 16%;
+  top: 24%;
+  width: 160rpx;
+  height: 200rpx;
+  transition: opacity 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.onboard-set-vase--off {
+  opacity: 0;
+  transform: translateY(60rpx);
+}
+
+.onboard-set-vase__img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.onboard-set-page__footer {
+  margin-top: auto;
+  padding: 32rpx 28rpx 0;
+}

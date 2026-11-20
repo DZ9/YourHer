@@ -1,3 +1,4 @@
+import { createWechat } from './wechat.js';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { resolve, dirname, extname } from 'node:path';
@@ -23,7 +24,7 @@ async function readBody(req, limit = 20000) {
 }
 function safeUser(user) { return { id: user.id, email: user.email, createdAt: user.createdAt, profile: user.profile }; }
 
-export function createWebApp({ store, model = new ProductDemoModel(), mode = 'demo', publicOrigin = '', clock = Date.now, autoLetters = false, config = DEFAULT_CONFIG } = {}) {
+export function createWebApp({ store, model = new ProductDemoModel(), mode = 'demo', publicOrigin = '', clock = Date.now, autoLetters = false, config = DEFAULT_CONFIG, wechat = null } = {}) {
   if (!store) throw new Error('ProductStore required');
   store.defaults = { aiName: config.assistant.name, aiGender: config.assistant.appearance, locale: config.i18n.defaultLocale };
   store.locales = config.i18n.locales.map(l => l.code); store.timeZone = config.timeZone;
@@ -37,7 +38,22 @@ export function createWebApp({ store, model = new ProductDemoModel(), mode = 'de
     const { dictionaries, ...publicConfig } = config;
     return { user: safeUser(user), mode, config: publicConfig, messages: allMessages.slice(-100), stats: { userMessageCount: allMessages.filter(m => m.role === 'user').length }, hasOlder: allMessages.length > 100, memories: await memory.list(user.id, { limit: 1000 }), checkins: await store.read('checkin', user.id), letters: await store.read('letter', user.id), surveys: (await store.read('survey', user.id)).map(r => ({ id: r.id, createdAt: r.createdAt })), activeTurn: turn ? { id: turn.id, content: visibleStreamText(turn.raw || ''), status: turn.status } : null, billing: { enabled: false, plan: 'self-hosted', label: '自托管版 · 无订阅限制' }, serverDate: localDate(clock(), config.timeZone) };
   }
-  const generateLetter = user => letterService.generate(user);
+  async function generateLetter(user) {
+    const letter = await letterService.generate(user);
+    if (!wechat?.weeklyTemplateId || user.wechatAppId !== wechat.appId || !user.wechatOpenId) return letter;
+    const claimed = await store.db.transact(rows => {
+      const account = rows.find(row => row.kind === 'user' && row.id === user.id);
+      if (!account?.miniapp?.weeklySubscriptionRequested || account.miniapp.lastWeeklyNotification === letter.id) return false;
+      account.miniapp.weeklySubscriptionRequested = false;
+      account.miniapp.lastWeeklyNotification = letter.id;
+      return true;
+    });
+    if (claimed) {
+      try { await wechat.sendWeekly(user.wechatOpenId, letter); }
+      catch { console.warn('WeChat weekly notification was not delivered'); }
+    }
+    return letter;
+  }
   async function runTurn(user, turn, text) {
     try {
       const history = (await messages(user.id)).filter(m => m.turnId !== turn.id).slice(-20).map(m => ({ role: m.role, content: m.rawContent || m.content }));
@@ -92,7 +108,7 @@ export function createWebApp({ store, model = new ProductDemoModel(), mode = 'de
     const heartbeat = setInterval(() => { if (!res.destroyed) res.write(': keepalive\n\n'); }, 10000);
     res.on('close', () => { clearInterval(heartbeat); turn.clients.delete(res); });
   }
-  const miniapp = createMiniappApi({ store, memory, active, runTurn, generateLetter, config, clock, mode, letterLocks });
+  const miniapp = createMiniappApi({ store, memory, active, runTurn, generateLetter, config, model, clock, mode, letterLocks, wechat });
   const server = createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff'); res.setHeader('Referrer-Policy', 'same-origin');
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; media-src 'self' blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
@@ -122,6 +138,17 @@ export function createWebApp({ store, model = new ProductDemoModel(), mode = 'de
       if (req.method === 'GET' && url.pathname === '/api/health') return json(res, 200, { status: 'ok' });
       let token = cookieToken(req); let session = await store.session(token); let user = session ? await store.user(session.userId) : null;
       if (!user) { const guest = await store.guest(); user = guest.user; token = guest.token; setCookie(res, token); if (config.i18n.detectBrowserLanguage) { const matched = store.locales.find(code => req.headers['accept-language']?.toLowerCase().includes(code.toLowerCase())); if (matched) user.profile = await store.patchProfile(user.id, { locale: matched }); } }
+      if (req.method === 'POST' && url.pathname === '/api/miniapp/wechat-login') {
+        if (!wechat) return json(res, 404, { error: '当前服务器未配置微信登录' });
+        const input = await readBody(req);
+        const openId = await wechat.identify(input.code);
+        if (active.has(user.id) || letterLocks.has(user.id)) return json(res, 409, { error: '请等当前任务结束' });
+        const id = await store.linkWechat(user.id, wechat.appId, openId);
+        const nextSession = await store.startSession(id);
+        await store.logout(token);
+        setCookie(res, nextSession);
+        return json(res, 200, { ok: true });
+      }
       if (req.method === 'POST' && url.pathname === '/api/miniapp') return json(res, 200, await miniapp(user, await readBody(req, 1500000)));
       if (req.method === 'GET' && url.pathname === '/api/state') return json(res, 200, await state(user));
       if (req.method === 'GET' && url.pathname === '/api/messages') {
@@ -218,7 +245,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const model = mode === 'demo' ? new ProductDemoModel() : new ProductModel({ baseURL: process.env.LLM_BASE_URL, apiKey: process.env.LLM_API_KEY, model: process.env.LLM_MODEL });
   const store = new ProductStore(resolve(process.env.DATA_DIR || '.data-web', 'product.json'));
   const config = process.env.CONFIG_FILE ? await loadConfig(resolve(process.env.CONFIG_FILE)) : DEFAULT_CONFIG;
-  const server = createWebApp({ store, model, mode, config, publicOrigin: process.env.PUBLIC_ORIGIN || '', autoLetters: process.env.AUTO_WEEKLY_LETTERS === 'true' });
+  const server = createWebApp({ store, model, mode, config, publicOrigin: process.env.PUBLIC_ORIGIN || '', autoLetters: process.env.AUTO_WEEKLY_LETTERS === 'true', wechat: createWechat({ appId: process.env.WX_APP_ID, secret: process.env.WX_APP_SECRET, weeklyTemplateId: process.env.WX_WEEKLY_TEMPLATE_ID, payment: process.env.WX_PAYMENT_ENABLED === 'true' ? { key: process.env.WX_PAY_APP_KEY, offerId: process.env.WX_PAY_OFFER_ID, productId: process.env.WX_PAY_PRODUCT_ID, priceFen: Number(process.env.WX_PAY_PRICE_FEN) } : null }) });
   await server.ready;
   server.listen(Number(process.env.PORT || 4317), process.env.HOST || '127.0.0.1', () => console.log(`YourHer: http://127.0.0.1:${server.address().port} (${mode})`));
 }

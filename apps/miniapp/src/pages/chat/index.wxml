@@ -68,6 +68,8 @@
   </view>
 
 
+  <button class="chat-desk-link" style="top: {{statusBarHeight + 6}}px" bindtap="handleBack">‹ 首页</button>
+
   <top-nav
     wx:if="{{!(firstTouch && messages.length === 0 && !conversationId)}}"
     time-of-day="{{timeOfDay}}"
@@ -519,6 +521,20 @@
     </view>
   </view>
 
+
+  <view wx:if="{{trialCardVisible}}" class="trial-survey-mask">
+    <view class="trial-survey-sheet">
+      <text class="trial-survey__title serif">送你一张 7 天体验卡</text>
+      <view class="trial-survey__primary" bindtap="handleAcceptTrialCard">收下</view>
+    </view>
+  </view>
+  <view wx:if="{{paywallVisible}}" class="trial-survey-mask">
+    <view class="trial-survey-sheet">
+      <text class="trial-survey__title serif">体验卡已用完</text>
+      <view class="trial-survey__primary" bindtap="handlePaywallPay">查看会员</view>
+      <view class="trial-survey__secondary" bindtap="handlePaywallLater">继续聊天</view>
+    </view>
+  </view>
 
   <view wx:if="{{surveyVisible}}" class="trial-survey-mask">
     <view class="trial-survey-sheet">

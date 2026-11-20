@@ -79,8 +79,6 @@ const INITIAL_TIME_OF_DAY = getTimeOfDay();
 const STREAMING_ERROR_TEXT = copy("chat.streamingErrorText");
 
 const VALID_INITIAL_MOODS = ["happy", "calm", "sad"];
-const PAYWALL_UI_ENABLED = false;
-const PAYMENT_LIVE = false;
 const AUTO_RENEW_CONFIRMED = false;
 function getFirstTouchOpener() {
   return copyByTimeOfDay("chat.firstTouchOpener", isDeepNight() ? "night" : "default");
@@ -982,14 +980,10 @@ Page({
     wx.showLoading({ title: "\u6362\u4e00\u53e5\u4e2d...", mask: true });
     try {
       const result = await api.regenerateMessage(this.data.conversationId);
-      const newMessage =
-        result && result.assistantMessage ? result.assistantMessage : null;
-      if (!newMessage) throw new Error("empty regen result");
-      const updated = (this.fullMessages || []).map((item) =>
-        item.id === message.id
-          ? { ...item, ...newMessage, replyCandidates: undefined }
-          : item
-      );
+      if (!result?.assistantMessages?.length) throw new Error("没有生成回复");
+      const updated = (this.fullMessages || [])
+        .filter(item => !(item.role === "assistant" && item.turnId === message.turnId))
+        .concat(result.assistantMessages);
       this.fullMessages = decorateChatMessages(updated);
       this.commitMessages(this.fullMessages, {
         renderLimit: this.data.messageRenderLimit,
@@ -1171,7 +1165,7 @@ Page({
   handleBack() {
     if (this._navigatingBack) return;
     this._navigatingBack = true;
-    safeBack("/pages/chat/index");
+    safeBack("/pages/home/index");
   },
   _syncTopNav() {
     const navUnread = computeNavUnread();
@@ -1318,7 +1312,7 @@ Page({
     const restPopOk = !this.data.sending && !this.data.inputValue && !this._a5Suppressed;
     data.surveyVisible = me.billingState === "survey_invite" && !this._surveyDismissed && restPopOk;
     data.surveyDone = Boolean(me.surveyCompletedAt);
-    data.paywallVisible = Boolean(PAYWALL_UI_ENABLED && me.billingState === "paywall" && !this._paywallDismissed);
+    data.paywallVisible = Boolean(me.paymentAvailable && me.billingState === "paywall" && !this._paywallDismissed);
     data.paywallProactive = false;
     this.setData(data);
   },
@@ -1328,13 +1322,11 @@ Page({
     try { track.track("paywall_later", {}); } catch (_) {  }
   },
   _openPaywallProactive() {
-    return;
-    this._paywallDismissed = false;
-    this.setData({ paywallVisible: true, paywallProactive: true, trialBadgeExpanded: false });
-    try { track.track("paywall_open_proactive", { source: "me_membership" }); } catch (_) {  }
+    wx.navigateTo({ url: "/subpackages/security/index" });
   },
   handlePaywallPay() {
-    wx.showToast({ title: "自托管版无需付费", icon: "none" });
+    this.setData({ paywallVisible: false });
+    this._openPaywallProactive();
   },
   _confirmPayWithRetry() {
     wx.showToast({ title: "自托管版无需付费", icon: "none" });

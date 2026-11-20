@@ -445,7 +445,7 @@ Page({
       wx.navigateBack({ delta: 1 });
       return;
     }
-    wx.reLaunch({ url: "/pages/chat/index" });
+    wx.reLaunch({ url: "/pages/home/index" });
   },
   handleOpenMembership() {
     const du = this.data.displayUser || {};

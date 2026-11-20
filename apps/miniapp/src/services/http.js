@@ -33,9 +33,14 @@ async function request(path, options = {}) {
   });
 }
 
+async function loginWechat(code) {
+  await request('/api/me');
+  return nativeRequest('/api/miniapp/wechat-login', { code });
+}
+
 function clearSession() {
   wx.removeStorageSync(KEY);
   initializing = null;
 }
 
-module.exports = { request, clearSession };
+module.exports = { request, clearSession, loginWechat };

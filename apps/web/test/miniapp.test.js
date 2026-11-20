@@ -9,10 +9,10 @@ import { createWebApp } from '../server.js';
 import { ProductStore } from '../../../packages/storage/product-store.js';
 import { ProductDemoModel } from '../../../packages/providers/index.js';
 
-async function setup(t, model = new ProductDemoModel()) {
+async function setup(t, model = new ProductDemoModel(), wechat = null) {
   const dir = await mkdtemp(join(tmpdir(), 'yourher-miniapp-'));
   const store = new ProductStore(join(dir, 'records.json'));
-  const server = createWebApp({store, model});
+  const server = createWebApp({store, model, wechat});
   await server.ready;
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   t.after(async () => { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); await rm(dir, {recursive:true, force:true}); });
@@ -40,7 +40,21 @@ test('native contract runs chat, memory, checkins, letters and export using the 
   assert.doesNotMatch(first.body.assistantMessages[0].content, /CANDIDATES/);
   const memories = (await api('/api/memory')).body.items;
   assert.equal(memories.length, 1);
-  assert.equal((await api('/api/checkin', 'POST', {mood:'happy'})).body.checkin.mood, 'happy');
+  const checkin = (await api('/api/checkin', 'POST', {mood:'happy', note:'今天散步了'})).body;
+  assert.equal(checkin.checkin.mood, 'happy');
+  assert.equal(checkin.checkin.note, '今天散步了');
+  assert.equal(checkin.streak, 1);
+  const home = (await api('/api/home')).body;
+  assert.equal(home.resumeCard.conversationId, 'main');
+  assert.equal(home.todayCheckin.note, '今天散步了');
+  assert.equal(home.checkinStreak, 1);
+  assert.equal((await api('/api/onboarding', 'POST', {aiName:'Alex', nickname:'小满'})).body.onboardingCompleted, true);
+  const before = (await api('/api/conversations/main')).body.messages;
+  const regenerated = await api('/api/conversations/main/regenerate', 'POST');
+  assert.equal(regenerated.status, 200);
+  assert.ok(regenerated.body.assistantMessages.length);
+  const after = (await api('/api/conversations/main')).body.messages;
+  assert.deepEqual(after.filter(row => row.role === 'user'), before.filter(row => row.role === 'user'));
   assert.equal((await api('/api/checkin/recent?days=365')).body.items.length, 1);
   for (const content of ['我叫小雨', '今天想慢慢聊']) await api(path, 'POST', {sessionId:randomUUID(),content});
   assert.equal((await api('/api/me')).body.nickname, '小雨');
@@ -89,7 +103,7 @@ test('original miniapp API and native wx transport run against a real HTTP serve
       fetch(options.url, {method:options.method, headers:options.header, ...(options.data === undefined ? {} : {body:JSON.stringify(options.data)})}).then(async r => options.success({statusCode:r.status,header:Object.fromEntries(r.headers),data:await r.json()})).catch(options.fail);
     }
   };
-  t.after(() => { delete globalThis.wx; delete globalThis.getApp; });
+  t.after(() => { delete globalThis.wx; delete globalThis.getApp; delete globalThis.Page; });
   const api = require('../../miniapp/src/services/api.js');
   const users = await Promise.all([api.login(), api.getMe(), api.getCompanionStats()]);
   assert.equal(users[0].id, users[1].id);
@@ -102,6 +116,28 @@ test('original miniapp API and native wx transport run against a real HTTP serve
   assert.equal((await api.getMe()).currentCity, '上海');
   await api.submitCheckin({mood:'calm'});
   assert.equal((await api.getRecentCheckins(365, {refresh:true})).items.length, 1);
+  let page;
+  globalThis.Page = definition => { page = definition; };
+  function instance(path) {
+    require(path);
+    return { ...page, data: structuredClone(page.data), setData(patch) { Object.assign(this.data, patch); } };
+  }
+  app.globalData.sessionReady = true;
+  const home = instance('../../miniapp/src/pages/home/index.js');
+  home.onLoad();
+  await home.loadHome();
+  assert.equal(home._resumeConversationId, conv.id);
+  assert.equal(home.data.needsCheckin, false);
+  assert.equal(home.data.showOnboarding, true);
+  const checkinPage = instance('../../miniapp/src/pages/checkin/index.js');
+  let toast;
+  wx.showToast = options => { toast = options.title; };
+  await checkinPage.onLoad({ mood: 'happy' });
+  checkinPage.noteInput({ detail: { value: '散步后好多了' } });
+  await checkinPage.save();
+  assert.equal(checkinPage.data.today.note, '散步后好多了');
+  assert.equal(checkinPage.data.streak, 1);
+  assert.equal(toast, '已保存');
   const engine = require('../../miniapp/src/utils/chat-stream-engine.js');
   const snapshots = [];
   const ctx = {
@@ -118,4 +154,59 @@ test('original miniapp API and native wx transport run against a real HTTP serve
   assert.equal(ctx.data.sending, false);
   assert.ok(snapshots.some(rows => rows.some(m => m.streaming)), 'polling rendered incremental content');
   assert.ok(snapshots.every(rows => rows.every(m => !/CANDIDATES/.test(m.content || ''))));
+});
+
+test('WeChat account restoration and payment confirmation remain bound to verified identity', async t => {
+  let paid = false;
+  let notifications = 0;
+  const wechat = {
+    appId: 'synthetic-app', paymentEnabled: true, paymentPrice: 100, offerId: 'test-offer',
+    weeklyTemplateId: 'test-weekly',
+    identify: async code => 'id-' + code,
+    phone: async () => '15550001234',
+    signOrder: async code => ({ openId: 'id-' + code, client: { mode: 'short_series_goods' } }),
+    verifyOrder: async () => paid,
+    sendWeekly: async () => { notifications++; }
+  };
+  const { base } = await setup(t, new ProductDemoModel(), wechat);
+  async function device() {
+    let cookie = '';
+    return async (path, input) => {
+      const response = await fetch(base + path, {
+        method: input ? 'POST' : 'GET', headers: { Cookie: cookie, 'Content-Type': 'application/json' },
+        body: input ? JSON.stringify(input) : undefined
+      });
+      if (response.headers.has('set-cookie')) cookie = response.headers.get('set-cookie').split(';')[0];
+      return { status: response.status, body: await response.json() };
+    };
+  }
+  const a = await device();
+  const b = await device();
+  const call = (device, path, data = {}, method = 'POST') => device('/api/miniapp', { path, data, method, consent: true });
+  const user = (await a('/api/state')).body.user;
+  await a('/api/miniapp/wechat-login', { code: 'alice' });
+  assert.equal((await a('/api/state')).body.user.id, user.id);
+  const boundPhone = await call(a, '/api/me/phone', { code: 'phone-code' });
+  assert.equal(boundPhone.body.phoneMasked, '155****1234');
+  await b('/api/miniapp/wechat-login', { code: 'bob' });
+  assert.equal((await call(b, '/api/pay/order', { code: 'alice' })).status, 400);
+  const order = (await call(a, '/api/pay/order', { code: 'alice' })).body;
+  assert.equal((await call(b, '/api/pay/confirm', { orderId: order.orderId })).status, 400);
+  assert.equal((await call(a, '/api/pay/confirm', { orderId: order.orderId })).body.ok, false);
+  paid = true;
+  const first = await call(a, '/api/pay/confirm', { orderId: order.orderId });
+  const repeat = await call(a, '/api/pay/confirm', { orderId: order.orderId });
+  assert.equal(first.body.user.subscriptionActive, true);
+  assert.equal(repeat.body.user.subscriptionExpireAt, first.body.user.subscriptionExpireAt);
+  await call(a, '/api/me/weekly-subscription', { templateId: 'test-weekly' });
+  for (const content of ['今天很忙', '最近喜欢散步', '周末想看书']) {
+    assert.equal((await call(a, '/api/conversations/main/stream-generate', { sessionId: randomUUID(), content })).status, 200);
+  }
+  await call(a, '/api/weekly-notes');
+  await call(a, '/api/weekly-notes');
+  assert.equal(notifications, 1);
+  const restored = await device();
+  assert.equal((await restored('/api/miniapp/wechat-login', { code: 'alice' })).status, 200);
+  assert.equal((await restored('/api/state')).body.user.id, user.id);
+  assert.equal((await call(restored, '/api/me', {}, 'GET')).body.phoneMasked, '155****1234');
 });

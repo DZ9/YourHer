@@ -12,6 +12,14 @@ services:
       LLM_MODEL: ${LLM_MODEL:-}
       PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost:4317}
       AUTO_WEEKLY_LETTERS: ${AUTO_WEEKLY_LETTERS:-false}
+      WX_APP_ID: ${WX_APP_ID:-}
+      WX_APP_SECRET: ${WX_APP_SECRET:-}
+      WX_WEEKLY_TEMPLATE_ID: ${WX_WEEKLY_TEMPLATE_ID:-}
+      WX_PAYMENT_ENABLED: ${WX_PAYMENT_ENABLED:-}
+      WX_PAY_APP_KEY: ${WX_PAY_APP_KEY:-}
+      WX_PAY_OFFER_ID: ${WX_PAY_OFFER_ID:-}
+      WX_PAY_PRODUCT_ID: ${WX_PAY_PRODUCT_ID:-}
+      WX_PAY_PRICE_FEN: ${WX_PAY_PRICE_FEN:-}
     volumes:
       - companion-data:/data
     restart: unless-stopped

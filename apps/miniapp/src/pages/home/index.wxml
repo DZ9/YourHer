@@ -1,0 +1,125 @@
+<page-meta background-color="{{timeOfDay === 'night' ? '#1F2236' : '#A88562'}}"></page-meta>
+
+<view class="page-shell home-page tod-{{timeOfDay}}">
+
+  <view class="home-desk-bg">
+    <view class="home-desk-bg__sun"></view>
+    <view class="home-desk-bg__grain"></view>
+    <view wx:if="{{timeOfDay === 'night'}}" class="home-desk-bg__moon"></view>
+  </view>
+
+
+  <view class="home-header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="capsule-row home-header__row" style="height: {{topbarContentHeight}}px; padding-right: {{topbarSideWidth}}px;">
+      <text class="home-header__date">{{dateKicker}} · {{greeting}}</text>
+    </view>
+    <text class="home-header__brand">YourHer · 跟{{aiName || '她'}}<text wx:if="{{companionDays > 0}}">同行第 {{companionDays}} 天</text><text wx:else>聊天的小地方</text></text>
+  </view>
+
+
+  <view class="home-stage">
+
+    <view
+      class="home-stage__chat-tap"
+      bindtap="handleEnterChat"
+      data-source="hero"
+    >
+
+      <view class="home-bubble {{needsCheckin ? 'home-bubble--mood' : ''}}">
+        <block wx:if="{{needsCheckin}}">
+          <text class="home-bubble__kicker mono">{{aiName || '她'}} · {{moodPromptKicker}}</text>
+          <text class="home-bubble__text serif">"{{moodPromptText}}"</text>
+          <view class="home-bubble__moodgrid" catchtap="noop">
+            <block wx:for="{{checkinOptions}}" wx:key="value">
+              <view
+                class="home-bubble__moodcell"
+                data-value="{{item.value}}"
+                catchtap="handleMoodPick"
+              >
+                <view class="home-bubble__mooddot mood-dot mood-dot--{{item.value}}"></view>
+                <text class="home-bubble__moodlabel serif">{{item.label}}</text>
+              </view>
+            </block>
+          </view>
+        </block>
+        <block wx:else>
+          <text class="home-bubble__kicker mono">{{aiName || '她'}} · {{presenceKicker}}</text>
+
+          <text wx:if="{{presenceText}}" class="home-bubble__text serif">"{{presenceText}}"</text>
+          <view class="home-bubble__foot">
+            <view class="home-bubble__status">
+              <view class="home-bubble__status-dot-wrap">
+                <view wx:if="{{presence !== 'asleep'}}" class="home-bubble__status-halo"></view>
+                <view class="home-bubble__status-dot {{presence === 'asleep' ? 'home-bubble__status-dot--off' : ''}}"></view>
+              </view>
+              <text class="home-bubble__status-label sans">{{presenceMeta}}</text>
+            </view>
+            <text class="home-bubble__cta serif">{{copy.home.replyButton}}</text>
+          </view>
+        </block>
+        <image class="home-bubble__tail" src="/assets/desk/bubble-tail.svg" mode="aspectFit"></image>
+      </view>
+
+
+      <view class="home-companion">
+        <view class="home-companion__shadow"></view>
+        <image
+          class="home-companion__sprite {{needsCheckin ? 'home-companion__sprite--shifted' : ''}}"
+          src="/assets/desk/{{companionSpriteFile}}"
+          mode="aspectFit"
+        />
+
+        <block wx:if="{{presence === 'awake'}}">
+          <view class="home-companion__steam home-companion__steam--1"></view>
+          <view class="home-companion__steam home-companion__steam--2"></view>
+          <view class="home-companion__steam home-companion__steam--3"></view>
+        </block>
+      </view>
+    </view>
+
+
+    <view class="home-prop home-prop--journal" bindtap="handleGoRecords">
+      <image class="home-prop__img" src="/assets/desk/{{hasUnread ? 'journal-dot.svg' : 'journal.svg'}}" mode="aspectFit" />
+      <view class="home-prop__tag home-prop__tag--journal">
+        <text class="home-prop__title serif">{{journalLabel}}{{hasUnread ? ' ·' : ''}}</text>
+
+        <text wx:if="{{hasUnread ? unreadSubtitle : journalSubtitle}}" class="home-prop__sub serif">{{hasUnread ? unreadSubtitle : journalSubtitle}}</text>
+      </view>
+    </view>
+
+
+    <view class="home-prop home-prop--vase" bindtap="handleGoMe">
+      <image class="home-prop__img" src="/assets/desk/vase.svg" mode="aspectFit" />
+      <view class="home-prop__tag home-prop__tag--vase">
+
+        <text class="home-prop__title serif">关于{{aiName || '她'}}</text>
+        <text class="home-prop__sub serif"><block wx:if="{{companionDays > 0}}">同行 {{companionDays}} 天</block></text>
+      </view>
+    </view>
+  </view>
+
+
+  <view class="home-cta" style="padding-bottom: calc(36rpx + env(safe-area-inset-bottom));">
+    <view class="home-links">
+      <text bindtap="handleOpenCheckin">心情打卡</text>
+      <text bindtap="handleAccount">账号与数据</text>
+      <text wx:if="{{showOnboarding}}" bindtap="handleOpenOnboarding">布置我的桌子</text>
+    </view>
+    <view class="home-cta__field" bindtap="handleEnterChat" data-source="composer">
+      <image class="home-cta__field-icon" src="/assets/desk/bubble-icon.svg" mode="aspectFit" />
+      <text class="home-cta__placeholder serif">{{composerPlaceholder}}</text>
+      <text class="home-cta__hint sans">{{composerHint}}</text>
+    </view>
+  </view>
+
+
+  <view
+    wx:if="{{debugMode}}"
+    class="home-debug-preview"
+    bindtap="handleDebugPreview"
+  >
+    <text class="mono">{{copy.common.preview}}</text>
+  </view>
+
+
+</view>

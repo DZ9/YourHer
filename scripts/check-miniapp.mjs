@@ -46,6 +46,6 @@ for (const file of await walk(src)) {
     const path = match[1].startsWith('/') ? resolve(src, '.' + match[1]) : resolve(dirname(file), match[1]);
     if (!await exists(path)) throw new Error('Missing image in ' + file + ': ' + match[1]);
   }
-  if (/cloud1-[\w-]+|wx5e1c0de7fbff356c|requestVirtualPayment\s*\(/.test(text)) throw new Error('Production integration remains in ' + file);
+  if (/cloud1-[\w-]+|wx5e1c0de7fbff356c/.test(text)) throw new Error('Production integration remains in ' + file);
 }
 console.log(`Miniapp source checks passed: ${pages.length} pages, ${count} text assets, ${(size / 1024).toFixed(0)} KiB total source. DevTools compilation and device preview remain separate checks.`);

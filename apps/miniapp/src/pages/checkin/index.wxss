@@ -1,0 +1,9 @@
+.checkin { box-sizing: border-box; min-height: 100vh; padding: calc(64rpx + env(safe-area-inset-top)) 40rpx 60rpx; background: #efe8d8; color: #49392d; }
+.checkin.tod-night { background: #1f2236; color: #f3ebf0; }
+.headline, .streak { display: block; margin: 24rpx 0; }
+.choices { display: flex; gap: 12rpx; margin: 26rpx 0; }
+.choice { flex: 1; }
+.selected, .save { background: #7a6a95; color: #fff; }
+textarea { box-sizing: border-box; width: 100%; padding: 24rpx; border-radius: 20rpx; background: rgba(255,255,255,.15); }
+.checkin button { margin-top: 18rpx; }
+.error { color: #b85c43; }

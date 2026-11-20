@@ -1,0 +1,494 @@
+/* === Home · 此刻 / 桌面 ===
+   一张她坐过的桌子 — 木色 + 阳光斑 + 立绘 + 4 个手绘物件
+*/
+.home-page {
+  background: #A88562;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: calc(220rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+/* —— 桌面背景：径向渐变 + 阳光斑 + 木纹 —— */
+.home-desk-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 70% at 50% 38%, #D7B583 0%, #A88562 75%);
+}
+
+.home-desk-bg__sun {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18%;
+  height: 60%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 233, 184, 0.55) 0%, rgba(255, 233, 184, 0) 100%);
+}
+
+.home-desk-bg__grain {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(0deg, transparent 95%, rgba(142, 104, 64, 0.32) 95.5%, transparent 96%),
+    linear-gradient(0deg, transparent 92%, rgba(142, 104, 64, 0.18) 92.5%, transparent 93%);
+  background-size: 100% 110rpx, 100% 60rpx;
+  background-position: 0 30rpx, 0 -10rpx;
+  opacity: 0.7;
+}
+
+/* —— 顶部 header —— */
+.home-header {
+  position: relative;
+  z-index: 5;
+  padding: 0 48rpx 16rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-header__row {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-header__date {
+  font-family: "PingFang SC", "Helvetica Neue", system-ui, sans-serif;
+  font-size: 22rpx;
+  color: rgba(255, 252, 244, 0.78);
+  letter-spacing: 1.2rpx;
+  font-weight: 500;
+}
+
+.home-header__brand {
+  margin-top: 8rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 28rpx;
+  color: #FFFCF4;
+  font-weight: 500;
+  letter-spacing: 0.6rpx;
+}
+
+/* —— 主舞台容器 —— */
+.home-stage {
+  position: relative;
+  z-index: 2;
+  margin: 24rpx auto 0;
+  width: 100%;
+  height: 920rpx;
+}
+
+.home-stage__chat-tap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* —— 林夕的对话气泡 —— */
+.home-bubble {
+  position: relative;
+  margin: 28rpx 40rpx 0 40rpx;
+  width: calc(100% - 80rpx);
+  background: #FFFCF4;
+  border: 2.8rpx solid #3B3528;
+  border-radius: 36rpx;
+  padding: 24rpx 32rpx 28rpx 32rpx;
+  box-sizing: border-box;
+  box-shadow: 0 12rpx 32rpx -16rpx rgba(59, 53, 40, 0.5);
+}
+
+.home-bubble__kicker {
+  display: block;
+  font-size: 20rpx;
+  color: #7A9869;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  text-transform: uppercase;
+}
+
+.home-bubble__text {
+  display: block;
+  margin-top: 10rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 30rpx;
+  color: #3B3528;
+  line-height: 1.55;
+  font-weight: 500;
+  letter-spacing: 0.4rpx;
+}
+
+.home-bubble__foot {
+  margin-top: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-bubble__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.home-bubble__status-dot-wrap {
+  position: relative;
+  width: 16rpx;
+  height: 16rpx;
+}
+
+.home-bubble__status-dot {
+  position: absolute;
+  top: 2rpx;
+  right: 2rpx;
+  bottom: 2rpx;
+  left: 2rpx;
+  border-radius: 50%;
+  background: #7A9869;
+  z-index: 2;
+}
+
+.home-bubble__status-halo {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  bottom: -6rpx;
+  left: -6rpx;
+  border-radius: 50%;
+  background: #7A9869;
+  opacity: 0.32;
+  z-index: 1;
+  animation: home-pulse 2.6s ease-in-out infinite;
+}
+
+.home-bubble__status-dot--off {
+  background: #9A8F77;
+}
+
+@keyframes home-pulse {
+  0%   { opacity: 0.32; transform: scale(1); }
+  50%  { opacity: 0.12; transform: scale(1.7); }
+  100% { opacity: 0.32; transform: scale(1); }
+}
+
+.home-bubble__status-label {
+  font-size: 22rpx;
+  color: #9A8F77;
+  letter-spacing: 0.6rpx;
+  font-weight: 500;
+}
+
+.home-bubble__cta {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 26rpx;
+  color: #7A9869;
+  font-weight: 700;
+  letter-spacing: 0.4rpx;
+}
+
+.home-bubble__tail {
+  position: absolute;
+  left: 50%;
+  bottom: -26rpx;
+  transform: translateX(-50%);
+  width: 44rpx;
+  height: 28rpx;
+  display: block;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* —— 心情打卡 5 圆点 —— */
+.home-bubble__moodgrid {
+  margin-top: 18rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 4rpx 4rpx 0 4rpx;
+}
+
+.home-bubble__moodcell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+  padding: 6rpx 4rpx;
+}
+
+.home-bubble__mooddot {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  border: 3rpx solid #3B3528;
+  box-shadow: 0 4rpx 0 rgba(59, 53, 40, 0.18);
+}
+
+.home-bubble__moodlabel {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 20rpx;
+  color: #9A8F77;
+  font-weight: 500;
+  letter-spacing: 0.4rpx;
+}
+
+/* —— 林夕立绘 —— */
+.home-companion {
+  position: relative;
+  margin-top: 56rpx;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 360rpx;
+  width: 100%;
+}
+
+.home-companion__shadow {
+  position: absolute;
+  bottom: 8rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360rpx;
+  height: 28rpx;
+  background: rgba(59, 53, 40, 0.22);
+  border-radius: 50%;
+  filter: blur(2rpx);
+}
+
+.home-companion__sprite {
+  width: 320rpx;
+  height: 336rpx;
+  display: block;
+  position: relative;
+  z-index: 1;
+  animation: home-float 5s ease-in-out infinite;
+}
+
+.home-companion__sprite--shifted {
+  margin-top: 80rpx;
+}
+
+@keyframes home-float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* 茶杯热气 — 3 缕错峰上升 */
+.home-companion__steam {
+  position: absolute;
+  bottom: 130rpx;
+  width: 8rpx;
+  height: 40rpx;
+  border-radius: 6rpx;
+  background: linear-gradient(to top, rgba(80, 70, 50, 0) 0%, rgba(80, 70, 50, 0.8) 50%, rgba(80, 70, 50, 0) 100%);
+  pointer-events: none;
+  opacity: 0;
+  animation: home-steam 2.6s ease-in-out infinite;
+  z-index: 2;
+}
+
+.home-companion__steam--1 { left: 52%; animation-delay: 0s; }
+.home-companion__steam--2 { left: 56%; animation-delay: 0.6s; }
+.home-companion__steam--3 { left: 60%; animation-delay: 1.2s; }
+
+@keyframes home-steam {
+  0%   { opacity: 0; transform: translateY(0) scaleX(1); }
+  30%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(-30px) scaleX(1.5); }
+}
+
+/* —— 角落物件 —— */
+.home-prop {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+
+.home-prop--journal {
+  left: 18rpx;
+  bottom: 36rpx;
+  width: 220rpx;
+}
+
+.home-prop--vase {
+  right: 22rpx;
+  bottom: 28rpx;
+  width: 200rpx;
+}
+
+.home-prop__img {
+  width: 100%;
+  height: 180rpx;
+  display: block;
+}
+
+.home-prop--vase .home-prop__img {
+  height: 220rpx;
+}
+
+.home-prop__tag {
+  margin-top: 12rpx;
+  text-align: center;
+  text-shadow: 0 1rpx 0 rgba(0, 0, 0, 0.2);
+}
+
+.home-prop__title {
+  display: block;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #FFFCF4;
+  letter-spacing: 0.6rpx;
+}
+
+.home-prop__sub {
+  display: block;
+  margin-top: 4rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 20rpx;
+  color: rgba(255, 252, 244, 0.74);
+}
+
+/* —— 底部 CTA —— */
+.home-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  padding: 24rpx 28rpx 36rpx 28rpx;
+  background: linear-gradient(to top, #9A7956 0%, #9A7956 70%, rgba(154, 121, 86, 0.92) 100%);
+  box-shadow: 0 -16rpx 36rpx -14rpx rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.home-cta__field {
+  flex: 1;
+  height: 96rpx;
+  background: #FFFCF4;
+  border: 1rpx solid rgba(232, 223, 201, 0.65);
+  border-radius: 999rpx;
+  padding: 0 28rpx 0 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  box-shadow: 0 4rpx 14rpx -4rpx rgba(0, 0, 0, 0.18);
+  box-sizing: border-box;
+}
+
+.home-cta__field-icon {
+  width: 36rpx;
+  height: 36rpx;
+  flex-shrink: 0;
+}
+
+.home-cta__placeholder {
+  flex: 1;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 28rpx;
+  color: #9A8F77;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-cta__hint {
+  font-size: 22rpx;
+  color: #7A9869;
+  font-weight: 600;
+  letter-spacing: 0.6rpx;
+}
+
+/* OpenSpec frictionless-mom-first-run §7.2：.home-guide*（手机号 guide mask / sheet / checkbox）
+   样式随手机号墙退役删除。home 降为二级页，不再承载任何手机号墙。 */
+
+/* OpenSpec add-dev-preview-toggles-frontend-only: dev tools 预览浮动按钮。
+   右下角小 chip,绕开 home-cta 输入条（cta 大约 132rpx 高 + safe area）,
+   暗色半透明跟 chat-debug-a5 视觉同源,develop/trial 可见,release 隐藏。
+   纯前端不调后端,点击弹 actionSheet 选择预览哪个 UI。 */
+.home-debug-preview {
+  position: fixed;
+  right: 24rpx;
+  bottom: calc(220rpx + env(safe-area-inset-bottom));
+  z-index: 60;
+  padding: 10rpx 20rpx;
+  background: rgba(59, 53, 40, 0.75);
+  color: #F4EFE2;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  letter-spacing: 1rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.18);
+}
+
+.home-debug-preview:active {
+  opacity: 0.7;
+}
+
+/* === 夜间皮肤 ·tod-night ===
+   保持"她的桌子"语义：底色变深 + 一束桌灯橙晕 + 月亮，
+   气泡保持纸白（像台灯下的便签），物件文字保留浅米色。
+   配色与 chat 的 tod-night（#1F2236）同源，跨页氛围连贯。 */
+.home-page.tod-night {
+  background: #1F2236;
+}
+
+.home-page.tod-night .home-desk-bg {
+  background: radial-gradient(120% 70% at 50% 38%, #2A2E48 0%, #1F2236 75%);
+}
+
+/* 阳光斑 → 桌灯暖晕：橙黄径向，模拟一盏小台灯洒在桌面 */
+.home-page.tod-night .home-desk-bg__sun {
+  background: radial-gradient(50% 50% at 50% 45%, rgba(255, 200, 140, 0.22) 0%, rgba(255, 200, 140, 0) 100%);
+}
+
+/* 木纹：夜里弱化但保留质感 */
+.home-page.tod-night .home-desk-bg__grain {
+  opacity: 0.18;
+}
+
+/* 月亮 — 右上角，淡暖白光晕 */
+.home-page.tod-night .home-desk-bg__moon {
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF4D6 0%, #F0DFA8 60%, rgba(240, 223, 168, 0) 100%);
+  box-shadow: 0 0 32rpx 8rpx rgba(255, 244, 214, 0.18);
+  pointer-events: none;
+}
+
+/* 顶部 brand 文案：在深底上稍微亮一点 */
+.home-page.tod-night .home-header__date {
+  color: rgba(255, 252, 244, 0.7);
+}
+
+/* 物件 tag 文字保留浅米，但去掉白天的 text-shadow（深底反而看着脏） */
+.home-page.tod-night .home-prop__tag {
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.35);
+}
+
+/* 底部 CTA 渐变换深 */
+.home-page.tod-night .home-cta {
+  background: linear-gradient(to top, #181B2C 0%, #181B2C 70%, rgba(24, 27, 44, 0.92) 100%);
+}
+
+/* 输入框稍微调暗一点点，避免在深底上太刺眼（仍然是"纸"的感觉，只是夜里）*/
+.home-page.tod-night .home-cta__field {
+  background: #F4EFE2;
+  border-color: rgba(160, 150, 130, 0.4);
+}
+
+.home-links { display: flex; gap: 24rpx; padding: 12rpx 6rpx; color: var(--ink, #39271f); font-size: 25rpx; }

@@ -53,7 +53,8 @@ const runtimeCache = {
   state: null,
   values: Object.create(null),
   inflight: Object.create(null),
-  persistedStore: null
+  persistedStore: null,
+  accountGeneration: 0
 };
 let cloudFallbackToastShown = false;
 
@@ -397,15 +398,17 @@ function refreshCachedValue(key, ttl, loader) {
     return runtimeCache.inflight[key];
   }
 
+  const generation = runtimeCache.accountGeneration;
   runtimeCache.inflight[key] = Promise.resolve()
     .then(loader)
     .then((result) => {
+      if (runtimeCache.accountGeneration !== generation) throw new Error("账号已切换");
       setCachedValue(key, result, ttl);
       delete runtimeCache.inflight[key];
       return result;
     })
     .catch((error) => {
-      delete runtimeCache.inflight[key];
+      if (runtimeCache.accountGeneration === generation) delete runtimeCache.inflight[key];
       throw error;
     });
 
@@ -2284,6 +2287,14 @@ function _getExtendAIInstance() {
 function prewarmBot() {}
 
 module.exports = {
+  resetAccountCache() {
+    runtimeCache.accountGeneration++;
+    runtimeCache.state = null;
+    runtimeCache.persistedStore = null;
+    runtimeCache.values = Object.create(null);
+    runtimeCache.inflight = Object.create(null);
+    syncCurrentUser(null);
+  },
   patchSettings,
   generateWeeklyNote: () => withCloudFallback("/api/weekly-notes", { method: "POST" }),
   bindPhone: bindPhoneNumber,

@@ -291,7 +291,7 @@ Page({
   },
 
   handleBack() {
-    safeBack("/pages/chat/index");
+    safeBack("/pages/home/index");
   },
 
   async handleDeleteHighlight(event) {
