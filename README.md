@@ -102,12 +102,7 @@ See the [component guide](docs/components.md) for package boundaries and a memor
 ## Documentation
 
 - [Mini Program setup](docs/miniapp.md)
-- [Reusable components](docs/components.md)
-- [Architecture and data flow](docs/architecture.md)
-- [Full product coverage](docs/web-port.md)
 - [Language configuration](docs/i18n.md)
-- [Verification and current limits](docs/validation.md)
-- [Roadmap](docs/roadmap.md)
 - [Contributing](CONTRIBUTING.md)
 
 ## Development status

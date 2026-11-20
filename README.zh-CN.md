@@ -87,7 +87,9 @@ LLM_MODEL=your-model
 
 ## 文档与开发
 
-[小程序启动](docs/miniapp.md) · [组件](docs/components.md) · [架构](docs/architecture.md) · [功能清单](docs/web-port.md) · [验证记录](docs/validation.md) · [路线图](docs/roadmap.md) · [贡献指南](CONTRIBUTING.md)
+- [小程序启动](docs/miniapp.md)
+- [多语言配置](docs/i18n.md)
+- [贡献指南](CONTRIBUTING.md)
 
 ```sh
 npm test
