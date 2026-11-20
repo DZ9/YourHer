@@ -10,7 +10,7 @@ A self-hosted AI companion with personality, memory, and conversations that carr
 [![License: MIT](https://img.shields.io/badge/License-MIT-8b7355.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-24%2B-607a58.svg)](https://nodejs.org/)
 
-[**Get started**](#quickstart) · [**Mini Program**](docs/miniapp.md) · [**Languages**](docs/i18n.md) · [**Documentation**](#documentation)
+[**Get started**](#quickstart) · [**Features**](#features) · [**Languages**](docs/i18n.md) · [**Documentation**](#documentation)
 
 English · [简体中文](README.zh-CN.md)
 
@@ -24,7 +24,7 @@ English · [简体中文](README.zh-CN.md)
 
 YourHer is an AI companion you can host yourself. Choose a name, appearance and speaking style, connect your model, and come back to a conversation that remembers what you've shared.
 
-The repository includes a web app and the original native WeChat Mini Program, adapted to use the same backend.
+Run the web app on your own server, or reuse its conversation and memory packages in your own project.
 
 ## Quickstart
 
@@ -69,23 +69,19 @@ Open <http://localhost:4317>. Records persist in a named volume. Set `PUBLIC_ORI
 
 ## Features
 
-- **Conversation.** Streaming replies, multiple chat bubbles, suggested replies and saved history.
-- **Memory.** Remember facts and preferences, see what has been saved, and forget individual memories.
-- **Personalization.** Set your companion's name, appearance and speaking style. Switch between day and night themes.
-- **Daily life.** Record your mood, browse the calendar and receive weekly letters based on your conversations.
-- **Your data.** Run your own server, export your records and delete your account data.
+| Feature | What you get |
+| --- | --- |
+| Conversation | Streaming replies, multiple bubbles, reply chips and saved history |
+| Memory | Saved facts and preferences, with individual memories you can view and forget |
+| Personalization | Companion name, appearance, speaking style, and day/night themes |
+| Daily life | Mood check-ins, a calendar and weekly letters |
+| Data control | Self-hosting, record export and account data deletion |
 
-The web interface includes English and Simplified Chinese. Add languages and configure defaults in [`companion.config.json`](companion.config.json); see the [language guide](docs/i18n.md). The native Mini Program keeps the original Chinese interface, with a configurable model reply language.
-
-## WeChat Mini Program
-
-Start the server with `npm start`, then import [`apps/miniapp`](apps/miniapp) into WeChat DevTools. It contains the original WXML/WXSS pages, portrait artwork, chat interactions and slide-in panels.
-
-The default client connects to `http://127.0.0.1:4317`. Use your own AppID or a test account, and follow the [Mini Program setup guide](docs/miniapp.md) for local networking, device preview and optional voice support.
+The web interface includes English and Simplified Chinese. Add languages and configure defaults in [`companion.config.json`](companion.config.json); see the [language guide](docs/i18n.md).
 
 ## How it works
 
-Both clients use the same backend. The native client keeps its own WXML interface; model calls and memory processing stay on the server.
+The web app keeps model calls, memory processing and data storage on your server.
 
 ![YourHer architecture](docs/diagrams/architecture.svg)
 
@@ -99,9 +95,24 @@ The applications share the same conversation, memory and model pipeline. Individ
 
 See the [component guide](docs/components.md) for package boundaries and a memory integration example.
 
+## Clients
+
+| Client | Getting started | Status |
+| --- | --- | --- |
+| **Web app** | [Quickstart](#quickstart) | Primary client · English and Chinese |
+| WeChat Mini Program | [Setup guide](docs/miniapp.md) | Optional native client · Chinese interface |
+
+<details>
+<summary>About the optional Mini Program</summary>
+
+The native client preserves the original WXML/WXSS pages, portrait artwork and chat interactions, and connects to the same backend. It requires WeChat DevTools and your own AppID or a test account. DevTools compilation and physical-device preview have not yet been verified. Its model reply language is configurable; the interface remains Chinese.
+
+See the [setup guide](docs/miniapp.md) for local networking and optional voice support.
+
+</details>
+
 ## Documentation
 
-- [Mini Program setup](docs/miniapp.md)
 - [Language configuration](docs/i18n.md)
 - [Contributing](CONTRIBUTING.md)
 

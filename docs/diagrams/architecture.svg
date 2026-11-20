@@ -9,14 +9,14 @@
   </defs>
   <rect x="0.5" y="0.5" width="1199" height="473" rx="20" fill="#faf8f5" stroke="#e5dfd7" />
   <text x="44" y="39" class="eyebrow">YOURHER / ARCHITECTURE</text>
-  <text x="44" y="84" class="title">Two clients. One companion engine.</text>
-  <text x="44" y="113" class="sub">Two interfaces connected to the same conversation, memory and model services.</text>
+  <text x="44" y="84" class="title">A web companion. A reusable core.</text>
+  <text x="44" y="113" class="sub">Shared conversation, memory and model services, with an optional native client.</text>
   <rect x="44" y="158" width="226" height="106" rx="14" fill="#fff" stroke="#e1dce4" />
-  <text x="64" y="183" class="kicker">BROWSER</text>
+  <text x="64" y="183" class="kicker">PRIMARY CLIENT</text>
   <text x="64" y="213" class="label">Web app</text>
   <text x="64" y="240" class="small">Responsive HTML / CSS / JS</text>
   <rect x="44" y="286" width="226" height="106" rx="14" fill="#fff" stroke="#e1dce4" />
-  <text x="64" y="311" class="kicker">WECHAT</text>
+  <text x="64" y="311" class="kicker">OPTIONAL CLIENT</text>
   <text x="64" y="341" class="label">Mini Program</text>
   <text x="64" y="368" class="small">Original native WXML / WXSS</text>
   <rect x="346" y="146" width="508" height="264" rx="18" fill="#f1edf5" stroke="#d6cddd" />
