@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="360" height="360">
+  <path d="M 30 220 Q 180 200 330 220 L 340 360 L 20 360 Z" fill="#C9A87D" stroke="#3B3528" stroke-width="1.4" opacity="0.8"/>
+  <g transform="translate(220 200)">
+    <ellipse cx="0" cy="14" rx="22" ry="4" fill="#3B3528" opacity="0.18"/>
+    <path d="M -16 -4 L 16 -4 L 12 14 Q 0 16 -12 14 Z" fill="#FBF8F0" stroke="#3B3528" stroke-width="1.4"/>
+    <ellipse cx="0" cy="-4" rx="14" ry="3" fill="#7A9869" stroke="#3B3528" stroke-width="1.2"/>
+    <path d="M 16 0 q 6 1 5 6 q -1 3 -4 3" stroke="#3B3528" stroke-width="1.3" fill="none"/>
+    <path d="M 0 -16 q -3 -5 0 -10" stroke="#3B3528" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <g transform="translate(140 90)">
+    <rect x="0" y="0" width="80" height="90" rx="4" fill="#A07555" stroke="#3B3528" stroke-width="1.6"/>
+    <line x1="14" y1="14" x2="14" y2="76" stroke="#3B3528" stroke-width="1" opacity="0.5"/>
+    <line x1="40" y1="14" x2="40" y2="76" stroke="#3B3528" stroke-width="1" opacity="0.5"/>
+    <line x1="66" y1="14" x2="66" y2="76" stroke="#3B3528" stroke-width="1" opacity="0.5"/>
+    <ellipse cx="40" cy="100" rx="46" ry="10" fill="#9CB587" stroke="#3B3528" stroke-width="1.6"/>
+  </g>
+</svg>

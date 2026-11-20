@@ -1,0 +1,26 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="120" cy="120" r="115" fill="#f7eedf"/>
+  <path d="M 58 95 Q 58 48 120 48 Q 182 48 182 95 L 182 188 Q 182 195 175 195 L 162 195 L 162 105 Q 156 80 120 78 Q 84 80 78 105 L 78 195 L 65 195 Q 58 195 58 188 Z" fill="#3d2e24"/>
+  <rect x="106" y="180" width="28" height="20" fill="#ecc89a"/>
+  <ellipse cx="120" cy="135" rx="56" ry="62" fill="#f3d6b8"/>
+  <ellipse cx="64" cy="138" rx="6" ry="11" fill="#e8c39a"/>
+  <ellipse cx="176" cy="138" rx="6" ry="11" fill="#e8c39a"/>
+  <path d="M 70 100 Q 88 72 120 76 Q 152 72 170 100 Q 165 118 148 110 Q 132 96 120 102 Q 108 96 92 110 Q 75 118 70 100 Z" fill="#3d2e24"/>
+  <ellipse cx="90" cy="154" rx="11" ry="5.5" fill="#e89890" opacity="0.6"/>
+  <ellipse cx="150" cy="154" rx="11" ry="5.5" fill="#e89890" opacity="0.6"/>
+  <!-- eyes: half-lidded soft, looking forward with warmth -->
+  <!-- upper lid arc -->
+  <path d="M 78 138 Q 91 132 104 138" stroke="#2f3a46" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M 136 138 Q 149 132 162 138" stroke="#2f3a46" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- pupil dots -->
+  <ellipse cx="91" cy="143" rx="3.2" ry="3.5" fill="#2f3a46"/>
+  <ellipse cx="149" cy="143" rx="3.2" ry="3.5" fill="#2f3a46"/>
+  <!-- catchlight -->
+  <circle cx="92.5" cy="141.5" r="0.9" fill="#fbf2e3"/>
+  <circle cx="150.5" cy="141.5" r="0.9" fill="#fbf2e3"/>
+  <!-- brows: relaxed, slightly lowered (caring) -->
+  <path d="M 80 124 Q 91 121 102 125" stroke="#3d2e24" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M 138 125 Q 149 121 160 124" stroke="#3d2e24" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- mouth: small soft smile -->
+  <path d="M 110 170 Q 120 178 130 170" stroke="#7a3a3a" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+</svg>

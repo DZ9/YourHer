@@ -10,19 +10,21 @@
 [![MIT](https://img.shields.io/badge/License-MIT-8b7355.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-24%2B-607a58.svg)](https://nodejs.org/)
 
-[快速启动](#快速启动) · [组件](#按需使用组件) · [多语言配置](docs/i18n.md) · [架构](docs/architecture.md)
+[快速启动](#快速启动) · [微信小程序](docs/miniapp.md) · [多语言配置](docs/i18n.md) · [架构](docs/architecture.md)
 
 [English](README.md) · 简体中文
 
 </div>
 
-<table><tr>
-<td align="center"><img src="docs/screenshots/first-meeting-english.jpg" width="250" alt="原版立绘与英文首次见面"><br><sub>从一句话开始</sub></td>
-<td align="center"><img src="docs/screenshots/conversation.jpg" width="250" alt="连续对话与续聊 chips"><br><sub>把对话继续下去</sub></td>
-<td align="center"><img src="docs/screenshots/memory.jpg" width="250" alt="可查看和删除的记忆"><br><sub>记下重要的小事</sub></td>
-</tr></table>
+<p align="center">
+  <img src="docs/screenshots/first-meeting-english.jpg" width="250" alt="首次对话">
+  <img src="docs/screenshots/conversation.jpg" width="250" alt="聊天和续聊建议">
+  <img src="docs/screenshots/memory.jpg" width="250" alt="保存的记忆">
+</p>
 
-YourHer 是可以由你塑造的 AI 陪伴者。选择名字、外观和说话风格，聊聊日常，分享在意的事，再回来接着聊。个性让对话有熟悉感，记忆让它能继续。流式多气泡回复、续聊 chips、长期记忆、心情打卡和每周信件共同构成完整体验。界面沿用原应用的人物立绘、日夜主题、右上纵向导航与滑入面板，同时保留通用品牌、多语言和模型配置。
+YourHer 是可以自己部署的 AI 陪伴应用。选择陪伴者的名字、外观和说话风格，接入模型，聊聊日常，再回来接着聊。
+
+仓库包含网页版和由原产品整理而来的原生微信小程序，共用一套后端。
 
 ## 快速启动
 
@@ -51,37 +53,31 @@ LLM_MODEL=your-model
 
 </details>
 
-## 持续对话，也由你掌控
+## 功能
 
-| 对话 | 记忆 | 陪伴 |
-| --- | --- | --- |
-| 流式多气泡、续聊 chips | 事实分类、重要度、时间衰减 | 心情月历、每日打卡 |
-| 回访续接、历史加载 | 过期、重复强化、遗忘 | 每周信件、偏好设置 |
-| 服务端保存、断线恢复 | 记忆与改名确认条、撤销 | 访客与账户、反馈与问卷 |
+- **对话：** 流式多气泡回复、续聊建议和聊天历史。
+- **记忆：** 记下事实与偏好，查看和删除单条记忆。
+- **个性设置：** 自定义名字、外观、说话风格，切换日夜主题。
+- **日常记录：** 心情打卡、月历，以及根据聊天内容生成的每周信件。
+- **数据管理：** 自己部署服务器，导出记录或删除账户数据。
 
-## 按需使用组件
+网页内置英文和简体中文。新增语言与修改默认设置见[多语言配置指南](docs/i18n.md)。小程序保留原版中文界面，可配置模型回复语言。
 
-完整应用直接使用这些组件，不再另写一套演示逻辑。
+## 微信小程序
 
-| 组件 | 职责 |
-| --- | --- |
-| [conversation](packages/conversation) | chips、流式事件、气泡、回访续聊 |
-| [memory](packages/memory) | 抽取、排序、过期、强化与遗忘 |
-| [ui](packages/ui) | 聊天、面板、弹窗、语音和隐私组件 |
-| [providers](packages/providers) | 模型适配、人设与离线演示 |
-| [storage](packages/storage) | 账户、会话与持久化 |
-| [i18n](packages/i18n) | 翻译、插值、回退和切换 |
-| [companion-core](packages/companion-core) | 个人资料、心情与信件 |
+运行 `npm start` 启动后端，然后用微信开发者工具导入 [`apps/miniapp`](apps/miniapp)。原版 WXML/WXSS 页面、人物立绘、聊天交互和滑入面板均包含在内。
 
-## 可配置的多语言
+默认连接 `http://127.0.0.1:4317`。使用你自己的 AppID 或测试号；本地网络、真机预览和可选语音插件的设置见[小程序启动指南](docs/miniapp.md)。
 
-内置英文与简体中文，可切换界面和后续回复语言。新增语言只需添加翻译 JSON 和配置项，无需修改页面分支。默认语言、回退、语音语言、方向、品牌和时区都可配置；已保存的对话和信件不会被切换语言改写。
+## 组件
 
-[查看多语言配置指南 →](docs/i18n.md)
+应用共用对话、记忆和模型处理逻辑，各个包也可以单独用于其他项目。
+
+包的职责与记忆模块接入示例见[组件指南](docs/components.md)。
 
 ## 文档与开发
 
-[架构](docs/architecture.md) · [功能清单](docs/web-port.md) · [验证记录](docs/validation.md) · [路线图](docs/roadmap.md) · [贡献指南](CONTRIBUTING.md)
+[小程序启动](docs/miniapp.md) · [组件](docs/components.md) · [架构](docs/architecture.md) · [功能清单](docs/web-port.md) · [验证记录](docs/validation.md) · [路线图](docs/roadmap.md) · [贡献指南](CONTRIBUTING.md)
 
 ```sh
 npm test

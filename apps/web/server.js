@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { resolve, dirname, extname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createMiniappApi } from './miniapp-api.js';
 import { LetterService } from '../../packages/companion-core/letters.js';
 import { randomUUID } from 'node:crypto';
 import { loadConfig } from '../../packages/i18n/config.js';
@@ -68,7 +69,8 @@ export function createWebApp({ store, model = new ProductDemoModel(), mode = 'de
         } catch { analysisStatus = 'error'; }
       }
       await store.db.transact(rows => { const record = rows.find(r => r.kind === 'turn' && r.id === turn.id); if (record) { record.status = 'done'; record.updatedAt = new Date(clock()).toISOString(); record.analysisStatus = analysisStatus; record.assistantId = assistant.id; } });
-      send(turn, 'done', { assistant, newMemories, profileUpdate, previousProfile, analysisStatus });
+      turn.result = { assistant, newMemories, profileUpdate, previousProfile, analysisStatus };
+      send(turn, 'done', turn.result);
       // Compact older history, retaining markers only in recent raw dialogue.
       const all = await messages(user.id);
       if (all.length >= 60 && all.length % 30 === 0) {
@@ -90,6 +92,7 @@ export function createWebApp({ store, model = new ProductDemoModel(), mode = 'de
     const heartbeat = setInterval(() => { if (!res.destroyed) res.write(': keepalive\n\n'); }, 10000);
     res.on('close', () => { clearInterval(heartbeat); turn.clients.delete(res); });
   }
+  const miniapp = createMiniappApi({ store, memory, active, runTurn, generateLetter, config, clock, mode, letterLocks });
   const server = createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff'); res.setHeader('Referrer-Policy', 'same-origin');
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; media-src 'self' blob:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'");
@@ -119,6 +122,7 @@ export function createWebApp({ store, model = new ProductDemoModel(), mode = 'de
       if (req.method === 'GET' && url.pathname === '/api/health') return json(res, 200, { status: 'ok' });
       let token = cookieToken(req); let session = await store.session(token); let user = session ? await store.user(session.userId) : null;
       if (!user) { const guest = await store.guest(); user = guest.user; token = guest.token; setCookie(res, token); if (config.i18n.detectBrowserLanguage) { const matched = store.locales.find(code => req.headers['accept-language']?.toLowerCase().includes(code.toLowerCase())); if (matched) user.profile = await store.patchProfile(user.id, { locale: matched }); } }
+      if (req.method === 'POST' && url.pathname === '/api/miniapp') return json(res, 200, await miniapp(user, await readBody(req, 1500000)));
       if (req.method === 'GET' && url.pathname === '/api/state') return json(res, 200, await state(user));
       if (req.method === 'GET' && url.pathname === '/api/messages') {
         const all = await messages(user.id); const before = url.searchParams.get('before'); const end = before ? all.findIndex(m => m.id === before) : all.length;

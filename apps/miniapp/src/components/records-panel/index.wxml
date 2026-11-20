@@ -1,0 +1,59 @@
+
+<view class="rp rp--{{timeOfDay === 'night' ? 'night' : 'day'}} {{open ? 'rp--open' : ''}}">
+  <view class="rp__top" style="padding-top: {{statusBarHeight}}px;">
+    <view class="rp__topbar" style="min-height: {{topbarContentHeight}}px;">
+      <panel-back time-of-day="{{timeOfDay}}" bind:tap="handleClose" />
+    </view>
+    <view class="rp__title serif">{{title}}</view>
+    <view class="rp__kicker mono">{{kicker}}</view>
+  </view>
+
+  <scroll-view class="rp__scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="rp__content">
+
+
+      <block wx:if="{{kind !== 'memory'}}">
+        <view wx:if="{{featuredLetter}}" class="rp-letter rp-letter--featured">
+          <view class="rp-letter__head">
+            <text class="rp-letter__meta mono">{{aiName}} · {{featuredLetter.displayRange}}</text>
+            <view class="rp-letter__badge"><text>{{copy.records.thisWeek}}</text></view>
+          </view>
+          <text class="rp-letter__body serif">{{featuredLetter.content}}</text>
+          <text class="rp-letter__sign serif">—— {{aiName}}</text>
+        </view>
+
+        <view wx:if="{{pastLetters.length}}" class="rp-seclabel">
+          <text>{{copy.records.lettersSection}}</text>
+          <text class="rp-seclabel__trail">{{pastLetterCountText}}</text>
+        </view>
+        <view wx:for="{{pastLetters}}" wx:key="id" class="rp-letter rp-letter--past">
+          <text class="rp-letter__range mono">{{item.displayRange}}</text>
+          <text class="rp-letter__title serif">{{item.title || item.content}}</text>
+        </view>
+
+        <view wx:if="{{!loading && !featuredLetter && !pastLetters.length}}" class="rp-empty">
+          <text class="rp-empty__title serif">{{copy.records.lettersEmpty.title}}</text>
+          <text class="rp-empty__desc">{{lettersEmptyDesc}}</text>
+        </view>
+      </block>
+
+
+      <block wx:else>
+        <view wx:for="{{memories}}" wx:key="id" class="rp-memory">
+          <view class="rp-memory__head">
+            <text class="rp-memory__tag">{{item.tagLabel}}</text>
+          </view>
+          <text class="rp-memory__text serif">{{item.content}}</text>
+        </view>
+
+        <view wx:if="{{!loading && !memories.length}}" class="rp-empty">
+          <text class="rp-empty__title serif">{{copy.records.memoryEmpty.title}}</text>
+          <text class="rp-empty__desc">{{memoryEmptyDesc}}</text>
+        </view>
+      </block>
+
+      <view class="rp__bottom"></view>
+    </view>
+  <button wx:if="{{kind === 'letters'}}" bindtap="handleGenerateLetter">写本周的信</button>
+  </scroll-view>
+</view>

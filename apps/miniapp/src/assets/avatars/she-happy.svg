@@ -1,0 +1,26 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+  <!-- background warm halo -->
+  <circle cx="120" cy="120" r="115" fill="#fbf2e3"/>
+  <!-- hair back -->
+  <path d="M 58 95 Q 58 48 120 48 Q 182 48 182 95 L 182 188 Q 182 195 175 195 L 162 195 L 162 105 Q 156 80 120 78 Q 84 80 78 105 L 78 195 L 65 195 Q 58 195 58 188 Z" fill="#3d2e24"/>
+  <!-- neck -->
+  <rect x="106" y="180" width="28" height="20" fill="#ecc89a"/>
+  <!-- face -->
+  <ellipse cx="120" cy="135" rx="56" ry="62" fill="#f3d6b8"/>
+  <!-- ears -->
+  <ellipse cx="64" cy="138" rx="6" ry="11" fill="#e8c39a"/>
+  <ellipse cx="176" cy="138" rx="6" ry="11" fill="#e8c39a"/>
+  <!-- hair front side bangs -->
+  <path d="M 70 100 Q 88 72 120 76 Q 152 72 170 100 Q 165 118 148 110 Q 132 96 120 102 Q 108 96 92 110 Q 75 118 70 100 Z" fill="#3d2e24"/>
+  <!-- blush -->
+  <ellipse cx="90" cy="152" rx="10" ry="5" fill="#e89890" opacity="0.55"/>
+  <ellipse cx="150" cy="152" rx="10" ry="5" fill="#e89890" opacity="0.55"/>
+  <!-- eyes: closed smiling crescents -->
+  <path d="M 80 142 Q 91 132 102 142" stroke="#2f3a46" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M 138 142 Q 149 132 160 142" stroke="#2f3a46" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- brows relaxed slight arch -->
+  <path d="M 80 122 Q 91 117 102 121" stroke="#3d2e24" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M 138 121 Q 149 117 160 122" stroke="#3d2e24" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- mouth gentle smile -->
+  <path d="M 106 172 Q 120 184 134 172" stroke="#7a3a3a" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

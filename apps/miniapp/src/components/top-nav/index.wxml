@@ -1,0 +1,59 @@
+
+<view
+  class="tn tn--{{timeOfDay === 'night' ? 'night' : 'day'}}"
+  style="top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 16rpx); right: 24rpx;"
+>
+
+  <view
+    class="tn__item {{active === 'memory' ? 'tn__item--on' : ''}}"
+    data-key="memory"
+    bindtap="handleTap"
+    hover-class="tn__item--pressed"
+  >
+    <text class="symbol symbol--solid tn__icon">bookmark</text>
+    <text class="tn__label">{{copy.panels.topNav.memory}}</text>
+  </view>
+
+
+  <block wx:if="{{open}}">
+    <view
+      class="tn__item {{active === 'mood' ? 'tn__item--on' : ''}}"
+      data-key="mood"
+      bindtap="handleTap"
+      hover-class="tn__item--pressed"
+    >
+      <text class="symbol symbol--solid tn__icon">favorite</text>
+      <text class="tn__label">{{copy.panels.topNav.mood}}</text>
+    </view>
+    <view
+      class="tn__item {{active === 'letters' ? 'tn__item--on' : ''}}"
+      data-key="letters"
+      bindtap="handleTap"
+      hover-class="tn__item--pressed"
+    >
+      <text class="symbol symbol--solid tn__icon">mail</text>
+      <text class="tn__label">{{copy.panels.topNav.letters}}</text>
+      <view wx:if="{{unread}}" class="tn__dot"></view>
+    </view>
+    <view
+      class="tn__item {{active === 'about' ? 'tn__item--on' : ''}}"
+      data-key="about"
+      bindtap="handleTap"
+      hover-class="tn__item--pressed"
+    >
+      <text class="symbol symbol--solid tn__icon">person</text>
+      <text class="tn__label">{{copy.panels.topNav.about}}</text>
+    </view>
+  </block>
+
+
+  <view class="tn__chev" bindtap="toggleOpen" hover-class="tn__chev--pressed">
+    <text class="symbol tn__chev-icon {{open ? 'tn__chev-icon--open' : ''}}">expand_more</text>
+    <view wx:if="{{unread && !open}}" class="tn__dot tn__dot--chev"></view>
+  </view>
+
+
+  <view wx:if="{{hintVisible}}" class="tn__hint" bindtap="dismissHint">
+    <text class="tn__hint-text serif">{{copy.panels.topNav.hint}}</text>
+  </view>
+</view>

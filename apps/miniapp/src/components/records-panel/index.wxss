@@ -1,0 +1,264 @@
+
+.rp {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+  will-change: transform;
+}
+.rp--open {
+  transform: translateX(0);
+}
+
+.rp--day {
+  background: #221a18;
+}
+.rp--night {
+  background: #221836;
+}
+
+.rp__top {
+  flex: none;
+  padding-left: 28rpx;
+  padding-right: 28rpx;
+  padding-bottom: 14rpx;
+}
+.rp__topbar {
+  display: flex;
+  align-items: center;
+}
+.rp__back {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 6rpx 4rpx;
+}
+.rp__back--pressed {
+  opacity: 0.55;
+}
+.rp__back-chev {
+  font-size: 40rpx;
+  line-height: 1;
+}
+.rp__back-label {
+  font-size: 28rpx;
+}
+.rp--day .rp__back {
+  color: #d8c8b8;
+}
+.rp--night .rp__back {
+  color: #c9b8d6;
+}
+.rp__title {
+  font-size: 40rpx;
+  margin-top: 6rpx;
+}
+.rp--day .rp__title {
+  color: #f3e9e2;
+}
+.rp--night .rp__title {
+  color: #f1e8f4;
+}
+.rp__kicker {
+  font-size: 23rpx;
+  margin-top: 8rpx;
+}
+.rp--day .rp__kicker {
+  color: #b09a8c;
+}
+.rp--night .rp__kicker {
+  color: #b49ec4;
+}
+
+.rp__scroll {
+  flex: 1;
+  min-height: 0;
+}
+.rp__content {
+  padding: 18rpx 36rpx 0;
+}
+.rp__bottom {
+  height: calc(60rpx + env(safe-area-inset-bottom));
+}
+
+.rp-letter {
+  border-radius: 24rpx;
+  padding: 28rpx 30rpx;
+  margin-bottom: 22rpx;
+}
+.rp--day .rp-letter {
+  background: #2c221e;
+  border: 1rpx solid rgba(232, 180, 140, 0.18);
+}
+.rp--night .rp-letter {
+  background: #2c1e3e;
+  border: 1rpx solid rgba(214, 169, 216, 0.16);
+}
+.rp-letter__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14rpx;
+}
+.rp-letter__meta {
+  font-size: 22rpx;
+}
+.rp--day .rp-letter__meta {
+  color: #b09a8c;
+}
+.rp--night .rp-letter__meta {
+  color: #b49ec4;
+}
+.rp-letter__badge {
+  font-size: 21rpx;
+  padding: 3rpx 14rpx;
+  border-radius: 999rpx;
+}
+.rp--day .rp-letter__badge {
+  background: #3a2a22;
+  color: #e8a06a;
+}
+.rp--night .rp-letter__badge {
+  background: #3a2a4e;
+  color: #e6b96a;
+}
+.rp-letter__body {
+  display: block;
+  font-size: 31rpx;
+  line-height: 1.75;
+}
+.rp--day .rp-letter__body {
+  color: #f3e9e2;
+}
+.rp--night .rp-letter__body {
+  color: #f1e8f4;
+}
+.rp-letter__sign {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  text-align: right;
+}
+.rp--day .rp-letter__sign {
+  color: #e8a06a;
+}
+.rp--night .rp-letter__sign {
+  color: #e6b96a;
+}
+.rp-letter--past {
+  padding: 22rpx 26rpx;
+}
+.rp-letter__range {
+  display: block;
+  font-size: 21rpx;
+  margin-bottom: 8rpx;
+}
+.rp--day .rp-letter__range {
+  color: #b09a8c;
+}
+.rp--night .rp-letter__range {
+  color: #b49ec4;
+}
+.rp-letter__title {
+  display: block;
+  font-size: 29rpx;
+  line-height: 1.6;
+}
+.rp--day .rp-letter__title {
+  color: #f3e9e2;
+}
+.rp--night .rp-letter__title {
+  color: #f1e8f4;
+}
+
+.rp-seclabel {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 6rpx 4rpx 14rpx;
+  font-size: 24rpx;
+}
+.rp--day .rp-seclabel {
+  color: #d8c8b8;
+}
+.rp--night .rp-seclabel {
+  color: #c9b8d6;
+}
+.rp-seclabel__trail {
+  font-size: 21rpx;
+  color: #b09a8c;
+}
+
+.rp-memory {
+  border-radius: 22rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 18rpx;
+}
+.rp--day .rp-memory {
+  background: #2c221e;
+  border: 1rpx solid rgba(232, 180, 140, 0.18);
+}
+.rp--night .rp-memory {
+  background: #2c1e3e;
+  border: 1rpx solid rgba(214, 169, 216, 0.16);
+}
+.rp-memory__head {
+  margin-bottom: 12rpx;
+}
+.rp-memory__tag {
+  font-size: 21rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 16rpx;
+}
+.rp--day .rp-memory__tag {
+  background: #3a2a22;
+  color: #e8a06a;
+}
+.rp--night .rp-memory__tag {
+  background: #3a2a4e;
+  color: #e6b96a;
+}
+.rp-memory__text {
+  display: block;
+  font-size: 31rpx;
+  line-height: 1.65;
+}
+.rp--day .rp-memory__text {
+  color: #f3e9e2;
+}
+.rp--night .rp-memory__text {
+  color: #f1e8f4;
+}
+
+.rp-empty {
+  text-align: center;
+  padding: 80rpx 24rpx;
+}
+.rp-empty__title {
+  display: block;
+  font-size: 32rpx;
+  margin-bottom: 12rpx;
+}
+.rp--day .rp-empty__title {
+  color: #f3e9e2;
+}
+.rp--night .rp-empty__title {
+  color: #f1e8f4;
+}
+.rp-empty__desc {
+  display: block;
+  font-size: 25rpx;
+  line-height: 1.6;
+}
+.rp--day .rp-empty__desc {
+  color: #b09a8c;
+}
+.rp--night .rp-empty__desc {
+  color: #b49ec4;
+}

@@ -1,0 +1,46 @@
+{
+  "entryPagePath": "pages/chat/index",
+  "pages": [
+    "pages/chat/index",
+    "pages/records/index",
+    "pages/me/index",
+    "pages/force-update/index",
+    "pages/privacy/index"
+  ],
+  "subPackages": [
+    {
+      "root": "subpackages",
+      "pages": [
+        "security/index",
+        "feedback/index"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/chat/index": {
+      "network": "all",
+      "packages": [
+        "subpackages"
+      ]
+    },
+    "pages/records/index": {
+      "network": "all",
+      "packages": [
+        "subpackages"
+      ]
+    },
+    "pages/me/index": {
+      "network": "all",
+      "packages": [
+        "subpackages"
+      ]
+    }
+  },
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#A88562",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

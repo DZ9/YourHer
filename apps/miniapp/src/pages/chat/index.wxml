@@ -1,0 +1,563 @@
+
+<page-meta background-color="{{timeOfDay === 'night' ? '#221836' : '#221a18'}}"></page-meta>
+
+<view class="page-shell chat-page tod-{{timeOfDay}} state-{{portraitState}} {{topbarBgVisible ? 'is-scrolled' : ''}}">
+
+
+  <view class="chat-art">
+    <image class="chat-art__img" src="{{portraitSrc}}" mode="aspectFill" />
+    <view class="chat-art__wash"></view>
+    <view class="chat-art__topveil"></view>
+    <view class="chat-art__veil"></view>
+  </view>
+
+
+  <view wx:if="{{timeOfDay === 'night'}}" class="chat-stars">
+    <view
+      wx:for="{{starSeeds}}"
+      wx:key="id"
+      class="chat-star"
+      style="left:{{item.x}}%; top:{{item.y}}%; width:{{item.r * 8}}rpx; height:{{item.r * 8}}rpx; animation-delay:{{item.delay}}s; animation-duration:{{item.dur}}s;"
+    ></view>
+  </view>
+
+
+  <view class="chat-thread-scrim" style="opacity: {{collapsedAvatarOpacity}};"></view>
+
+
+  <view
+    wx:if="{{false}}"
+    class="imm-name"
+    style="top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 40rpx);"
+  >
+    <text class="imm-name__n serif">{{pageTitle}}</text>
+    <text class="imm-name__s">{{portraitWhisper}}</text>
+    <text class="imm-name__ai">{{copy.chat.aiLabel}}</text>
+  </view>
+
+
+  <view
+    class="chat-deskbar"
+    style="padding-top: {{statusBarHeight}}px; padding-right: {{topbarSideWidth}}px;"
+  >
+    <view class="chat-deskbar__row" style="height: {{topbarContentHeight}}px;">
+
+
+
+
+
+
+      <view
+        wx:if="{{false}}"
+        class="chat-deskbar__collapsed"
+        style="opacity: {{collapsedAvatarOpacity}}; transform: translateY({{(1 - collapsedAvatarOpacity) * -8}}rpx);"
+      >
+        <view class="chat-deskbar__mini">
+          <view class="chat-deskbar__mini-eye chat-deskbar__mini-eye--l"></view>
+          <view class="chat-deskbar__mini-eye chat-deskbar__mini-eye--r"></view>
+          <view class="chat-deskbar__mini-mouth"></view>
+        </view>
+        <view class="chat-deskbar__title-wrap">
+          <text class="chat-deskbar__kicker sans">
+            {{portraitState === 'thinking' ? copy.chat.deskbar.thinking : portraitState === 'speaking' ? copy.chat.deskbar.speaking : portraitState === 'listening' ? copy.chat.deskbar.listening : copy.chat.deskbar.idle}}
+          </text>
+          <text class="chat-deskbar__title serif">{{pageTitleLabel}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <top-nav
+    wx:if="{{!(firstTouch && messages.length === 0 && !conversationId)}}"
+    time-of-day="{{timeOfDay}}"
+    active="{{activePanel}}"
+    unread="{{navUnread}}"
+    status-bar-height="{{statusBarHeight}}"
+    topbar-content-height="{{topbarContentHeight}}"
+    topbar-side-width="{{topbarSideWidth}}"
+    hint-visible="{{navHintVisible}}"
+    bind:nav="handleNav"
+    bind:hintdismiss="handleNavHintDismiss"
+  />
+
+
+  <records-panel
+    wx:if="{{activePanel === 'letters' || activePanel === 'memory'}}"
+    kind="{{activePanel}}"
+    time-of-day="{{timeOfDay}}"
+    status-bar-height="{{statusBarHeight}}"
+    topbar-content-height="{{topbarContentHeight}}"
+    bind:close="handlePanelClose"
+  />
+
+
+  <mood-panel
+    wx:if="{{activePanel === 'mood'}}"
+    time-of-day="{{timeOfDay}}"
+    status-bar-height="{{statusBarHeight}}"
+    topbar-content-height="{{topbarContentHeight}}"
+    bind:close="handlePanelClose"
+  />
+
+
+  <view wx:if="{{moodCheckinVisible}}" class="chat-mood-mask" bindtap="handleMoodCheckinDismiss" catchtouchmove="noop">
+    <view class="chat-mood-sheet" catchtap="noop">
+      <text class="chat-mood-sheet__kicker mono">{{moodPromptKicker}}</text>
+      <text class="chat-mood-sheet__text serif">{{moodPromptText}}</text>
+      <view class="chat-mood-sheet__opts">
+        <view
+          wx:for="{{checkinOptions}}"
+          wx:key="value"
+          class="chat-mood-opt chat-mood-opt--{{item.value}}"
+          data-value="{{item.value}}"
+          bindtap="handleMoodCheckinPick"
+          hover-class="chat-mood-opt--pressed"
+        >
+          <view class="chat-mood-opt__dot"></view>
+          <text class="chat-mood-opt__label">{{item.label}}</text>
+        </view>
+      </view>
+      <view class="chat-mood-sheet__skip" bindtap="handleMoodCheckinDismiss">{{copy.chat.moodCheckin.skip}}</view>
+    </view>
+  </view>
+
+
+  <about-panel
+    wx:if="{{activePanel === 'about'}}"
+    time-of-day="{{timeOfDay}}"
+    status-bar-height="{{statusBarHeight}}"
+    topbar-content-height="{{topbarContentHeight}}"
+    bind:close="handlePanelClose"
+    bind:membership="handleAboutMembership"
+    bind:survey="handleAboutSurvey"
+    bind:syncday="handleAboutSyncDay"
+    bind:gopanel="handleAboutGoPanel"
+    bind:gender="handleAboutGender"
+  />
+
+
+  <scroll-view
+    class="chat-scroll"
+    style="bottom: {{keyboardHeight || 0}}px;"
+    scroll-y="true"
+    enhanced="{{true}}"
+    show-scrollbar="{{false}}"
+    bindscroll="handleScroll"
+    bindscrolltolower="handleScrollToOlder"
+    lower-threshold="120"
+  >
+
+
+
+
+
+
+    <view
+      class="chat-scroll__content"
+      style="padding-top: calc(200rpx + env(safe-area-inset-bottom));"
+    >
+      <view wx:if="{{loading}}" class="chat-empty">
+        <text class="symbol chat-empty__icon">forum</text>
+        <text class="headline chat-empty__title">{{loadingTitle}}</text>
+        <text class="chat-empty__desc">{{loadingDesc}}</text>
+      </view>
+
+
+      <view wx:else class="chat-thread">
+
+        <view wx:if="{{sending && portraitState !== 'speaking'}}" class="chat-message chat-message--her">
+          <view class="chat-bubble chat-bubble--her chat-bubble--typing">
+            <view class="chat-typing">
+              <view class="chat-typing__dot"></view>
+              <view class="chat-typing__dot"></view>
+              <view class="chat-typing__dot"></view>
+            </view>
+          </view>
+        </view>
+
+
+        <view
+          wx:if="{{a5Tier && a5Chips.length && !sending && !inputValue && !voiceRecording}}"
+          class="chat-reply-chips chat-reply-chips--a5"
+        >
+          <scroll-view scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" class="chat-reply-chips__scroll">
+            <view
+              wx:for="{{a5Chips}}"
+              wx:key="*this"
+              wx:for-item="chip"
+              wx:for-index="chipIdx"
+              class="chat-chip chat-chip--reply"
+              data-text="{{chip}}"
+              data-index="{{chipIdx}}"
+              bindtap="handleA5Chip"
+            >
+              <text class="serif">{{chip}}</text>
+            </view>
+          </scroll-view>
+        </view>
+
+
+        <view
+          wx:if="{{a5Tier === 'opener' && a5OpenerText && !sending && !inputValue && !voiceRecording}}"
+          class="chat-message chat-message--her chat-message--a5-opener"
+        >
+          <view class="chat-bubble chat-bubble--her">
+            <text class="chat-bubble__text serif">{{a5OpenerText}}</text>
+          </view>
+          <text wx:if="{{a5OpenerFooter}}" class="chat-a5-footer serif">· {{a5OpenerFooter}} ·</text>
+        </view>
+
+        <block wx:for="{{messages}}" wx:key="id">
+
+          <view
+            wx:if="{{!item.dateSeparator && item.role === 'assistant' && item.id === chipMessageId && item.replyCandidates && item.replyCandidates.length && !sending && !inputValue && !voiceRecording}}"
+            class="chat-reply-chips"
+          >
+            <scroll-view scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" class="chat-reply-chips__scroll">
+              <view
+                wx:for="{{item.replyCandidates}}"
+                wx:key="*this"
+                wx:for-item="chip"
+                wx:for-index="chipIdx"
+                class="chat-chip chat-chip--reply"
+                data-text="{{chip}}"
+                data-index="{{chipIdx}}"
+                data-message-id="{{item.id}}"
+                bindtap="handleReplyChip"
+              >
+                <text class="serif">{{chip}}</text>
+              </view>
+            </scroll-view>
+          </view>
+
+
+          <view wx:if="{{item.dateSeparator}}" class="chat-separator">
+            <text class="serif">· {{item.dateSeparator}} ·</text>
+          </view>
+
+
+          <view
+            wx:else
+            id="message-{{item.id}}"
+            class="chat-message {{item.role === 'user' ? 'chat-message--user' : 'chat-message--her'}}"
+          >
+
+            <view
+              class="chat-bubble {{item.role === 'user' ? 'chat-bubble--user' : 'chat-bubble--her'}} {{item.pending ? 'chat-bubble--pending' : ''}}"
+              data-index="{{index}}"
+              bindlongpress="handleBubbleLongPress"
+            >
+              <text class="chat-bubble__text serif">{{item.content}}</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+
+
+  <view
+    wx:if="{{memoryBanner}}"
+    id="chat-memory-banner"
+    class="chat-memory-banner"
+    style="top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 28rpx);"
+  >
+    <view class="chat-memory-banner__head">
+      <text class="chat-memory-banner__title mono">{{memoryBanner.title}}</text>
+      <text class="chat-memory-banner__action" bindtap="handleMemoryBannerDismiss">{{memoryBanner.action}}</text>
+    </view>
+    <text class="chat-memory-banner__quote serif">"{{memoryBanner.content}}"</text>
+    <view wx:if="{{memoryBanner.extraCount > 0}}" class="chat-memory-banner__extra">
+      <text>{{memoryBanner.moreText}}</text>
+    </view>
+    <view class="chat-memory-banner__undo" bindtap="handleMemoryBannerUndo">{{memoryBanner.undoText}}</view>
+  </view>
+
+
+  <view
+    wx:if="{{nameBanner}}"
+    id="chat-name-banner"
+    class="chat-memory-banner"
+    style="top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 28rpx);"
+  >
+    <view class="chat-memory-banner__head">
+      <text class="chat-memory-banner__title serif">{{nameBanner.title}}</text>
+      <text class="chat-memory-banner__action" bindtap="handleNameBannerDismiss">{{nameBanner.action}}</text>
+    </view>
+    <view class="chat-memory-banner__undo" bindtap="handleNameBannerUndo">{{nameBanner.undoText}}</view>
+  </view>
+
+
+  <view
+    wx:if="{{!firstTouch && !loading && !sending && messages.length === 0 && !conversationId && !inputValue && !voiceRecording}}"
+    class="chat-first-meeting"
+    style="bottom: calc(140rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
+  >
+    <view
+      wx:for="{{firstMeetingChips}}"
+      wx:key="*this"
+      class="chat-chip chat-chip--first-meeting"
+      data-text="{{item}}"
+      bindtap="handleFirstMeetingChip"
+    >
+      <text class="serif">{{item}}</text>
+    </view>
+  </view>
+
+
+
+
+  <view
+    wx:if="{{firstTouch && !loading && !sending && messages.length === 0 && !conversationId && !inputValue && !voiceRecording}}"
+    class="chat-first-touch"
+    style="top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 28rpx);"
+  >
+    <view class="chat-first-touch__body">
+      <view class="chat-first-touch__opener serif">{{firstTouchOpener}}</view>
+      <view class="chat-first-touch__journey serif">{{copy.chat.firstTouchJourneyQuestion}}</view>
+    </view>
+  </view>
+
+
+  <view
+    wx:if="{{firstTouch && !loading && messages.length === 0 && !conversationId && !voiceRecording}}"
+    class="chat-first-touch__consent"
+    style="bottom: calc(176rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
+    bindtap="handleToggleConsent"
+  >
+    <view class="chat-first-touch__consent-box {{consentChecked ? 'chat-first-touch__consent-box--on' : ''}}">
+      <text wx:if="{{consentChecked}}" class="chat-first-touch__consent-tick">✓</text>
+    </view>
+    <view class="chat-first-touch__consent-label">
+      <text>{{copy.chat.consent.iAgree}}</text>
+      <text class="chat-first-touch__consent-link" catchtap="handleOpenPrivacyPolicy">{{copy.chat.consent.privacyPolicy}}</text>
+    </view>
+  </view>
+
+
+  <view class="chat-ai-notice" style="bottom: calc(158rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));">{{copy.chat.aiGeneratedNotice}}</view>
+
+  <view class="chat-compose" style="bottom: {{keyboardHeight || 0}}px; padding-bottom: {{keyboardHeight ? '20rpx' : 'calc(40rpx + env(safe-area-inset-bottom))'}};">
+    <view class="chat-compose__field">
+      <input
+        class="chat-compose__input field-input"
+        placeholder="{{voiceRecording ? copy.voice.listening : inputPlaceholder}}"
+        placeholder-class="field-placeholder"
+        maxlength="-1"
+        value="{{inputValue}}"
+        confirm-type="send"
+        confirm-hold="{{false}}"
+        adjust-position="{{false}}"
+        disabled="{{voiceRecording}}"
+        bindinput="handleInput"
+        bindfocus="handleInputFocus"
+        bindblur="handleInputBlur"
+        bindconfirm="handleStreamingSend"
+      />
+    </view>
+    <view
+      class="chat-compose__send {{(inputValue && !sending) ? 'chat-compose__send--active' : ''}} {{voiceRecording ? 'chat-compose__send--recording' : ''}}"
+      bindtap="handleSendOrVoiceTap"
+      bindtouchstart="handleVoiceTouchStart"
+      bindtouchend="handleVoiceTouchEnd"
+      bindtouchcancel="handleVoiceTouchCancel"
+      bindtouchmove="handleVoiceTouchMove"
+    >
+      <text wx:if="{{inputValue && !voiceRecording}}" class="symbol symbol--fill chat-compose__send-icon">arrow_upward</text>
+      <text wx:else class="symbol chat-compose__send-icon">mic</text>
+    </view>
+  </view>
+
+
+  <view
+    wx:if="{{debugMode}}"
+    class="chat-debug-a5"
+    style="bottom: calc(280rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
+    catchtap="_debugCycleA5"
+  >
+    <text class="mono">A5: {{a5Tier || 'off'}}</text>
+  </view>
+
+
+
+
+  <view
+    wx:if="{{debugMode}}"
+    class="chat-debug-a5-suppress"
+    style="bottom: calc(440rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
+    catchtap="_debugToggleA5Suppress"
+  >
+    <text class="mono">A5 suppress: {{a5DebugSuppress ? 'on' : 'off'}}</text>
+  </view>
+
+
+
+
+
+
+
+
+  <view
+    wx:if="{{debugMode}}"
+    class="chat-debug-a5-suppress"
+    style="bottom: calc(760rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
+    catchtap="_debugTogglePortrait"
+  >
+    <text class="mono">立绘: {{portraitVariant}}版</text>
+  </view>
+
+
+  <view
+    wx:if="{{debugMode}}"
+    class="chat-debug-a5-suppress"
+    style="bottom: calc(840rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
+    catchtap="_debugPreviewSurvey"
+  >
+    <text class="mono">{{copy.common.previewSurvey}}</text>
+  </view>
+
+
+  <view
+    wx:if="{{debugMode}}"
+    class="chat-debug-a5-suppress"
+    style="bottom: calc(920rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
+    catchtap="_debugFunnelAdvance"
+  >
+    <text class="mono">流程 ▸ {{debugFunnelLabel || '关闭'}}</text>
+  </view>
+
+
+  <view wx:if="{{voiceRecording}}" class="chat-voice-mask" catchtouchmove="noop">
+    <view class="chat-voice-card {{voiceCancelArmed ? 'chat-voice-card--cancel' : ''}}">
+      <view class="chat-voice-card__halo"></view>
+      <view class="chat-voice-card__icon">
+        <text class="symbol">{{voiceCancelArmed ? 'close' : 'mic'}}</text>
+      </view>
+      <text class="chat-voice-card__hint serif">
+        {{voiceCancelArmed ? copy.voice.cancelRelease : (voicePartial ? voicePartial : copy.voice.hint)}}
+      </text>
+      <text class="chat-voice-card__sub sans">
+        {{voiceCancelArmed ? copy.voice.canceled : copy.voice.cancelHint}}
+      </text>
+    </view>
+  </view>
+
+
+
+
+  <view wx:if="{{genderSheetVisible}}" class="chat-gender-mask">
+    <view class="chat-gender-sheet">
+      <text class="chat-gender-sheet__kicker mono">{{copy.chat.genderSelect.kicker}}</text>
+      <text class="chat-gender-sheet__title serif">{{copy.chat.genderSelect.title}}</text>
+      <text class="chat-gender-sheet__sub">{{copy.chat.genderSelect.sub}}</text>
+      <view class="chat-gender-cards">
+        <view
+          class="chat-gender-card {{genderPick === 'female' ? 'chat-gender-card--on' : ''}}"
+          data-value="female"
+          bindtap="handleGenderPick"
+        >
+          <view class="chat-gender-card__pic">
+            <image class="chat-gender-card__img" src="/assets/images/companion-portrait-female.jpg" mode="aspectFill" />
+            <view class="chat-gender-card__scrim"></view>
+            <text class="chat-gender-card__pron serif">{{copy.chat.genderSelect.female.pron}}</text>
+            <text class="chat-gender-card__check">✓</text>
+          </view>
+          <view class="chat-gender-card__meta">
+            <text class="chat-gender-card__name serif">{{copy.chat.genderSelect.female.name}}</text>
+            <text class="chat-gender-card__desc mono">{{copy.chat.genderSelect.female.desc}}</text>
+          </view>
+        </view>
+        <view
+          class="chat-gender-card {{genderPick === 'male' ? 'chat-gender-card--on' : ''}}"
+          data-value="male"
+          bindtap="handleGenderPick"
+        >
+          <view class="chat-gender-card__pic">
+            <image class="chat-gender-card__img" src="/assets/images/companion-portrait.jpg" mode="aspectFill" />
+            <view class="chat-gender-card__scrim"></view>
+            <text class="chat-gender-card__pron serif">{{copy.chat.genderSelect.male.pron}}</text>
+            <text class="chat-gender-card__check">✓</text>
+          </view>
+          <view class="chat-gender-card__meta">
+            <text class="chat-gender-card__name serif">{{copy.chat.genderSelect.male.name}}</text>
+            <text class="chat-gender-card__desc mono">{{copy.chat.genderSelect.male.desc}}</text>
+          </view>
+        </view>
+      </view>
+      <view
+        class="chat-gender-confirm {{genderPick ? 'chat-gender-confirm--ready' : ''}}"
+        bindtap="handleGenderConfirm"
+        hover-class="chat-gender-confirm--pressed"
+      >
+        <text>{{genderConfirmText}}</text>
+      </view>
+      <view class="chat-gender-skip" bindtap="handleGenderSkip">{{copy.chat.genderSelect.skip}}</view>
+    </view>
+  </view>
+
+
+
+
+
+
+  <view
+    wx:if="{{billingState === 'trial' && trialDots.length}}"
+    class="trial-badge"
+    style="top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 16rpx);"
+    bindtap="handleTrialBadgeTap"
+  >
+    <view class="trial-badge__dots">
+      <view
+        wx:for="{{trialDots}}"
+        wx:key="index"
+        class="trial-badge__dot {{trialRemaining === 1 ? 'trial-badge__dot--last' : ''}}"
+      ></view>
+    </view>
+    <view wx:if="{{trialBadgeExpanded}}" class="trial-badge__card">
+      <text class="mono">{{trialBadgeText}}</text>
+    </view>
+  </view>
+
+
+  <view wx:if="{{surveyVisible}}" class="trial-survey-mask">
+    <view class="trial-survey-sheet">
+      <view class="trial-survey__handle"></view>
+      <text class="trial-survey__title serif">{{copy.chat.paywall.surveyTitle}}</text>
+      <text class="trial-survey__desc">{{copy.chat.paywall.surveyDesc}}</text>
+
+      <view class="trial-survey__q">
+        <text class="trial-survey__q-label">{{copy.chat.paywall.surveyQuestion1}}</text>
+        <view class="trial-survey__opts">
+          <view class="trial-survey__opt {{surveyQ1 === 'caught' ? 'trial-survey__opt--on' : ''}}" data-field="q1" data-value="caught" bindtap="handleSurveyPick"><text>{{copy.chat.paywall.surveyOptions1.caught}}</text></view>
+          <view class="trial-survey__opt {{surveyQ1 === 'sometimes' ? 'trial-survey__opt--on' : ''}}" data-field="q1" data-value="sometimes" bindtap="handleSurveyPick"><text>{{copy.chat.paywall.surveyOptions1.sometimes}}</text></view>
+          <view class="trial-survey__opt {{surveyQ1 === 'no' ? 'trial-survey__opt--on' : ''}}" data-field="q1" data-value="no" bindtap="handleSurveyPick"><text>{{copy.chat.paywall.surveyOptions1.no}}</text></view>
+        </view>
+      </view>
+
+      <view class="trial-survey__q">
+        <text class="trial-survey__q-label">{{copy.chat.paywall.surveyQuestion2}}</text>
+        <input class="trial-survey__input" placeholder="{{copy.chat.paywall.surveyInputPlaceholder}}" placeholder-class="field-placeholder" maxlength="200" value="{{surveyQ2}}" bindinput="handleSurveyInput" />
+      </view>
+
+      <view class="trial-survey__q">
+        <text class="trial-survey__q-label">{{copy.chat.paywall.surveyQuestion3}}</text>
+        <view class="trial-survey__opts">
+          <view class="trial-survey__opt {{surveyQ3 === 'yes' ? 'trial-survey__opt--on' : ''}}" data-field="q3" data-value="yes" bindtap="handleSurveyPick"><text>{{copy.chat.paywall.surveyOptions3.yes}}</text></view>
+          <view class="trial-survey__opt {{surveyQ3 === 'later' ? 'trial-survey__opt--on' : ''}}" data-field="q3" data-value="later" bindtap="handleSurveyPick"><text>{{copy.chat.paywall.surveyOptions3.later}}</text></view>
+        </view>
+      </view>
+
+      <view class="trial-survey__primary {{surveySubmitting ? 'trial-survey__primary--loading' : ''}}" bindtap="handleSurveySubmit" hover-class="trial-survey__primary--pressed">
+        <text>{{surveySubmitting ? copy.chat.paywall.surveySubmitting : copy.chat.paywall.surveySubmit}}</text>
+      </view>
+      <view class="trial-survey__secondary" bindtap="handleSurveyDismiss" hover-class="trial-survey__secondary--pressed">
+        <text>{{copy.chat.paywall.surveySkip}}</text>
+      </view>
+    </view>
+  </view>
+
+
+</view>
+
+<view wx:if="{{demoMode}}" style="position:fixed;top:95rpx;left:24rpx;z-index:20;font-size:20rpx;color:#fff;background:rgba(0,0,0,.4);border-radius:8rpx;padding:5rpx 12rpx;pointer-events:none">离线规则演示</view>

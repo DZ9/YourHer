@@ -1,0 +1,17 @@
+<view class="force-update">
+  <view class="force-update__panel">
+    <view class="force-update__title serif">{{copy.forceUpdate.title}}</view>
+    <view class="force-update__desc">
+      此刻已经更新了，为了保证你的记录和聊天能正常同步，请升级到最新版后继续使用。
+    </view>
+    <view class="force-update__meta sans">{{versionInfoText}}</view>
+
+    <button class="force-update__primary" bindtap="handleApply" hover-class="force-update__primary--pressed">
+      {{applying ? copy.forceUpdate.buttonRestarting : copy.forceUpdate.button}}
+    </button>
+
+    <view class="force-update__hint sans" wx:if="{{showFallback}}">
+      {{copy.forceUpdate.fallback}}
+    </view>
+  </view>
+</view>

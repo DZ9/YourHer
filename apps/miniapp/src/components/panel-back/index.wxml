@@ -1,0 +1,10 @@
+
+<view class="pb pb--{{timeOfDay === 'night' ? 'night' : 'day'}}" bindtap="onTap" hover-class="pb--pressed">
+  <view class="pb__desk">
+    <view class="pb__desk-top"></view>
+    <view class="pb__desk-leg pb__desk-leg--l"></view>
+    <view class="pb__desk-leg pb__desk-leg--r"></view>
+    <view class="pb__desk-cup"></view>
+  </view>
+  <text class="pb__label serif">{{label}}</text>
+</view>

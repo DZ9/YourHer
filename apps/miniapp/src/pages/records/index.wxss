@@ -1,0 +1,542 @@
+
+page {
+  background: #221a18;
+}
+
+.records-page {
+  background: #221a18;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.records-deskbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 12;
+  padding: 0 28rpx 0 24rpx;
+  background: linear-gradient(to bottom, rgba(34, 26, 24, 0.96) 70%, rgba(34, 26, 24, 0.8) 100%);
+  backdrop-filter: saturate(150%) blur(8px);
+}
+
+.records-deskbar__row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 12rpx 0;
+}
+
+.records-deskbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 14rpx 22rpx 14rpx 18rpx;
+  background: #2c221e;
+  border: 1rpx solid #3a2e2a;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 12rpx -4rpx rgba(120, 100, 60, 0.12);
+}
+
+.records-deskbar__desk-icon {
+  width: 40rpx;
+  height: 32rpx;
+  position: relative;
+}
+
+.records-deskbar__desk-top {
+  position: absolute;
+  left: 4rpx;
+  right: 4rpx;
+  top: 8rpx;
+  height: 6rpx;
+  background: #B68A5E;
+  border: 1rpx solid #f3e9e2;
+  border-radius: 2rpx;
+}
+
+.records-deskbar__desk-leg {
+  position: absolute;
+  top: 14rpx;
+  width: 2rpx;
+  height: 14rpx;
+  background: #f3e9e2;
+}
+
+.records-deskbar__desk-leg--l { left: 10rpx; }
+.records-deskbar__desk-leg--r { right: 10rpx; }
+
+.records-deskbar__desk-cup {
+  position: absolute;
+  left: 50%;
+  top: 4rpx;
+  transform: translateX(-50%);
+  width: 12rpx;
+  height: 4rpx;
+  background: #E5ECDA;
+  border: 1rpx solid #f3e9e2;
+  border-radius: 2rpx;
+}
+
+.records-deskbar__back-label {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #f3e9e2;
+  letter-spacing: 0.6rpx;
+}
+
+.records-deskbar__title-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.records-deskbar__kicker {
+  display: block;
+  font-size: 20rpx;
+  color: #b09a8c;
+  letter-spacing: 0.8rpx;
+  font-weight: 500;
+}
+
+.records-deskbar__title {
+  display: block;
+  margin-top: 4rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #f3e9e2;
+  letter-spacing: 0.4rpx;
+}
+
+.records-header {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  padding: 0 32rpx;
+}
+
+.records-intro {
+  display: block;
+  margin-top: 24rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 26rpx;
+  color: #6B5F4A;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.records-swiper {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.records-tab-scroll {
+  width: 100%;
+  height: 100%;
+}
+
+.records-tab-scroll__inner {
+  padding: 0 32rpx;
+}
+
+.records-tabs {
+  margin-top: 36rpx;
+  display: flex;
+  gap: 8rpx;
+  padding: 8rpx;
+  background: #2c221e;
+  border: 1rpx solid #3a2e2a;
+  border-radius: 24rpx;
+}
+
+.records-tabs__cell {
+  flex: 1;
+  padding: 16rpx 0;
+  text-align: center;
+  border-radius: 18rpx;
+  background: transparent;
+  color: #b09a8c;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 0.8rpx;
+}
+
+.records-tabs__cell--active {
+  background: #7A9869;
+  color: #FFFCF4;
+}
+
+.records-letter {
+  margin-top: 32rpx;
+  background: #2c221e;
+  border: 1rpx solid #3a2e2a;
+  border-radius: 24rpx;
+  padding: 36rpx 36rpx 30rpx 36rpx;
+  position: relative;
+  box-shadow: 0 12rpx 28rpx -12rpx rgba(120, 100, 60, 0.18);
+}
+
+.records-letter--featured {
+  margin-top: 36rpx;
+}
+
+.records-letter__badge {
+  position: absolute;
+  top: -16rpx;
+  right: 28rpx;
+  padding: 8rpx 16rpx;
+  background: #C97D5C;
+  color: #FFFCF4;
+  font-size: 20rpx;
+  font-weight: 600;
+  letter-spacing: 1.2rpx;
+  transform: rotate(4deg);
+}
+
+.records-letter__head {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.records-letter__avatar {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #2c221e;
+  border: 2rpx solid #f3e9e2;
+  display: block;
+}
+
+.records-letter__meta {
+  font-size: 22rpx;
+  color: #7A9869;
+  font-weight: 600;
+  letter-spacing: 0.8rpx;
+}
+
+.records-letter__body {
+  display: block;
+  margin-top: 24rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 30rpx;
+  color: #f3e9e2;
+  line-height: 1.85;
+  letter-spacing: 0.2rpx;
+}
+
+.records-letter__sign {
+  display: block;
+  margin-top: 24rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 26rpx;
+  color: #7A9869;
+  font-weight: 600;
+  text-align: right;
+}
+
+.records-letter-list {
+  margin-top: 8rpx;
+}
+
+.records-letter--past {
+  padding: 24rpx 28rpx;
+  margin-top: 16rpx;
+  box-shadow: 0 4rpx 14rpx -6rpx rgba(120, 100, 60, 0.12);
+}
+
+.records-letter__range {
+  display: block;
+  font-size: 22rpx;
+  color: #b09a8c;
+  font-weight: 500;
+  letter-spacing: 0.8rpx;
+}
+
+.records-letter__title {
+  display: block;
+  margin-top: 10rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 28rpx;
+  color: #f3e9e2;
+  font-weight: 600;
+}
+
+.records-mood-card {
+  margin-top: 32rpx;
+  padding: 32rpx 28rpx;
+}
+
+.records-mood-card__title {
+  display: block;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 28rpx;
+  color: #f3e9e2;
+  font-weight: 600;
+  margin-bottom: 24rpx;
+}
+
+.records-mood-grid {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 8rpx;
+}
+
+.records-mood-cell {
+  aspect-ratio: 1 / 1;
+  border-radius: 8rpx;
+  background: #3a2e2a;
+  opacity: 0.4;
+}
+
+.records-mood-cell--happy { background: #9CB587; opacity: 1; }
+.records-mood-cell--calm  { background: #C7BCA1; opacity: 1; }
+.records-mood-cell--sad   { background: #A8B8C4; opacity: 1; }
+
+.records-mood-legend {
+  margin-top: 24rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.records-mood-legend__cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 22rpx;
+  color: #b09a8c;
+  font-weight: 500;
+}
+
+.records-mood-legend__dot {
+  width: 14rpx;
+  height: 14rpx;
+  border: 0;
+}
+
+.records-quotes {
+  margin-top: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.records-quote {
+  padding: 28rpx 32rpx;
+}
+
+.records-quote__text {
+  display: block;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 32rpx;
+  color: #f3e9e2;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.records-quote__foot {
+  margin-top: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.records-quote__time {
+  font-size: 22rpx;
+  color: #b09a8c;
+  font-weight: 500;
+}
+
+.records-quote__delete {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b09a8c;
+}
+
+.records-memories {
+  margin-top: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.records-memory {
+  padding: 24rpx 28rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.records-memory__tag {
+  flex-shrink: 0;
+  padding: 6rpx 14rpx;
+  border-radius: 12rpx;
+  background: #E5ECDA;
+  color: #7A9869;
+  font-size: 20rpx;
+  font-weight: 600;
+  letter-spacing: 0.4rpx;
+}
+
+.records-memory__text {
+  flex: 1;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 26rpx;
+  color: #6B5F4A;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.records-empty {
+  margin-top: 80rpx;
+  padding: 48rpx 36rpx;
+  text-align: center;
+}
+
+.records-empty__desc {
+  display: block;
+  margin-top: 16rpx;
+  color: #b09a8c;
+  font-size: 26rpx;
+  line-height: 1.7;
+}
+
+.records-page.tod-night {
+  background: #221836;
+  color: #F4EFE2;
+}
+
+.records-page.tod-night .paper-grain {
+
+  display: none;
+}
+
+.records-page.tod-night .records-deskbar {
+  background: linear-gradient(to bottom, rgba(34, 24, 54, 0.94) 70%, rgba(34, 24, 54, 0.78) 100%);
+}
+
+.records-page.tod-night .records-deskbar__back {
+  background: rgba(244, 239, 226, 0.08);
+  border-color: rgba(244, 239, 226, 0.22);
+  box-shadow: 0 4rpx 12rpx -4rpx rgba(0, 0, 0, 0.45);
+}
+
+.records-page.tod-night .records-deskbar__desk-top {
+  background: #5A6E8A;
+  border-color: #F4EFE2;
+}
+
+.records-page.tod-night .records-deskbar__desk-leg,
+.records-page.tod-night .records-deskbar__desk-cup {
+  border-color: #F4EFE2;
+}
+
+.records-page.tod-night .records-deskbar__desk-leg {
+  background: #F4EFE2;
+}
+
+.records-page.tod-night .records-deskbar__desk-cup {
+  background: rgba(122, 152, 105, 0.45);
+}
+
+.records-page.tod-night .records-deskbar__back-label,
+.records-page.tod-night .records-deskbar__title {
+  color: #F4EFE2;
+}
+
+.records-page.tod-night .records-deskbar__kicker {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.records-page.tod-night .records-intro {
+  color: rgba(244, 239, 226, 0.7);
+}
+
+.records-page.tod-night .records-tabs {
+  background: rgba(244, 239, 226, 0.06);
+  border-color: rgba(244, 239, 226, 0.18);
+}
+
+.records-page.tod-night .records-tabs__cell {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.records-page.tod-night .records-tabs__cell--active {
+  background: #7A9869;
+  color: #FFFCF4;
+}
+
+.records-page.tod-night .card,
+.records-page.tod-night .records-letter,
+.records-page.tod-night .records-mood-card,
+.records-page.tod-night .records-memory,
+.records-page.tod-night .records-quote {
+  background: rgba(244, 239, 226, 0.06);
+  border-color: rgba(244, 239, 226, 0.18);
+  box-shadow: 0 12rpx 28rpx -12rpx rgba(0, 0, 0, 0.55);
+}
+
+.records-page.tod-night .records-letter__meta,
+.records-page.tod-night .records-letter__sign {
+  color: #A8C795;
+}
+
+.records-page.tod-night .records-letter__avatar {
+  background: rgba(244, 239, 226, 0.16);
+  border-color: #F4EFE2;
+}
+
+.records-page.tod-night .records-letter__body,
+.records-page.tod-night .records-letter__title,
+.records-page.tod-night .records-quote__text,
+.records-page.tod-night .records-mood-card__title {
+  color: #F4EFE2;
+}
+
+.records-page.tod-night .records-letter__range,
+.records-page.tod-night .records-quote__time,
+.records-page.tod-night .records-mood-legend__cell {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.records-page.tod-night .records-memory__text {
+  color: rgba(244, 239, 226, 0.85);
+}
+
+.records-page.tod-night .records-memory__tag {
+  background: rgba(122, 152, 105, 0.22);
+  color: #A8C795;
+}
+
+.records-page.tod-night .records-mood-cell {
+  background: rgba(244, 239, 226, 0.1);
+  opacity: 0.5;
+}
+
+.records-page.tod-night .records-mood-cell--happy { background: #9CB587; opacity: 1; }
+.records-page.tod-night .records-mood-cell--calm  { background: #C7BCA1; opacity: 1; }
+.records-page.tod-night .records-mood-cell--sad   { background: #A8B8C4; opacity: 1; }
+
+.records-page.tod-night .records-quote__delete {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.records-page.tod-night .records-empty__desc {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.records-page.tod-night .empty-state__title {
+  color: #F4EFE2;
+}

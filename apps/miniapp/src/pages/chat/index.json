@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "top-nav": "/components/top-nav/index",
+    "records-panel": "/components/records-panel/index",
+    "mood-panel": "/components/mood-panel/index",
+    "about-panel": "/components/about-panel/index"
+  }
+}

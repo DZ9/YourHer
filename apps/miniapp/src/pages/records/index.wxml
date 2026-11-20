@@ -1,0 +1,141 @@
+<page-meta background-color="{{timeOfDay === 'night' ? '#1F2236' : '#EFE8D8'}}"></page-meta>
+
+<view class="page-shell records-page tod-{{timeOfDay}}">
+  <view class="paper-grain"></view>
+
+
+  <view class="records-deskbar" style="padding-top: {{statusBarHeight}}px; padding-right: {{topbarSideWidth}}px;">
+    <view class="records-deskbar__row" style="height: {{topbarContentHeight}}px;">
+
+      <view class="records-deskbar__back" bindtap="handleBack">
+        <text class="records-deskbar__back-label serif">{{copy.records.backLabel}}</text>
+      </view>
+      <view class="records-deskbar__title-wrap">
+        <text class="records-deskbar__kicker sans">{{copy.records.title}}</text>
+        <text class="records-deskbar__title serif">{{copy.records.subtitle}}</text>
+      </view>
+    </view>
+  </view>
+
+
+  <view
+    class="records-header"
+    style="padding-top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 80rpx);"
+  >
+    <text class="records-intro serif">
+      你跟{{aiName || copy.common.ta}}说过的、{{copy.common.ta}}写下的，
+      都留在这里。
+    </text>
+
+    <view class="records-tabs">
+      <block wx:for="{{tabs}}" wx:key="value">
+        <view
+          class="records-tabs__cell {{activeTab === item.value ? 'records-tabs__cell--active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="handleTabChange"
+        >
+          <text class="serif">{{item.label}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+
+  <swiper
+    class="records-swiper"
+    current="{{activeTabIndex}}"
+    duration="260"
+    bindchange="handleSwiperChange"
+  >
+
+    <swiper-item>
+      <scroll-view
+        class="records-tab-scroll"
+        scroll-y="true"
+        enhanced="{{true}}"
+        show-scrollbar="{{false}}"
+      >
+        <view class="records-tab-scroll__inner">
+
+          <view class="records-mood-card card">
+            <text class="records-mood-card__title serif">{{moodTitleText}}</text>
+            <view class="records-mood-grid">
+              <block wx:for="{{moodCalendar}}" wx:key="date">
+                <view class="records-mood-cell records-mood-cell--{{item.tone}}"></view>
+              </block>
+            </view>
+            <view class="records-mood-legend">
+              <block wx:for="{{moodLegend}}" wx:key="value">
+                <view class="records-mood-legend__cell">
+                  <view class="mood-dot mood-dot--{{item.value}} records-mood-legend__dot"></view>
+                  <text class="serif">{{item.label}}</text>
+                </view>
+              </block>
+            </view>
+          </view>
+
+          <view wx:if="{{featuredLetter}}" class="records-letter records-letter--featured">
+            <view class="records-letter__badge">
+              <text class="serif">{{copy.records.thisWeek}}</text>
+            </view>
+            <view class="records-letter__head">
+              <image class="records-letter__avatar" src="/assets/desk/companion-face.svg" mode="aspectFit" />
+              <text class="records-letter__meta sans">{{aiName}} · {{featuredLetter.displayRange}}</text>
+            </view>
+            <text class="records-letter__body serif">{{featuredLetter.content}}</text>
+            <text class="records-letter__sign serif">—— {{aiName}}</text>
+          </view>
+
+          <view wx:if="{{pastLetters.length}}" class="section-label">
+            <text class="section-label__title">{{copy.records.lettersSection}}</text>
+            <text class="section-label__trail">{{pastLetterCountText}}</text>
+          </view>
+          <view class="records-letter-list">
+            <block wx:for="{{pastLetters}}" wx:key="id">
+              <view class="records-letter records-letter--past">
+                <text class="records-letter__range sans">{{item.displayRange}}</text>
+                <text class="records-letter__title serif">{{item.title || item.content}}</text>
+              </view>
+            </block>
+          </view>
+
+          <view wx:if="{{!featuredLetter && !pastLetters.length}}" class="records-empty">
+            <text class="empty-state__title">{{copy.records.lettersEmpty.title}}</text>
+            <text class="records-empty__desc">{{copy.records.lettersEmpty.desc}}</text>
+          </view>
+
+          <view class="records-tab-scroll__bottom" style="height: calc(80rpx + env(safe-area-inset-bottom));"></view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+
+
+    <swiper-item>
+      <scroll-view
+        class="records-tab-scroll"
+        scroll-y="true"
+        enhanced="{{true}}"
+        show-scrollbar="{{false}}"
+      >
+        <view class="records-tab-scroll__inner">
+          <view wx:if="{{memories.length}}" class="records-memories">
+            <block wx:for="{{memories}}" wx:key="id">
+              <view class="records-memory card">
+                <view class="records-memory__tag">
+                  <text class="serif">{{item.tagLabel}}</text>
+                </view>
+                <text class="records-memory__text serif">{{item.content}}</text>
+              </view>
+            </block>
+          </view>
+          <view wx:else class="records-empty">
+            <text class="empty-state__title">{{copy.records.memoryEmpty.title}}</text>
+            <text class="records-empty__desc">{{memoryEmptyDesc}}</text>
+          </view>
+
+          <view class="records-tab-scroll__bottom" style="height: calc(80rpx + env(safe-area-inset-bottom));"></view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+</view>

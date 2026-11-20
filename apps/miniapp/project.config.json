@@ -1,0 +1,25 @@
+{
+  "description": "YourHer native WeChat Mini Program",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "src/",
+  "appid": "touristappid",
+  "projectname": "YourHer",
+  "libVersion": "3.15.0",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": true,
+    "__usePrivacyCheck__": true,
+    "ignoreUploadUnusedFiles": true
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "file",
+        "value": "config.local.js"
+      }
+    ]
+  }
+}

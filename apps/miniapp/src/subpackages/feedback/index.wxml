@@ -1,0 +1,91 @@
+<page-meta background-color="{{timeOfDay === 'night' ? '#1F2236' : '#EFE8D8'}}"></page-meta>
+
+<view class="page-shell feedback-page tod-{{timeOfDay}}">
+
+  <view class="feedback-topbar" style="padding-top: {{statusBarHeight}}px; padding-right: {{topbarSideWidth}}px;">
+    <view class="feedback-topbar__row" style="height: {{topbarContentHeight}}px;">
+      <view class="feedback-topbar__back" bindtap="handleBack">
+        <view class="feedback-topbar__desk-icon">
+          <view class="feedback-topbar__desk-top"></view>
+          <view class="feedback-topbar__desk-leg feedback-topbar__desk-leg--l"></view>
+          <view class="feedback-topbar__desk-leg feedback-topbar__desk-leg--r"></view>
+          <view class="feedback-topbar__desk-cup"></view>
+        </view>
+        <text class="feedback-topbar__back-label serif">{{copy.feedback.backLabel}}</text>
+      </view>
+      <view class="feedback-topbar__title-wrap">
+        <text class="feedback-topbar__kicker sans">{{copy.feedback.title}}</text>
+        <text class="feedback-topbar__title serif">{{copy.feedback.subtitle}}</text>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="feedback-scroll" scroll-y="true" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="feedback-scroll__top" style="height: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 56rpx);"></view>
+
+    <view class="feedback-main">
+      <view class="feedback-intro">
+        <text>{{copy.feedback.intro}}</text>
+      </view>
+
+      <view class="feedback-types">
+        <block wx:for="{{feedbackTypes}}" wx:key="value">
+          <view
+            class="feedback-type {{selectedType === item.value ? 'feedback-type--active' : ''}}"
+            data-value="{{item.value}}"
+            bindtap="handleSelectType"
+          >
+            {{item.label}}
+          </view>
+        </block>
+      </view>
+
+      <view class="feedback-editor">
+        <textarea
+          class="feedback-editor__textarea"
+          placeholder="{{copy.feedback.placeholder}}"
+          placeholder-class="field-placeholder"
+          maxlength="-1"
+          value="{{content}}"
+          bindinput="handleContentInput"
+        ></textarea>
+      </view>
+
+      <view class="feedback-upload" bindtap="handleChooseImage">
+        <text class="symbol feedback-upload__icon">add_photo_alternate</text>
+        <text class="feedback-upload__label">{{attachments.length ? copy.feedback.screenshotAdded : copy.feedback.addScreenshot}}</text>
+      </view>
+
+      <image wx:if="{{attachmentPreview}}" class="feedback-preview" src="{{attachmentPreview}}" mode="aspectFill" lazy-load="{{true}}" />
+
+
+      <view wx:if="{{recentTraceIds.length}}" class="feedback-trace-ids" style="margin-top:24rpx;">
+        <text style="display:block; font-size:24rpx; color:#6B7280; margin-bottom:10rpx;">
+          最近的出错码（可选附带，帮我们更快定位问题）
+        </text>
+        <view style="display:flex; flex-wrap:wrap; gap:12rpx;">
+          <view
+            wx:for="{{recentTraceIds}}"
+            wx:key="id"
+            data-id="{{item.id}}"
+            bindtap="handleTraceIdToggle"
+            class="mono"
+            style="padding:8rpx 16rpx; border-radius:18rpx; font-size:22rpx; border:1rpx solid #D1D5DB; background:{{selectedTraceIds[item.id] ? '#FEF3C7' : 'transparent'}}; color:{{selectedTraceIds[item.id] ? '#92400E' : '#6B7280'}};"
+          >{{item.short}}</view>
+        </view>
+      </view>
+
+      <view class="feedback-sparkles-wrap">
+        <image class="feedback-sparkles" src="../../assets/images/feedback-sparkles.png" mode="aspectFit" lazy-load="{{true}}" />
+      </view>
+    </view>
+
+    <view class="feedback-scroll__bottom"></view>
+  </scroll-view>
+
+  <view class="feedback-submit-bar">
+    <view class="feedback-submit-button" bindtap="handleSubmit">
+      <text>{{submitting ? copy.feedback.submitting : copy.feedback.submit}}</text>
+    </view>
+  </view>
+</view>

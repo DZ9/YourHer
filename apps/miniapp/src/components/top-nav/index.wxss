@@ -1,0 +1,133 @@
+
+.tn {
+  position: fixed;
+  z-index: 85;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+
+  padding: 6rpx 4rpx 8rpx;
+  border-radius: 26rpx;
+  background: rgba(36, 28, 26, 0.26);
+  backdrop-filter: blur(18rpx) saturate(140%);
+  -webkit-backdrop-filter: blur(18rpx) saturate(140%);
+  border: 1rpx solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8rpx 22rpx -10rpx rgba(0, 0, 0, 0.4);
+}
+
+.tn__item {
+  position: relative;
+  width: 86rpx;
+  border-radius: 18rpx;
+  padding: 8rpx 0 6rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rpx;
+  transition: background 0.15s ease;
+}
+
+.tn__item--pressed {
+  opacity: 0.7;
+}
+
+.tn__icon {
+  font-size: 38rpx;
+  line-height: 1;
+}
+
+.tn__label {
+  font-size: 19rpx;
+  line-height: 1;
+}
+
+.tn__chev {
+  position: relative;
+  width: 56rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rpx;
+}
+
+.tn__chev--pressed {
+  opacity: 0.6;
+}
+
+.tn__chev-icon {
+  font-size: 36rpx;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.tn__chev-icon--open {
+  transform: rotate(180deg);
+}
+
+.tn__dot {
+  position: absolute;
+  top: 4rpx;
+  right: 16rpx;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #e8895a;
+}
+
+.tn__dot--chev {
+  top: 0;
+  right: 6rpx;
+}
+
+.tn__hint {
+  position: absolute;
+  top: 132rpx;
+  right: 0;
+  max-width: 380rpx;
+  padding: 14rpx 20rpx;
+  border-radius: 18rpx;
+  box-shadow: 0 14rpx 30rpx -10rpx rgba(20, 16, 12, 0.4);
+}
+
+.tn__hint-text {
+  font-size: 26rpx;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.tn__icon {
+  color: #fbf1df;
+  text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.5);
+}
+.tn__label {
+  color: #ecdbc6;
+  text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.5);
+}
+.tn__chev-icon {
+  color: #ecdbc6;
+  text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.5);
+}
+
+.tn__item--on .tn__icon,
+.tn__item--on .tn__label {
+  color: #ffc07e;
+  text-shadow: 0 1rpx 5rpx rgba(0, 0, 0, 0.55);
+}
+
+.tn--day .tn__hint {
+  background: rgba(44, 34, 30, 0.96);
+  border: 1rpx solid rgba(232, 181, 131, 0.3);
+}
+.tn--day .tn__hint-text {
+  color: #f3e9e2;
+}
+.tn--night .tn__hint {
+  background: rgba(44, 30, 62, 0.96);
+  border: 1rpx solid rgba(214, 169, 216, 0.3);
+}
+.tn--night .tn__hint-text {
+  color: #f1e8f4;
+}

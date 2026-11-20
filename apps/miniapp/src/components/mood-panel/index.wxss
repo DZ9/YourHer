@@ -1,0 +1,276 @@
+
+.mp {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+  will-change: transform;
+}
+.mp--open {
+  transform: translateX(0);
+}
+.mp--day {
+  background: #221a18;
+}
+.mp--night {
+  background: #221836;
+}
+
+.mp__top {
+  flex: none;
+  padding-left: 28rpx;
+  padding-right: 28rpx;
+  padding-bottom: 14rpx;
+}
+.mp__topbar {
+  display: flex;
+  align-items: center;
+}
+.mp__back {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 6rpx 4rpx;
+}
+.mp__back--pressed {
+  opacity: 0.55;
+}
+.mp__back-chev {
+  font-size: 40rpx;
+  line-height: 1;
+}
+.mp__back-label {
+  font-size: 28rpx;
+}
+.mp--day .mp__back {
+  color: #d8c8b8;
+}
+.mp--night .mp__back {
+  color: #c9b8d6;
+}
+.mp__title {
+  font-size: 40rpx;
+  margin-top: 6rpx;
+}
+.mp--day .mp__title {
+  color: #f3e9e2;
+}
+.mp--night .mp__title {
+  color: #f1e8f4;
+}
+.mp__kicker {
+  font-size: 23rpx;
+  margin-top: 8rpx;
+}
+.mp--day .mp__kicker {
+  color: #b09a8c;
+}
+.mp--night .mp__kicker {
+  color: #b49ec4;
+}
+
+.mp__scroll {
+  flex: 1;
+  min-height: 0;
+}
+.mp__content {
+  padding: 18rpx 36rpx 0;
+}
+.mp__bottom {
+  height: calc(60rpx + env(safe-area-inset-bottom));
+}
+
+.mp-legend {
+  display: flex;
+  gap: 28rpx;
+  margin-bottom: 22rpx;
+}
+.mp-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+.mp-legend__dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+}
+.mp-legend__label {
+  font-size: 25rpx;
+}
+.mp--day .mp-legend__label {
+  color: #d8c8b8;
+}
+.mp--night .mp-legend__label {
+  color: #c9b8d6;
+}
+
+.mp-cal {
+  border-radius: 24rpx;
+  padding: 22rpx 22rpx 16rpx;
+  margin-bottom: 24rpx;
+}
+.mp--day .mp-cal {
+  background: #2c221e;
+  border: 1rpx solid rgba(232, 180, 140, 0.18);
+}
+.mp--night .mp-cal {
+  background: #2c1e3e;
+  border: 1rpx solid rgba(214, 169, 216, 0.16);
+}
+.mp-cal__month {
+  font-size: 24rpx;
+  margin-bottom: 16rpx;
+}
+.mp--day .mp-cal__month {
+  color: #d8c8b8;
+}
+.mp--night .mp-cal__month {
+  color: #c9b8d6;
+}
+.mp-cal__week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4rpx;
+  margin-bottom: 10rpx;
+}
+.mp-cal__wd {
+  text-align: center;
+  font-size: 20rpx;
+}
+.mp--day .mp-cal__wd {
+  color: #b09a8c;
+}
+.mp--night .mp-cal__wd {
+  color: #b49ec4;
+}
+.mp-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4rpx;
+}
+.mp-cal__cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mp-cal__day {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 22rpx;
+}
+
+.mp--day .mp-cal__day {
+  color: #d8c8b8;
+  border: 1rpx solid rgba(94, 72, 46, 0.14);
+}
+.mp--night .mp-cal__day {
+  color: #c9b8d6;
+  border: 1rpx solid rgba(214, 169, 216, 0.18);
+}
+
+.mp-cal__day--filled {
+  border: none;
+}
+.mp--day .mp-cal__day--filled {
+  color: #fbf4e8;
+}
+.mp--night .mp-cal__day--filled {
+  color: #1a1c2e;
+}
+
+.mp--day .mp-cal__day--today {
+  border: 3rpx solid #e8a06a;
+}
+.mp--night .mp-cal__day--today {
+  border: 3rpx solid #e6b96a;
+}
+
+.mp-cal__day--future {
+  opacity: 0.4;
+}
+
+.mp-checkin {
+  border-radius: 24rpx;
+  padding: 24rpx 22rpx;
+  margin-bottom: 24rpx;
+}
+.mp--day .mp-checkin {
+  background: #2c221e;
+  border: 1rpx solid rgba(232, 180, 140, 0.18);
+}
+.mp--night .mp-checkin {
+  background: #2c1e3e;
+  border: 1rpx solid rgba(214, 169, 216, 0.16);
+}
+.mp-checkin__prompt {
+  display: block;
+  font-size: 27rpx;
+  line-height: 1.5;
+  margin-bottom: 20rpx;
+}
+.mp--day .mp-checkin__prompt {
+  color: #5b5043;
+}
+.mp--night .mp-checkin__prompt {
+  color: #f1e8f4;
+}
+.mp-checkin__opts {
+  display: flex;
+  gap: 16rpx;
+}
+.mp-checkin__opt {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  padding: 18rpx 0;
+  border-radius: 16rpx;
+}
+.mp--day .mp-checkin__opt {
+  background: rgba(232, 180, 140, 0.1);
+}
+.mp--night .mp-checkin__opt {
+  background: rgba(214, 169, 216, 0.1);
+}
+.mp-checkin__opt--pressed {
+  opacity: 0.6;
+}
+.mp-checkin__dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+}
+.mp-checkin__label {
+  font-size: 25rpx;
+}
+.mp--day .mp-checkin__label {
+  color: #d8c8b8;
+}
+.mp--night .mp-checkin__label {
+  color: #d8d2e2;
+}
+
+.mp-note {
+  font-size: 22rpx;
+  line-height: 1.7;
+}
+.mp--day .mp-note {
+  color: #b09a8c;
+}
+.mp--night .mp-note {
+  color: #b49ec4;
+}

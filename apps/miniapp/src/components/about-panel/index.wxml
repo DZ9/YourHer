@@ -1,0 +1,102 @@
+
+<view class="ap ap--{{timeOfDay === 'night' ? 'night' : 'day'}} {{open ? 'ap--open' : ''}}">
+  <view class="ap__top" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ap__topbar" style="min-height: {{topbarContentHeight}}px;">
+      <panel-back time-of-day="{{timeOfDay}}" bind:tap="handleClose" />
+    </view>
+  </view>
+
+  <scroll-view class="ap__scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="ap__content">
+
+      <view class="ap-hero">
+        <text class="ap-hero__num serif">{{heroDaysText}}</text>
+        <text class="ap-hero__sub mono">{{copy.panels.about.heroSub}}</text>
+      </view>
+
+
+      <view class="ap-stats">
+        <view class="ap-stat" data-panel="" bindtap="handleStatTap" hover-class="ap-stat--pressed"><text class="ap-stat__n serif">{{statChat}}</text><text class="ap-stat__l">{{copy.panels.about.statChat}}</text></view>
+        <view class="ap-stat" data-panel="letters" bindtap="handleStatTap" hover-class="ap-stat--pressed"><text class="ap-stat__n serif">{{statLetter}}</text><text class="ap-stat__l">{{copy.panels.about.statLetter}}</text></view>
+        <view class="ap-stat" data-panel="mood" bindtap="handleStatTap" hover-class="ap-stat--pressed"><text class="ap-stat__n serif">{{statCheckin}}</text><text class="ap-stat__l">{{copy.panels.about.statMood}}</text></view>
+      </view>
+
+
+      <view wx:if="{{false}}" class="ap-member" bindtap="handleMembership" hover-class="ap-row--pressed">
+        <view class="ap-member__l">
+          <text class="ap-member__title serif">{{copy.panels.about.memberTitle}}</text>
+          <text class="ap-member__status mono">{{memberText}}</text>
+        </view>
+        <text class="ap-member__chev">›</text>
+      </view>
+
+
+      <view wx:if="{{surveyAvailable}}" class="ap-member" bindtap="handleSurveyEntry" hover-class="ap-row--pressed">
+        <view class="ap-member__l">
+          <text class="ap-member__title serif">{{copy.panels.about.surveyTitle}}</text>
+          <text class="ap-member__status mono">{{copy.panels.about.surveyHint}}</text>
+        </view>
+        <text class="ap-member__chev">›</text>
+      </view>
+
+
+      <view class="ap-row" bindtap="handleAccountData"><text class="ap-row__k serif">账号与数据</text><text>›</text></view>
+      <view class="ap-group">
+        <view class="ap-row" bindtap="handleToggleAiGender" hover-class="ap-row--pressed">
+          <text class="ap-row__k serif">{{copy.me.labels.aiGender}}</text>
+          <view class="ap-row__r"><text class="ap-row__v serif">{{aiGender === 'male' ? copy.chat.genderSelect.male.pron : copy.chat.genderSelect.female.pron}}</text><text class="ap-row__chev">›</text></view>
+        </view>
+        <view class="ap-divider"></view>
+        <view class="ap-row" bindtap="handleOpenAiName" hover-class="ap-row--pressed">
+          <text class="ap-row__k serif">{{copy.me.labels.aiName}}</text>
+          <view class="ap-row__r"><text class="ap-row__v serif">{{aiName}}</text><text class="ap-row__chev">›</text></view>
+        </view>
+        <view class="ap-divider"></view>
+        <view class="ap-row" bindtap="handleOpenNickname" hover-class="ap-row--pressed">
+          <text class="ap-row__k serif">{{copy.me.labels.nickname}}</text>
+          <view class="ap-row__r"><text class="ap-row__v serif">{{nicknameText}}</text><text class="ap-row__chev">›</text></view>
+        </view>
+        <view class="ap-divider"></view>
+        <view class="ap-row" bindtap="handleOpenCity" hover-class="ap-row--pressed">
+          <text class="ap-row__k serif">{{copy.me.labels.city}}</text>
+          <view class="ap-row__r"><text class="ap-row__v serif">{{locatingCity ? copy.me.values.cityLocating : cityText}}</text><text class="ap-row__chev">›</text></view>
+        </view>
+        <view class="ap-divider"></view>
+        <view class="ap-row">
+          <text class="ap-row__k serif">{{copy.me.labels.nightMode}}</text>
+          <switch class="ap-switch" checked="{{nightModeOn}}" color="#7A9869" bindchange="handleToggleNightMode" />
+        </view>
+        <view class="ap-divider"></view>
+        <view class="ap-row" bindtap="handleFeedback" hover-class="ap-row--pressed">
+          <text class="ap-row__k serif">{{copy.me.labels.feedback}}</text>
+          <text class="ap-row__chev">›</text>
+        </view>
+      </view>
+
+      <view class="ap-foot mono">{{copy.panels.about.footer}}<block wx:if="{{version}}"> · v{{version}}</block></view>
+      <view class="ap__bottom"></view>
+    </view>
+  </scroll-view>
+
+
+  <view wx:if="{{editSheet}}" class="ap-sheet-mask" bindtap="handleCloseSheet" catchtouchmove="noop">
+
+    <view wx:if="{{editSheet === 'aiName' || editSheet === 'nickname'}}"
+      class="ap-sheet ap-sheet--input"
+      style="transform: translateY(-{{keyboardOffset}}px);"
+      catchtap="noop">
+      <text class="ap-sheet__title serif">{{sheetTitle}}</text>
+      <input wx:if="{{editSheet === 'aiName'}}" class="ap-sheet__input" value="{{aiNameDraft}}" maxlength="12"
+        focus="{{true}}" adjust-position="{{false}}" hold-keyboard="{{true}}" placeholder="{{copy.me.aiName.placeholder}}"
+        placeholder-class="ap-sheet__ph" confirm-type="done" bindinput="handleAiNameInput" bindconfirm="handleSaveSheet" />
+      <input wx:else class="ap-sheet__input" value="{{nicknameDraft}}" maxlength="20"
+        focus="{{true}}" adjust-position="{{false}}" hold-keyboard="{{true}}" placeholder="{{copy.me.nickname.placeholder}}"
+        placeholder-class="ap-sheet__ph" confirm-type="done" bindinput="handleNicknameInput" bindconfirm="handleSaveSheet" />
+      <view class="ap-sheet__actions">
+        <view class="ap-sheet__btn" bindtap="handleCloseSheet">{{copy.common.cancel}}</view>
+        <view class="ap-sheet__btn ap-sheet__btn--primary" bindtap="handleSaveSheet">{{saving ? copy.common.saving : copy.common.save}}</view>
+      </view>
+    </view>
+
+  </view>
+</view>

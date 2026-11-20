@@ -1,0 +1,373 @@
+
+page {
+  background: #221a18;
+}
+
+.feedback-page {
+  min-height: 100vh;
+  background: #221a18;
+  color: #f3e9e2;
+  overflow: hidden;
+}
+
+.feedback-page::before {
+  display: none;
+}
+
+.feedback-topbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 30;
+  padding: 0 28rpx 0 24rpx;
+  background: linear-gradient(to bottom, #221a18 60%, rgba(34, 26, 24, 0) 100%);
+}
+
+.feedback-topbar__row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 12rpx 0;
+}
+
+.feedback-topbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 14rpx 22rpx 14rpx 18rpx;
+  background: #2c221e;
+  border: 1rpx solid #3a2e2a;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 12rpx -4rpx rgba(120, 100, 60, 0.12);
+}
+
+.feedback-topbar__desk-icon {
+  width: 40rpx;
+  height: 32rpx;
+  position: relative;
+}
+
+.feedback-topbar__desk-top {
+  position: absolute;
+  left: 4rpx;
+  right: 4rpx;
+  top: 8rpx;
+  height: 6rpx;
+  background: #B68A5E;
+  border: 1rpx solid #f3e9e2;
+  border-radius: 2rpx;
+}
+
+.feedback-topbar__desk-leg {
+  position: absolute;
+  top: 14rpx;
+  width: 2rpx;
+  height: 14rpx;
+  background: #f3e9e2;
+}
+
+.feedback-topbar__desk-leg--l { left: 10rpx; }
+.feedback-topbar__desk-leg--r { right: 10rpx; }
+
+.feedback-topbar__desk-cup {
+  position: absolute;
+  left: 50%;
+  top: 4rpx;
+  transform: translateX(-50%);
+  width: 12rpx;
+  height: 4rpx;
+  background: #E5ECDA;
+  border: 1rpx solid #f3e9e2;
+  border-radius: 2rpx;
+}
+
+.feedback-topbar__back-label {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #f3e9e2;
+  letter-spacing: 0.6rpx;
+}
+
+.feedback-topbar__title-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.feedback-topbar__kicker {
+  font-size: 20rpx;
+  color: #b09a8c;
+  letter-spacing: 1.2rpx;
+  font-weight: 500;
+}
+
+.feedback-topbar__title {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #f3e9e2;
+  letter-spacing: 0.4rpx;
+  margin-top: 2rpx;
+}
+
+.feedback-scroll {
+  height: 100vh;
+}
+
+.feedback-scroll__top {
+
+}
+
+.feedback-main {
+  width: 100%;
+  padding: 0 56rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-intro {
+  padding: 0 16rpx;
+  text-align: center;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  color: #6B5F4A;
+  font-size: 26rpx;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.78;
+  letter-spacing: 1rpx;
+}
+
+.feedback-types {
+  margin-top: 56rpx;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 14rpx;
+}
+
+.feedback-type {
+  min-width: 0;
+  min-height: 60rpx;
+  padding: 0 26rpx;
+  border-radius: 999rpx;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  background: #2c221e;
+  border: 1rpx solid #3a2e2a;
+  color: #6B5F4A;
+  font-size: 24rpx;
+  font-weight: 500;
+  box-sizing: border-box;
+  transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.feedback-type--active {
+  background: #E5ECDA;
+  border-color: #7A9869;
+  color: #f3e9e2;
+  font-weight: 600;
+}
+
+.feedback-editor {
+  min-height: 430rpx;
+  margin-top: 48rpx;
+  padding: 36rpx 32rpx;
+  border-radius: 28rpx;
+  background: #2c221e;
+  border: 1rpx solid #3a2e2a;
+  box-shadow: 0 4rpx 14rpx -6rpx rgba(120, 100, 60, 0.18);
+  box-sizing: border-box;
+}
+
+.feedback-editor__textarea {
+  width: 100%;
+  min-height: 350rpx;
+  border: none;
+  background: transparent;
+  color: #f3e9e2;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 30rpx;
+  line-height: 1.85;
+  letter-spacing: 0.4rpx;
+  box-sizing: border-box;
+}
+
+.feedback-upload {
+  width: 100%;
+  min-height: 172rpx;
+  margin-top: 32rpx;
+  border-radius: 28rpx;
+  border: 2rpx dashed rgba(154, 143, 119, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  box-sizing: border-box;
+  background: rgba(255, 252, 244, 0.55);
+}
+
+.feedback-upload__icon {
+  color: #b09a8c;
+  font-size: 44rpx;
+}
+
+.feedback-upload__label {
+  color: #6B5F4A;
+  font-size: 24rpx;
+  font-weight: 500;
+  letter-spacing: 0.6rpx;
+}
+
+.feedback-preview {
+  width: 100%;
+  height: 220rpx;
+  margin-top: 24rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid #3a2e2a;
+}
+
+.feedback-sparkles-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 58rpx 0 16rpx;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.feedback-sparkles {
+  width: 72rpx;
+  height: 72rpx;
+  filter: sepia(60%) hue-rotate(-10deg);
+}
+
+.feedback-scroll__bottom {
+  height: calc(198rpx + env(safe-area-inset-bottom));
+}
+
+.feedback-submit-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 28;
+  padding: 28rpx 40rpx calc(34rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(34, 26, 24, 0), rgba(34, 26, 24, 0.92) 34%, #221a18 100%);
+}
+
+.feedback-submit-button {
+  width: 100%;
+  min-height: 96rpx;
+  border-radius: 999rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #7A9869;
+  color: #FFFCF4;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 1.2rpx;
+  box-shadow: 0 12rpx 28rpx -8rpx rgba(122, 152, 105, 0.55);
+}
+
+.feedback-page.tod-night {
+  background: #221836;
+  color: #F4EFE2;
+}
+
+.feedback-page.tod-night .feedback-topbar {
+  background: linear-gradient(to bottom, #221836 60%, rgba(34, 24, 54, 0) 100%);
+}
+
+.feedback-page.tod-night .feedback-topbar__back {
+  background: rgba(244, 239, 226, 0.08);
+  border-color: rgba(244, 239, 226, 0.22);
+  box-shadow: 0 4rpx 12rpx -4rpx rgba(0, 0, 0, 0.45);
+}
+
+.feedback-page.tod-night .feedback-topbar__desk-top {
+  background: #5A6E8A;
+  border-color: #F4EFE2;
+}
+
+.feedback-page.tod-night .feedback-topbar__desk-leg {
+  background: #F4EFE2;
+}
+
+.feedback-page.tod-night .feedback-topbar__desk-cup {
+  background: rgba(122, 152, 105, 0.45);
+  border-color: #F4EFE2;
+}
+
+.feedback-page.tod-night .feedback-topbar__back-label,
+.feedback-page.tod-night .feedback-topbar__title {
+  color: #F4EFE2;
+}
+
+.feedback-page.tod-night .feedback-topbar__kicker {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.feedback-page.tod-night .feedback-intro {
+  color: rgba(244, 239, 226, 0.7);
+}
+
+.feedback-page.tod-night .feedback-type {
+  background: rgba(244, 239, 226, 0.06);
+  border-color: rgba(244, 239, 226, 0.18);
+  color: rgba(244, 239, 226, 0.7);
+}
+
+.feedback-page.tod-night .feedback-type--active {
+  background: rgba(122, 152, 105, 0.22);
+  border-color: #7A9869;
+  color: #A8C795;
+}
+
+.feedback-page.tod-night .feedback-editor {
+  background: rgba(244, 239, 226, 0.06);
+  border-color: rgba(244, 239, 226, 0.18);
+  box-shadow: 0 4rpx 14rpx -6rpx rgba(0, 0, 0, 0.45);
+}
+
+.feedback-page.tod-night .feedback-editor__textarea {
+  color: #F4EFE2;
+}
+
+.feedback-page.tod-night .feedback-upload {
+  background: rgba(244, 239, 226, 0.04);
+  border-color: rgba(244, 239, 226, 0.22);
+}
+
+.feedback-page.tod-night .feedback-upload__icon {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.feedback-page.tod-night .feedback-upload__label {
+  color: rgba(244, 239, 226, 0.7);
+}
+
+.feedback-page.tod-night .feedback-preview {
+  border-color: rgba(244, 239, 226, 0.18);
+}
+
+.feedback-page.tod-night .feedback-sparkles {
+
+  filter: hue-rotate(180deg) brightness(1.1);
+  opacity: 0.4;
+}
+
+.feedback-page.tod-night .feedback-submit-bar {
+  background: linear-gradient(180deg, rgba(34, 24, 54, 0), rgba(34, 24, 54, 0.92) 34%, #221836 100%);
+}
+
+.feedback-page.tod-night .field-placeholder {
+  color: rgba(244, 239, 226, 0.45);
+}

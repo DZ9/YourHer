@@ -1,0 +1,61 @@
+
+<view class="mp mp--{{timeOfDay === 'night' ? 'night' : 'day'}} {{open ? 'mp--open' : ''}}">
+  <view class="mp__top" style="padding-top: {{statusBarHeight}}px;">
+    <view class="mp__topbar" style="min-height: {{topbarContentHeight}}px;">
+      <panel-back time-of-day="{{timeOfDay}}" bind:tap="handleClose" />
+    </view>
+    <view class="mp__title serif">{{copy.panels.moodPanel.title}}</view>
+    <view class="mp__kicker mono">{{summaryNote}}{{summarySub ? ' · ' + summarySub : ''}}</view>
+  </view>
+
+  <scroll-view class="mp__scroll" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="mp__content">
+
+      <view class="mp-legend">
+        <view wx:for="{{legend}}" wx:key="value" class="mp-legend__item">
+          <view class="mp-legend__dot" style="background: {{item.color}};"></view>
+          <text class="mp-legend__label">{{item.label}}</text>
+        </view>
+      </view>
+
+
+      <view class="mp-cal">
+        <view class="mp-cal__month mono">{{monthLabel}}</view>
+        <view class="mp-cal__week">
+          <view wx:for="{{weekdays}}" wx:key="*this" class="mp-cal__wd">{{item}}</view>
+        </view>
+        <view class="mp-cal__grid">
+          <view wx:for="{{cells}}" wx:key="key" class="mp-cal__cell">
+            <view
+              wx:if="{{!item.blank}}"
+              class="mp-cal__day {{item.tone ? 'mp-cal__day--filled' : ''}} {{item.isToday ? 'mp-cal__day--today' : ''}} {{item.future ? 'mp-cal__day--future' : ''}}"
+              style="{{item.color ? 'background:' + item.color + ';' : ''}}"
+            >{{item.day}}</view>
+          </view>
+        </view>
+      </view>
+
+
+      <view wx:if="{{!loading && checkinVisible}}" class="mp-checkin">
+        <text class="mp-checkin__prompt serif">{{checkinPrompt}}</text>
+        <view class="mp-checkin__opts">
+          <view
+            wx:for="{{legend}}"
+            wx:key="value"
+            class="mp-checkin__opt"
+            data-value="{{item.value}}"
+            bindtap="handleCheckinPick"
+            hover-class="mp-checkin__opt--pressed"
+          >
+            <view class="mp-checkin__dot" style="background: {{item.color}};"></view>
+            <text class="mp-checkin__label">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="mp-note">{{copy.panels.moodPanel.note}}</view>
+
+      <view class="mp__bottom"></view>
+    </view>
+  </scroll-view>
+</view>

@@ -8,7 +8,7 @@ The self-hosted icon-font subset at `apps/web/public/assets/material-symbols-rou
 - Project: https://github.com/google/material-design-icons
 - License: Apache License 2.0. The complete notice is preserved in `apps/web/public/assets/material-symbols-LICENSE.txt`.
 
-The font is served locally. Opening the app does not request fonts from Google.
+The native miniapp embeds the same subset in `apps/miniapp/src/app.wxss` under its original CSS font-family names. The font is served locally. Opening the app does not request fonts from Google.
 
 ## Product portraits and source copy
 

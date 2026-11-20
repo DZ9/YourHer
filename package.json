@@ -13,7 +13,8 @@
   "scripts": {
     "start": "node --env-file-if-exists=.env apps/web/server.js",
     "test": "node --test packages/memory/test/*.test.js packages/conversation/test/*.test.js packages/i18n/test/*.test.js apps/web/test/*.test.js",
-    "eval": "node evals/run.js"
+    "eval": "node evals/run.js",
+    "check:miniapp": "node scripts/check-miniapp.mjs"
   },
   "license": "MIT",
   "description": "A modular, multilingual, self-hosted companion AI with a complete web application."

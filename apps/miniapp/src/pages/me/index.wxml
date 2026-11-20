@@ -1,0 +1,334 @@
+<page-meta background-color="{{timeOfDay === 'night' ? '#1F2236' : '#EFE8D8'}}"></page-meta>
+
+<view class="page-shell me-page tod-{{timeOfDay}}">
+  <view class="paper-grain"></view>
+
+
+  <view class="me-deskbar" style="padding-top: {{statusBarHeight}}px; padding-right: {{topbarSideWidth}}px;">
+    <view class="me-deskbar__row" style="height: {{topbarContentHeight}}px;">
+
+      <view class="me-deskbar__back" bindtap="handleBack">
+        <text class="me-deskbar__back-label serif">{{copy.me.backLabel}}</text>
+      </view>
+      <view class="me-deskbar__title-wrap">
+        <text class="me-deskbar__kicker sans">{{copy.me.header.relationship}}</text>
+        <text class="me-deskbar__title serif">{{copy.me.header.about}}</text>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="me-scroll" scroll-y="true" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view
+      class="me-scroll__content"
+      style="padding-top: calc({{statusBarHeight}}px + {{topbarContentHeight}}px + 80rpx);"
+    >
+
+      <view class="me-companion-card card">
+        <image class="me-companion-card__sprite" src="/assets/desk/companion-happy.svg" mode="aspectFit" />
+        <text class="me-companion-card__lead serif">{{copy.me.hero.prefix}}</text>
+        <text class="me-companion-card__num serif">{{heroDaysText}}</text>
+        <text wx:if="{{joinedHint}}" class="me-companion-card__since serif">{{joinedHint}}</text>
+      </view>
+
+
+      <view class="me-stats-row">
+        <view class="me-stats-cell card card--cream" bindtap="handleStatGoChat" hover-class="me-stats-cell--pressed">
+          <text class="me-stats-cell__label mono">{{copy.me.stats.chat}}</text>
+          <view class="me-stats-cell__value">
+            <text class="serif me-stats-cell__num">{{stats.userMessageCount || 0}}</text>
+            <text class="me-stats-cell__unit">{{copy.me.stats.chatUnit}}</text>
+          </view>
+        </view>
+        <view class="me-stats-cell card card--cream" bindtap="handleStatGoLetters" hover-class="me-stats-cell--pressed">
+          <text class="me-stats-cell__label mono">{{copy.me.stats.letters}}</text>
+          <view class="me-stats-cell__value">
+            <text class="serif me-stats-cell__num">{{stats.letterCount || 0}}</text>
+            <text class="me-stats-cell__unit">{{copy.me.stats.lettersUnit}}</text>
+          </view>
+        </view>
+        <view class="me-stats-cell card card--cream" bindtap="handleStatGoMood" hover-class="me-stats-cell--pressed">
+          <text class="me-stats-cell__label mono">{{copy.me.stats.moods}}</text>
+          <view class="me-stats-cell__value">
+            <text class="serif me-stats-cell__num">{{stats.checkinCount || 0}}</text>
+            <text class="me-stats-cell__unit">{{copy.me.stats.moodsUnit}}</text>
+          </view>
+        </view>
+      </view>
+
+
+      <view class="section-label">
+        <text class="section-label__title">{{copy.me.sections.herVoice}}</text>
+      </view>
+      <view class="me-setting-group card">
+        <view class="me-setting-row" bindtap="handleOpenAiNameEditor" hover-class="me-setting-row--pressed">
+          <text class="me-setting-row__label serif">{{copy.me.labels.aiName}}</text>
+          <view class="me-setting-row__right">
+            <text class="me-setting-row__value serif">{{displayUser.aiName || copy.me.defaultAiName}}</text>
+            <text class="me-setting-row__chevron serif">›</text>
+          </view>
+        </view>
+        <view class="me-setting-divider"></view>
+        <view class="me-setting-row" bindtap="handleOpenPreferenceEditor" hover-class="me-setting-row--pressed">
+          <text class="me-setting-row__label serif">{{copy.me.labels.preference}}</text>
+          <view class="me-setting-row__right">
+            <text class="me-setting-row__value serif">{{displayUser.companionPreferenceLabel || copy.me.values.defaultTone}}</text>
+            <text class="me-setting-row__chevron serif">›</text>
+          </view>
+        </view>
+        <view class="me-setting-divider"></view>
+        <view class="me-setting-row" bindtap="handleOpenRelationshipEditor" hover-class="me-setting-row--pressed">
+          <text class="me-setting-row__label serif">{{copy.me.labels.relationship}}</text>
+          <view class="me-setting-row__right">
+            <text class="me-setting-row__value serif">{{displayUser.relationshipModeLabel || copy.me.values.defaultRelation}}</text>
+            <text class="me-setting-row__chevron serif">›</text>
+          </view>
+        </view>
+
+      </view>
+
+
+      <view class="section-label">
+        <text class="section-label__title">{{copy.me.sections.cares}}</text>
+        <text class="section-label__trail">{{caresCountText}}</text>
+      </view>
+      <view class="me-cares card">
+        <view wx:if="{{caresList.length}}" class="me-cares__list">
+          <block wx:for="{{caresList}}" wx:key="*this">
+            <view class="me-cares__item {{index === caresList.length - 1 ? 'me-cares__item--last' : ''}}">
+              <view class="me-cares__bullet"></view>
+              <text class="me-cares__text serif">{{item}}</text>
+              <view class="me-cares__drop" data-tag="{{item}}" catchtap="handleDropCare">
+                <text class="serif">{{copy.me.cares.remove}}</text>
+              </view>
+            </view>
+          </block>
+        </view>
+        <view class="me-cares__add" bindtap="handleOpenInterestsEditor">
+          <text class="serif">{{copy.me.cares.add}}</text>
+        </view>
+      </view>
+
+
+      <view class="section-label">
+        <text class="section-label__title">{{copy.me.sections.account}}</text>
+      </view>
+      <view class="me-setting-group card">
+
+        <view wx:if="{{false}}" class="me-setting-row" bindtap="handleOpenMembership" hover-class="me-setting-row--pressed">
+          <text class="me-setting-row__label serif">{{copy.me.labels.membership}}</text>
+          <view class="me-setting-row__right">
+            <text class="me-setting-row__value serif">{{membership.statusText}}</text>
+            <text wx:if="{{membership.canSubscribe}}" class="me-setting-row__chevron serif">›</text>
+          </view>
+        </view>
+        <view class="me-setting-divider"></view>
+        <view class="me-setting-row" bindtap="handleOpenNicknameEditor" hover-class="me-setting-row--pressed">
+          <text class="me-setting-row__label serif">{{copy.me.labels.nickname}}</text>
+          <view class="me-setting-row__right">
+            <text class="me-setting-row__value serif">{{nicknameDisplay}}</text>
+            <text class="me-setting-row__chevron serif">›</text>
+          </view>
+        </view>
+        <view class="me-setting-divider"></view>
+
+
+        <view class="me-setting-row" bindtap="handleOpenCityEditor" hover-class="me-setting-row--pressed">
+          <text class="me-setting-row__label serif">{{copy.me.labels.city}}</text>
+          <view class="me-setting-row__right">
+            <text class="me-setting-row__value serif">{{cityDisplay}}</text>
+            <text class="me-setting-row__chevron serif">›</text>
+          </view>
+        </view>
+        <view class="me-setting-divider"></view>
+
+        <view class="me-setting-divider"></view>
+
+        <view class="me-setting-row me-setting-row--switch">
+          <text class="me-setting-row__label serif">{{copy.me.labels.nightMode}}</text>
+          <view class="me-setting-row__right">
+            <switch
+              class="me-setting-switch"
+              checked="{{nightModeOn}}"
+              color="#7A9869"
+              bindchange="handleToggleNightMode"
+            />
+          </view>
+        </view>
+        <view class="me-setting-divider"></view>
+        <view class="me-setting-row" bindtap="handleGoFeedback" hover-class="me-setting-row--pressed">
+          <text class="me-setting-row__label serif">{{copy.me.labels.feedback}}</text>
+          <view class="me-setting-row__right">
+            <text class="me-setting-row__chevron serif">›</text>
+          </view>
+        </view>
+
+
+      </view>
+
+      <view class="me-footer serif">{{copy.me.footer}}</view>
+      <view class="me-footer__version sans" wx:if="{{displayUser.version}}">v{{displayUser.version}}</view>
+
+      <view class="me-scroll__bottom" style="height: calc(80rpx + env(safe-area-inset-bottom));"></view>
+    </view>
+  </scroll-view>
+
+
+  <view wx:if="{{nicknameEditorVisible}}" class="me-modal-mask" bindtap="handleCloseNicknameEditor">
+    <view
+      class="me-modal"
+      style="transform: translateY(-{{keyboardOffset}}px); transition: transform 220ms ease;"
+      catchtap="noop"
+    >
+      <text class="me-modal__title serif">{{copy.me.nickname.sheetTitle}}</text>
+      <input
+        class="me-modal__input me-modal__input--nickname field-input"
+        type="text"
+        value="{{nicknameDraft}}"
+        maxlength="20"
+        focus="{{nicknameEditorVisible}}"
+        placeholder="{{copy.me.nickname.placeholder}}"
+        placeholder-class="field-placeholder"
+        confirm-type="done"
+        disabled="{{savingNickname}}"
+        adjust-position="{{false}}"
+        hold-keyboard="{{true}}"
+        bindinput="handleNicknameInput"
+        bindconfirm="handleNicknameSubmit"
+      />
+      <view class="me-modal__actions">
+        <button class="me-modal__btn" bindtap="handleCloseNicknameEditor">{{copy.common.cancel}}</button>
+        <button class="me-modal__btn me-modal__btn--primary" bindtap="handleNicknameSubmit">
+          {{savingNickname ? '保存中…' : '保存'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{aiNameEditorVisible}}" class="me-modal-mask" bindtap="handleCloseAiNameEditor">
+    <view class="me-modal" catchtap="noop">
+      <text class="me-modal__title serif">{{copy.me.aiName.sheetTitle}}</text>
+      <input
+        class="me-modal__input field-input"
+        value="{{aiNameDraft}}"
+        maxlength="12"
+        focus="{{aiNameEditorVisible}}"
+        placeholder="{{copy.me.aiName.placeholder}}"
+        placeholder-class="field-placeholder"
+        confirm-type="done"
+        disabled="{{savingAiName}}"
+        bindinput="handleAiNameInput"
+        bindconfirm="handleAiNameSubmit"
+      />
+      <view class="me-modal__actions">
+        <button class="me-modal__btn" bindtap="handleCloseAiNameEditor">{{copy.common.cancel}}</button>
+        <button class="me-modal__btn me-modal__btn--primary" bindtap="handleAiNameSubmit">
+          {{savingAiName ? '保存中…' : '保存'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{relationshipEditorVisible}}" class="me-modal-mask" bindtap="handleCloseRelationshipEditor">
+    <view class="me-modal" catchtap="noop">
+      <text class="me-modal__title serif">{{copy.me.relationship.sheetTitle}}</text>
+      <text class="me-modal__desc serif">{{copy.me.relationship.sheetDesc}}</text>
+      <view class="me-modal__options">
+        <block wx:for="{{relationshipOptions}}" wx:key="value">
+          <view
+            class="me-modal__option {{relationshipDraft === item.value ? 'me-modal__option--active' : ''}}"
+            data-value="{{item.value}}"
+            bindtap="handleSelectRelationshipDraft"
+          >
+            <text class="me-modal__option-label serif">{{item.label}}</text>
+            <text class="me-modal__option-desc serif">{{item.desc}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="me-modal__actions">
+        <button class="me-modal__btn" bindtap="handleCloseRelationshipEditor">{{copy.common.cancel}}</button>
+        <button class="me-modal__btn me-modal__btn--primary" bindtap="handleRelationshipSubmit">
+          {{savingRelationship ? '保存中…' : '保存'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{preferenceEditorVisible}}" class="me-modal-mask" bindtap="handleClosePreferenceEditor">
+    <view class="me-modal" catchtap="noop">
+      <text class="me-modal__title serif">{{copy.me.sections.herVoice}}</text>
+      <text class="me-modal__desc serif">{{copy.me.preference.sheetDesc}}</text>
+      <view class="me-modal__options">
+        <block wx:for="{{preferenceOptions}}" wx:key="value">
+          <view
+            class="me-modal__option {{preferenceDraft === item.value ? 'me-modal__option--active' : ''}}"
+            data-value="{{item.value}}"
+            bindtap="handleSelectPreferenceDraft"
+          >
+            <text class="me-modal__option-label serif">{{item.label}}</text>
+            <text class="me-modal__option-desc serif">{{item.desc}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="me-modal__actions">
+        <button class="me-modal__btn" bindtap="handleClosePreferenceEditor">{{copy.common.cancel}}</button>
+        <button class="me-modal__btn me-modal__btn--primary" bindtap="handlePreferenceSubmit">
+          {{savingPreference ? '保存中…' : '保存'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{interestsEditorVisible}}" class="me-modal-mask" bindtap="handleCloseInterestsEditor">
+    <view class="me-modal me-modal--tall" catchtap="noop">
+      <text class="me-modal__title serif">{{copy.me.interests.sheetTitle}}</text>
+      <text class="me-modal__desc serif">{{interestsSheetDesc}}</text>
+      <view class="me-modal__tags">
+        <block wx:for="{{interestSuggestions}}" wx:key="*this">
+          <view
+            class="me-modal__tag {{interestsDraft.indexOf(item) >= 0 ? 'me-modal__tag--active' : ''}}"
+            data-tag="{{item}}"
+            bindtap="handleToggleInterestDraft"
+          >
+            <text class="serif">{{item}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="me-modal__custom">
+        <input
+          class="me-modal__custom-input field-input"
+          placeholder="{{copy.me.interests.placeholder}}"
+          value="{{customInterestDraft}}"
+          maxlength="16"
+          bindinput="handleCustomInterestInput"
+          bindconfirm="handleAddCustomInterest"
+          confirm-type="done"
+        />
+        <view class="me-modal__custom-btn" bindtap="handleAddCustomInterest">
+          <text class="serif">{{copy.me.interests.add}}</text>
+        </view>
+      </view>
+      <view wx:if="{{interestsDraft.length}}" class="me-modal__selected">
+        <text class="me-modal__selected-label sans">{{interestsSelectedLabel}}</text>
+        <view class="me-modal__tags me-modal__tags--compact">
+          <block wx:for="{{interestsDraft}}" wx:key="*this">
+            <view
+              class="me-modal__tag me-modal__tag--active"
+              data-tag="{{item}}"
+              bindtap="handleToggleInterestDraft"
+            >
+              <text class="serif">{{item}} ×</text>
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class="me-modal__actions">
+        <button class="me-modal__btn" bindtap="handleCloseInterestsEditor">{{copy.common.cancel}}</button>
+        <button class="me-modal__btn me-modal__btn--primary" bindtap="handleInterestsSubmit">
+          {{savingInterests ? '保存中…' : '保存'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+
+</view>

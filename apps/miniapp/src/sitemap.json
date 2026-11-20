@@ -1,0 +1,9 @@
+{
+  "desc": "chatNPC miniapp sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

@@ -1,0 +1,753 @@
+
+page {
+  background: #221a18;
+}
+
+.me-page {
+  background: #221a18;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.me-deskbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 12;
+  padding: 0 28rpx 0 24rpx;
+  background: linear-gradient(to bottom, rgba(34, 26, 24, 0.96) 70%, rgba(34, 26, 24, 0.8) 100%);
+  backdrop-filter: saturate(150%) blur(8px);
+}
+
+.me-deskbar__row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 12rpx 0;
+}
+
+.me-deskbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 14rpx 22rpx 14rpx 18rpx;
+  background: #2c221e;
+  border: 1rpx solid #3a2e2a;
+  border-radius: 28rpx;
+  box-shadow: 0 4rpx 12rpx -4rpx rgba(120, 100, 60, 0.12);
+}
+
+.me-deskbar__desk-icon {
+  width: 40rpx;
+  height: 32rpx;
+  position: relative;
+}
+
+.me-deskbar__desk-top {
+  position: absolute;
+  left: 4rpx;
+  right: 4rpx;
+  top: 8rpx;
+  height: 6rpx;
+  background: #B68A5E;
+  border: 1rpx solid #f3e9e2;
+  border-radius: 2rpx;
+}
+
+.me-deskbar__desk-leg {
+  position: absolute;
+  top: 14rpx;
+  width: 2rpx;
+  height: 14rpx;
+  background: #f3e9e2;
+}
+
+.me-deskbar__desk-leg--l { left: 10rpx; }
+.me-deskbar__desk-leg--r { right: 10rpx; }
+
+.me-deskbar__desk-cup {
+  position: absolute;
+  left: 50%;
+  top: 4rpx;
+  transform: translateX(-50%);
+  width: 12rpx;
+  height: 4rpx;
+  background: #E5ECDA;
+  border: 1rpx solid #f3e9e2;
+  border-radius: 2rpx;
+}
+
+.me-deskbar__back-label {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #f3e9e2;
+  letter-spacing: 0.6rpx;
+}
+
+.me-deskbar__title-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.me-deskbar__kicker {
+  display: block;
+  font-size: 20rpx;
+  color: #b09a8c;
+  letter-spacing: 0.8rpx;
+  font-weight: 500;
+}
+
+.me-deskbar__title {
+  display: block;
+  margin-top: 4rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #f3e9e2;
+  letter-spacing: 0.4rpx;
+}
+
+.me-scroll {
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.me-scroll__content {
+  padding: 0 32rpx;
+}
+
+.me-companion-card {
+  margin-top: 24rpx;
+  padding: 48rpx 44rpx 40rpx;
+  text-align: center;
+  box-shadow: 0 12rpx 28rpx -12rpx rgba(120, 100, 60, 0.18);
+}
+
+.me-companion-card__sprite {
+  width: 140rpx;
+  height: 148rpx;
+  display: block;
+  margin: 0 auto;
+}
+
+.me-companion-card__lead {
+  display: block;
+  margin-top: 24rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 22rpx;
+  color: #b09a8c;
+  letter-spacing: 1.2rpx;
+}
+
+.me-companion-card__num {
+  display: block;
+  margin-top: 8rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 76rpx;
+  color: #7A9869;
+  font-weight: 600;
+  letter-spacing: -1rpx;
+  line-height: 1.1;
+}
+
+.me-companion-card__since {
+  display: block;
+  margin-top: 8rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 24rpx;
+  color: #b09a8c;
+  font-style: italic;
+  letter-spacing: 0.4rpx;
+}
+
+.me-stats-row {
+  margin-top: 32rpx;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+}
+
+.me-stats-cell {
+  padding: 24rpx 8rpx;
+  text-align: center;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.me-stats-cell--pressed {
+  transform: scale(0.97);
+  opacity: 0.78;
+}
+
+.me-stats-cell__label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 18rpx;
+  color: #b09a8c;
+  letter-spacing: 1.2rpx;
+  text-transform: uppercase;
+}
+
+.me-stats-cell__value {
+  margin-top: 8rpx;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4rpx;
+}
+
+.me-stats-cell__num {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 48rpx;
+  color: #f3e9e2;
+  font-weight: 600;
+}
+
+.me-stats-cell__unit {
+  font-size: 22rpx;
+  color: #b09a8c;
+  font-weight: 500;
+}
+
+.me-setting-group {
+  overflow: hidden;
+  padding: 0;
+}
+
+.me-setting-row {
+  padding: 28rpx 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border: 0;
+}
+
+.me-setting-row--button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.me-setting-row--button::after {
+  border: 0;
+}
+
+.me-setting-row--pressed {
+  background: rgba(232, 223, 201, 0.4);
+}
+
+.me-setting-row__label {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 28rpx;
+  color: #f3e9e2;
+  font-weight: 500;
+}
+
+.me-setting-row__right {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.me-setting-row__value {
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 26rpx;
+  color: #7A9869;
+  font-weight: 600;
+}
+
+.me-setting-row__chevron {
+  font-size: 28rpx;
+  color: #b09a8c;
+  font-weight: 500;
+}
+
+.me-setting-row--logout {
+  justify-content: center;
+}
+
+.me-setting-row--logout .me-setting-row__label {
+  color: #C97D5C;
+  font-weight: 500;
+}
+
+.me-setting-divider {
+  height: 1rpx;
+  background: #3a2e2a;
+  margin: 0 32rpx;
+}
+
+.me-cares {
+  padding: 8rpx 0;
+}
+
+.me-cares__list {
+  padding: 16rpx 0;
+}
+
+.me-cares__item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 32rpx;
+  border-bottom: 1rpx solid #3a2e2a;
+}
+
+.me-cares__item--last {
+  border-bottom: 0;
+}
+
+.me-cares__bullet {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #E8B66A;
+  flex-shrink: 0;
+}
+
+.me-cares__text {
+  flex: 1;
+  font-size: 26rpx;
+  color: #f3e9e2;
+  font-weight: 500;
+}
+
+.me-cares__drop {
+  padding: 6rpx 14rpx;
+  border-radius: 16rpx;
+  background: rgba(201, 125, 92, 0.12);
+  color: #C97D5C;
+  font-size: 20rpx;
+  font-weight: 600;
+}
+
+.me-cares__add {
+  padding: 24rpx 32rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #7A9869;
+  font-weight: 500;
+  border-top: 1rpx dashed #3a2e2a;
+  margin-top: 4rpx;
+}
+
+.me-footer {
+  margin-top: 60rpx;
+  text-align: center;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 22rpx;
+  color: #b09a8c;
+  font-style: italic;
+  letter-spacing: 0.6rpx;
+}
+
+.me-footer__version {
+  display: block;
+  margin-top: 8rpx;
+  text-align: center;
+  font-size: 20rpx;
+  color: rgba(154, 143, 119, 0.55);
+  letter-spacing: 1.2rpx;
+}
+
+.me-modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 38, 32, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 80;
+}
+
+.me-modal {
+  width: 100%;
+  background: #2c221e;
+  border-radius: 36rpx 36rpx 0 0;
+  padding: 36rpx 36rpx calc(48rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.me-modal--tall {
+  max-height: 85vh;
+}
+
+.me-modal__title {
+  display: block;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 32rpx;
+  color: #f3e9e2;
+  font-weight: 600;
+}
+
+.me-modal__desc {
+  display: block;
+  margin-top: 8rpx;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 24rpx;
+  color: #b09a8c;
+  font-style: italic;
+}
+
+.me-modal__input {
+  margin-top: 28rpx;
+  padding: 22rpx 24rpx;
+  background: #221a18;
+  border-radius: 20rpx;
+  font-size: 30rpx;
+  line-height: 1.4;
+  min-height: 84rpx;
+  color: #f3e9e2;
+  letter-spacing: 0.4rpx;
+}
+
+.me-modal__input--nickname {}
+
+.me-modal__options {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.me-modal__option {
+  padding: 24rpx 28rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #3a2e2a;
+  background: #221a18;
+}
+
+.me-modal__option--active {
+  border-color: #7A9869;
+  background: #E5ECDA;
+}
+
+.me-modal__option-label {
+  display: block;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 28rpx;
+  color: #f3e9e2;
+  font-weight: 600;
+}
+
+.me-modal__option-desc {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #b09a8c;
+  line-height: 1.5;
+}
+
+.me-modal__tags {
+  margin-top: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.me-modal__tags--compact {
+  margin-top: 12rpx;
+}
+
+.me-modal__tag {
+  padding: 12rpx 22rpx;
+  border-radius: 999rpx;
+  border: 1rpx solid #3a2e2a;
+  background: #221a18;
+  font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
+  font-size: 24rpx;
+  color: #f3e9e2;
+}
+
+.me-modal__tag--active {
+  border-color: #7A9869;
+  background: #E5ECDA;
+  color: #7A9869;
+}
+
+.me-modal__custom {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 12rpx 16rpx 12rpx 24rpx;
+  background: #221a18;
+  border-radius: 20rpx;
+}
+
+.me-modal__custom-input {
+  flex: 1;
+  font-size: 26rpx;
+  color: #f3e9e2;
+}
+
+.me-modal__custom-btn {
+  padding: 10rpx 20rpx;
+  border-radius: 16rpx;
+  background: #7A9869;
+  color: #FFFCF4;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.me-modal__selected {
+  margin-top: 20rpx;
+}
+
+.me-modal__selected-label {
+  font-size: 22rpx;
+  color: #b09a8c;
+  letter-spacing: 0.6rpx;
+}
+
+.me-modal__actions {
+  margin-top: 32rpx;
+  display: flex;
+  gap: 16rpx;
+}
+
+.me-modal__btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid #33271f;
+  background: transparent;
+  font-size: 28rpx;
+  color: #f3e9e2;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.me-modal__btn--primary {
+  background: #7A9869;
+  color: #FFFCF4;
+  border-color: #7A9869;
+  box-shadow: 0 8rpx 20rpx -6rpx rgba(122, 152, 105, 0.55);
+}
+
+.me-modal__btn::after {
+  border: 0;
+}
+
+.me-page.tod-night {
+  background: #221836;
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .paper-grain {
+
+  display: none;
+}
+
+.me-page.tod-night .me-deskbar {
+  background: linear-gradient(to bottom, rgba(34, 24, 54, 0.94) 70%, rgba(34, 24, 54, 0.78) 100%);
+}
+
+.me-page.tod-night .me-deskbar__back {
+  background: rgba(244, 239, 226, 0.08);
+  border-color: rgba(244, 239, 226, 0.22);
+  box-shadow: 0 4rpx 12rpx -4rpx rgba(0, 0, 0, 0.45);
+}
+
+.me-page.tod-night .me-deskbar__desk-top {
+  background: #5A6E8A;
+  border-color: #F4EFE2;
+}
+
+.me-page.tod-night .me-deskbar__desk-leg {
+  background: #F4EFE2;
+}
+
+.me-page.tod-night .me-deskbar__desk-cup {
+  background: rgba(122, 152, 105, 0.45);
+  border-color: #F4EFE2;
+}
+
+.me-page.tod-night .me-deskbar__back-label,
+.me-page.tod-night .me-deskbar__title {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-deskbar__kicker {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .card {
+  background: rgba(244, 239, 226, 0.06);
+  border-color: rgba(244, 239, 226, 0.18);
+  box-shadow: 0 12rpx 28rpx -12rpx rgba(0, 0, 0, 0.55);
+}
+
+.me-page.tod-night .card--cream {
+  background: rgba(244, 239, 226, 0.08);
+}
+
+.me-page.tod-night .me-companion-card__lead {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-companion-card__num {
+  color: #A8C795;
+}
+
+.me-page.tod-night .me-companion-card__since {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-stats-cell__label {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-stats-cell__num {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-stats-cell__unit {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-setting-row__label {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-setting-row__value {
+  color: #A8C795;
+}
+
+.me-page.tod-night .me-setting-row__chevron {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-setting-row--pressed {
+  background: rgba(244, 239, 226, 0.06);
+}
+
+.me-page.tod-night .me-setting-divider {
+  background: rgba(244, 239, 226, 0.12);
+}
+
+.me-page.tod-night .me-setting-row--logout .me-setting-row__label {
+  color: #E89E7D;
+}
+
+.me-page.tod-night .section-label__title {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .section-label__trail {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-cares__item {
+  border-bottom-color: rgba(244, 239, 226, 0.12);
+}
+
+.me-page.tod-night .me-cares__text {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-cares__drop {
+  background: rgba(232, 158, 125, 0.22);
+  color: #E89E7D;
+}
+
+.me-page.tod-night .me-cares__add {
+  border-top-color: rgba(244, 239, 226, 0.18);
+  color: #A8C795;
+}
+
+.me-page.tod-night .me-footer {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-footer__version {
+  color: rgba(244, 239, 226, 0.35);
+}
+
+.me-page.tod-night .me-modal-mask {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.me-page.tod-night .me-modal {
+  background: #2c1e44;
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-modal__title {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-modal__desc {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-modal__input,
+.me-page.tod-night .me-modal__custom {
+  background: rgba(244, 239, 226, 0.08);
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-modal__custom-input {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-modal__option {
+  background: rgba(244, 239, 226, 0.06);
+  border-color: rgba(244, 239, 226, 0.18);
+}
+
+.me-page.tod-night .me-modal__option--active {
+  background: rgba(122, 152, 105, 0.22);
+  border-color: #7A9869;
+}
+
+.me-page.tod-night .me-modal__option-label {
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-modal__option-desc {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-modal__tag {
+  background: rgba(244, 239, 226, 0.06);
+  border-color: rgba(244, 239, 226, 0.18);
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-modal__tag--active {
+  background: rgba(122, 152, 105, 0.22);
+  border-color: #7A9869;
+  color: #A8C795;
+}
+
+.me-page.tod-night .me-modal__selected-label {
+  color: rgba(244, 239, 226, 0.55);
+}
+
+.me-page.tod-night .me-modal__btn {
+  background: transparent;
+  border-color: rgba(244, 239, 226, 0.22);
+  color: #F4EFE2;
+}
+
+.me-page.tod-night .me-modal__btn--primary {
+  background: #7A9869;
+  color: #FFFCF4;
+  border-color: #7A9869;
+}
+
+.me-page.tod-night .field-placeholder {
+  color: rgba(244, 239, 226, 0.45);
+}

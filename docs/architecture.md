@@ -44,3 +44,9 @@ UI factories accept state getters and callbacks. They do not require this HTTP s
 Exact memory deduplication does not resolve semantic contradictions. Memory and conversation updates are serialized but not one cross-domain transaction. Browser speech availability and provider compatibility vary. Deployment to multiple processes requires a database implementation with real transactions and uniqueness guarantees.
 
 The web host keeps the original mobile composition in a centered viewport on large displays. Navigation is the source product’s compact vertical menu, and feature panels slide over the chat instead of introducing a desktop sidebar.
+
+## Native Mini Program
+
+The original native pages and components live in `apps/miniapp/src`. `services/http.js` bootstraps a device guest session, scopes its credential to the configured backend, and sends requests to `/api/miniapp`. `apps/web/miniapp-api.js` translates the original page API into the same store, memory engine, letter service and `runTurn` pipeline used by the browser. The native client's existing polling renderer receives incremental visible text and then persisted paragraph bubbles with reply candidates.
+
+The compatibility endpoint authenticates with the same random session cookie as the browser; it never trusts a client-supplied user ID, conversation ID or WeChat login code as identity. It deliberately maps the original conversation IDs to one continuous conversation. Native UI components remain WXML/WXSS; browser UI factories are separate. See [Mini Program setup and limitations](miniapp.md).
