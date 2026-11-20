@@ -69,6 +69,16 @@ LLM_MODEL=your-model
 
 默认连接 `http://127.0.0.1:4317`。使用你自己的 AppID 或测试号；本地网络、真机预览和可选语音插件的设置见[小程序启动指南](docs/miniapp.md)。
 
+## 工作原理
+
+网页与小程序共用后端。小程序保留自己的 WXML 界面，模型调用和记忆处理统一在服务端完成。
+
+![YourHer architecture](docs/diagrams/architecture.svg)
+
+回复先保存，再进行可选的信息抽取。通过验证的记忆参与后续对话；抽取失败不会丢失已经保存的回复。
+
+![YourHer conversation lifecycle](docs/diagrams/conversation-loop.svg)
+
 ## 组件
 
 应用共用对话、记忆和模型处理逻辑，各个包也可以单独用于其他项目。

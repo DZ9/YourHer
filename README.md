@@ -83,6 +83,16 @@ Start the server with `npm start`, then import [`apps/miniapp`](apps/miniapp) in
 
 The default client connects to `http://127.0.0.1:4317`. Use your own AppID or a test account, and follow the [Mini Program setup guide](docs/miniapp.md) for local networking, device preview and optional voice support.
 
+## How it works
+
+Both clients use the same backend. The native client keeps its own WXML interface; model calls and memory processing stay on the server.
+
+![YourHer architecture](docs/diagrams/architecture.svg)
+
+Replies are saved before optional fact analysis. Accepted memories enter later context; extraction failures do not discard the conversation.
+
+![YourHer conversation lifecycle](docs/diagrams/conversation-loop.svg)
+
 ## Components
 
 The applications share the same conversation, memory and model pipeline. Individual packages can also be reused in another app.
