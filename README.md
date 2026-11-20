@@ -113,19 +113,7 @@ See the [setup guide](docs/miniapp.md) for local networking and optional voice s
 
 ## Documentation
 
-- [Language configuration](docs/i18n.md)
-- [Contributing](.github/CONTRIBUTING.md)
-
-## Development status
-
-This is an early self-hosted edition. JSON persistence supports one Node process; multi-process use needs a transactional database adapter. Memory deduplication is exact, and semantic contradiction resolution is not implemented. Local accounts do not yet include email verification, recovery or OAuth. Real providers, browser voice, Docker and RTL layouts need environment-specific verification.
-
-```sh
-npm test       # automated unit and integration tests
-npm run eval   # deterministic gate smoke checks, not an LLM benchmark
-```
-
-The self-hosted app has no subscription restriction and no commercial payment connection.
+[Developer guide](docs/development.md)
 
 ## License
 

@@ -97,17 +97,9 @@ LLM_MODEL=your-model
 
 </details>
 
-## 文档与开发
+## 文档
 
-- [多语言配置](docs/i18n.md)
-- [贡献指南](.github/CONTRIBUTING.md)
-
-```sh
-npm test
-npm run eval
-```
-
-目前 JSON 持久化仅支持单进程；尚无语义冲突自动解决、邮件验证、找回密码或 OAuth。真实模型、浏览器语音、Docker 和 RTL 需要实际环境验收。自托管版没有订阅限制，也不连接原商户支付。
+[开发指南](docs/development.md)
 
 ## 许可证
 
