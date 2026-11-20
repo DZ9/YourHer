@@ -12,4 +12,4 @@ The native miniapp embeds the same subset in `apps/miniapp/src/app.wxss` under i
 
 ## Product portraits and source copy
 
-The personal-product portraits and ported conversation helpers are described in [provenance](docs/provenance.md). Original portrait generation markings are retained. No third-party production SDK, merchant integration, customer dataset or company code is included.
+The personal-product portraits and ported conversation helpers are described in [provenance](provenance.md). Original portrait generation markings are retained. No third-party production SDK, merchant integration, customer dataset or company code is included.

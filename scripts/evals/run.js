@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { ExtractionGate } from '../packages/memory/index.js';
+import { ExtractionGate } from '../../packages/memory/index.js';
 
 const cases = JSON.parse(await readFile(new URL('./cases.json', import.meta.url), 'utf8'));
 const rows = cases.map(item => {

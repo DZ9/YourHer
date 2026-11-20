@@ -11,7 +11,7 @@ Date: 2026-11-17. Runtime: Node.js 24.22.1 on macOS.
 
 The browser and tests used synthetic content. No real user conversations were imported. GitHub Actions runs the same checks after publication; a local pass is not a claim that remote CI has already succeeded.
 
-Visual restoration: original portraits, original theme variables and app-owned mobile composition were compared with a source-derived browser fixture at 390 × 844. See [visual QA](../design-qa.md). The previous abstract placeholder and desktop sidebar are removed. README screenshots are actual restored app states.
+Visual restoration: original portraits, original theme variables and app-owned mobile composition were compared with a source-derived browser fixture at 390 × 844. See [visual QA](visual-qa/README.md). The previous abstract placeholder and desktop sidebar are removed. README screenshots are actual restored app states.
 
 ## Native Mini Program
 

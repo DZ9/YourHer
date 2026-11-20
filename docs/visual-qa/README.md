@@ -5,9 +5,9 @@ final result: passed
 ## Comparison target
 
 - Source: original personal miniapp `src/pages/chat/index.wxml`, `index.wxss`, portrait assets and navigation styles at source revision `f2121dc1e323bc7143ba6d7e22c8c70fbbceb0fb`.
-- Source visual truth: [source-first-touch.jpg](docs/visual-qa/source-first-touch.jpg).
-- Web capture: [web-first-touch.jpg](docs/visual-qa/web-first-touch.jpg).
-- Combined comparison: [source-comparison.jpg](docs/visual-qa/source-comparison.jpg).
+- Source visual truth: [source-first-touch.jpg](source-first-touch.jpg).
+- Web capture: [web-first-touch.jpg](web-first-touch.jpg).
+- Combined comparison: [source-comparison.jpg](source-comparison.jpg).
 - Both captures: 390 × 844 pixels, 390 × 844 CSS viewport, same Chinese first-meeting state and warm theme. No scaling or device frame was applied.
 
 The reference is a browser-rendered fixture of the original app-owned markup/styles with rpx normalized to the 390 px viewport. It is not a capture from a physical WeChat device. Native status/capsule chrome is outside this comparison. This scopes the fidelity evidence to the original source-derived composition.

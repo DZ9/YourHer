@@ -60,7 +60,7 @@ Restart the server. Keys stay on the server. Replies, fact extraction, summaries
 <summary><strong>Run with Docker</strong></summary>
 
 ```sh
-docker compose up --build
+npm run docker
 ```
 
 Open <http://localhost:4317>. Records persist in a named volume. Set `PUBLIC_ORIGIN` to your exact HTTPS origin when placing the app behind a reverse proxy. The supplied Compose file publishes its port on loopback.
@@ -114,7 +114,7 @@ See the [setup guide](docs/miniapp.md) for local networking and optional voice s
 ## Documentation
 
 - [Language configuration](docs/i18n.md)
-- [Contributing](CONTRIBUTING.md)
+- [Contributing](.github/CONTRIBUTING.md)
 
 ## Development status
 
@@ -129,4 +129,4 @@ The self-hosted app has no subscription restriction and no commercial payment co
 
 ## License
 
-[MIT](LICENSE). [Provenance](docs/provenance.md) · [Third-party notices](THIRD_PARTY_NOTICES.md).
+[MIT](LICENSE). [Provenance](docs/provenance.md) · [Third-party notices](docs/third-party-notices.md).

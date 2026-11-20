@@ -100,7 +100,7 @@ LLM_MODEL=your-model
 ## 文档与开发
 
 - [多语言配置](docs/i18n.md)
-- [贡献指南](CONTRIBUTING.md)
+- [贡献指南](.github/CONTRIBUTING.md)
 
 ```sh
 npm test
@@ -111,4 +111,4 @@ npm run eval
 
 ## 许可证
 
-[MIT](LICENSE) · [来源说明](docs/provenance.md) · [第三方声明](THIRD_PARTY_NOTICES.md)
+[MIT](LICENSE) · [来源说明](docs/provenance.md) · [第三方声明](docs/third-party-notices.md)

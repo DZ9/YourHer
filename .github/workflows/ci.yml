@@ -12,5 +12,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: node --test packages/memory/test/*.test.js packages/conversation/test/*.test.js packages/i18n/test/*.test.js apps/web/test/*.test.js
-      - run: node evals/run.js
+      - run: npm run eval
       - run: node scripts/check-miniapp.mjs
+      - run: docker compose --project-directory . -f deploy/compose.yml config --quiet
