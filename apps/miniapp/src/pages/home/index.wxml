@@ -100,16 +100,12 @@
 
 
   <view class="home-cta" style="padding-bottom: calc(36rpx + env(safe-area-inset-bottom));">
-    <view class="home-links">
-      <text bindtap="handleOpenCheckin">心情打卡</text>
-      <text bindtap="handleAccount">账号与数据</text>
-      <text wx:if="{{showOnboarding}}" bindtap="handleOpenOnboarding">布置我的桌子</text>
-    </view>
     <view class="home-cta__field" bindtap="handleEnterChat" data-source="composer">
       <image class="home-cta__field-icon" src="/assets/desk/bubble-icon.svg" mode="aspectFit" />
       <text class="home-cta__placeholder serif">{{composerPlaceholder}}</text>
       <text class="home-cta__hint sans">{{composerHint}}</text>
     </view>
+    <button class="home-links__action" wx:if="{{showOnboarding}}" bindtap="handleOpenOnboarding">布置桌子</button>
   </view>
 
 

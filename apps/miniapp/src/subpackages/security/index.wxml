@@ -1,1 +1,37 @@
-<view class="page-shell"><view style="padding:100rpx 40rpx;line-height:1.9"><text style="font-size:42rpx">YourHer · 账号与数据</text><view>{{account.wechatBound ? "已关联微信账号" : "当前使用设备访客会话"}}</view><button wx:if="{{account.wechatLoginAvailable && !account.wechatBound}}" disabled="{{busy}}" bindtap="handleWechatLogin">关联或恢复微信账号</button><button wx:if="{{account.wechatBound && !account.phoneBound}}" open-type="getPhoneNumber" disabled="{{busy}}" bindgetphonenumber="handleBindPhone">绑定手机号</button><view wx:if="{{account.phoneBound}}">{{account.phoneMasked}}</view><button wx:if="{{account.paymentAvailable && !pendingOrder}}" disabled="{{busy}}" bindtap="handlePurchase">开通 30 天会员（{{account.paymentPriceFen / 100}} 元）</button><view wx:if="{{account.subscriptionActive}}">会员有效期至 {{account.subscriptionExpireAt}}</view><button wx:if="{{pendingOrder}}" disabled="{{busy}}" bindtap="handleConfirmPurchase">查询付款状态</button><button wx:if="{{pendingOrder}}" disabled="{{busy}}" bindtap="handleDismissOrder">清除本机订单提示</button><button wx:if="{{account.weeklyTemplateId}}" bindtap="handleSubscribe">订阅下次信件通知</button><view wx:if="{{error}}">{{error}}</view><button loading="{{busy}}" bindtap="handleExport">导出我的数据</button><button disabled="{{busy}}" bindtap="handleDelete">删除我的全部数据</button><button bindtap="handleBack">返回</button></view></view>
+<page-meta background-color="{{timeOfDay === 'night' ? '#1F2236' : '#EFE8D8'}}" />
+<view class="page-shell security-page tod-{{timeOfDay}}">
+  <view class="app-topbar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="app-topbar__row" style="min-height: {{topbarContentHeight}}px;">
+      <view class="app-topbar__lead">
+        <button class="app-topbar__action app-topbar__action--ghost" bindtap="handleBack">‹</button>
+      </view>
+      <view class="app-topbar__center" style="padding-right: {{topbarSideWidth}}px;">
+        <text class="headline app-topbar__title">账号与数据</text>
+      </view>
+      <view class="app-topbar__trail" style="width: {{topbarSideWidth}}px;" />
+    </view>
+  </view>
+  <scroll-view class="security-scroll" scroll-y enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="security-scroll__top" style="height: calc({{statusBarHeight}}px + 106rpx);" />
+    <view class="security-main">
+      <view class="security-hero">
+        <view class="security-hero__badge"><text class="symbol security-hero__icon">person</text></view>
+        <text wx:if="{{account}}" class="security-hero__copy">{{account.wechatBound ? '已关联微信账号' : '当前使用设备访客会话'}}</text>
+      </view>
+      <view class="security-card">
+        <button class="security-row" wx:if="{{account.wechatLoginAvailable && !account.wechatBound}}" disabled="{{busy}}" bindtap="handleWechatLogin"><text class="security-row__title">关联或恢复微信账号</text></button>
+        <button class="security-row" wx:if="{{account.wechatBound && !account.phoneBound}}" open-type="getPhoneNumber" disabled="{{busy}}" bindgetphonenumber="handleBindPhone"><text class="security-row__title">绑定手机号</text></button>
+        <button class="security-row" wx:if="{{account.paymentAvailable && !pendingOrder}}" disabled="{{busy}}" bindtap="handlePurchase"><text class="security-row__title">开通 30 天会员（{{account.paymentPriceFen / 100}} 元）</text></button>
+        <button class="security-row" wx:if="{{pendingOrder}}" disabled="{{busy}}" bindtap="handleConfirmPurchase"><text class="security-row__title">查询付款状态</text></button>
+        <button class="security-row" wx:if="{{pendingOrder}}" disabled="{{busy}}" bindtap="handleDismissOrder"><text class="security-row__title">清除本机订单提示</text></button>
+        <button class="security-row" wx:if="{{account.weeklyTemplateId}}" bindtap="handleSubscribe"><text class="security-row__title">订阅下次信件通知</text></button>
+        <button class="security-row" loading="{{busy}}" bindtap="handleExport"><text class="security-row__title">导出我的数据</text></button>
+        <button class="security-row security-action--danger" disabled="{{busy}}" bindtap="handleDelete"><text class="security-row__title">删除我的全部数据</text></button>
+      </view>
+      <view wx:if="{{account.phoneBound}}" class="security-footnote"><text class="security-footnote__text">{{account.phoneMasked}}</text></view>
+      <view wx:if="{{account.subscriptionActive}}" class="security-footnote"><text class="security-footnote__text">会员有效期至 {{account.subscriptionExpireAt}}</text></view>
+      <view wx:if="{{error}}" class="security-footnote"><text class="security-row__title--danger">{{error}}</text></view>
+    </view>
+    <view class="security-scroll__bottom" />
+  </scroll-view>
+</view>

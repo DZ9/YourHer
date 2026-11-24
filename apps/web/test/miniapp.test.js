@@ -129,15 +129,15 @@ test('original miniapp API and native wx transport run against a real HTTP serve
   assert.equal(home._resumeConversationId, conv.id);
   assert.equal(home.data.needsCheckin, false);
   assert.equal(home.data.showOnboarding, true);
-  const checkinPage = instance('../../miniapp/src/pages/checkin/index.js');
-  let toast;
-  wx.showToast = options => { toast = options.title; };
-  await checkinPage.onLoad({ mood: 'happy' });
-  checkinPage.noteInput({ detail: { value: '散步后好多了' } });
-  await checkinPage.save();
-  assert.equal(checkinPage.data.today.note, '散步后好多了');
-  assert.equal(checkinPage.data.streak, 1);
-  assert.equal(toast, '已保存');
+  let moodChat;
+  wx.navigateTo = options => { moodChat = new URL(options.url, 'http://miniapp.local'); };
+  await home.handleMoodPick({ currentTarget: { dataset: { value: 'happy' } } });
+  const moodCheckin = await api.getTodayCheckin({ refresh: true });
+  assert.equal(moodCheckin.checkin.mood, 'happy');
+  assert.equal(moodCheckin.streak, 1);
+  assert.equal(moodChat.pathname, '/pages/chat/index');
+  assert.equal(moodChat.searchParams.get('mood'), 'happy');
+  assert.equal(moodChat.searchParams.get('autoSend'), '1');
   const engine = require('../../miniapp/src/utils/chat-stream-engine.js');
   const snapshots = [];
   const ctx = {

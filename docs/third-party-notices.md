@@ -13,3 +13,5 @@ The native miniapp embeds the same subset in `apps/miniapp/src/app.wxss` under i
 ## Product portraits and source copy
 
 The personal-product portraits and ported conversation helpers are described in [provenance](provenance.md). Original portrait generation markings are retained. No third-party production SDK, merchant integration, customer dataset or company code is included.
+
+The miniapp feedback attachment icon is Google’s Material Icons Outlined `add_photo_alternate` SVG, distributed under the same Apache License 2.0.

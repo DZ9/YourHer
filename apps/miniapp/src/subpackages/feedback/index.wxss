@@ -1,12 +1,12 @@
 
 page {
-  background: #221a18;
+  background: #EFE8D8;
 }
 
 .feedback-page {
   min-height: 100vh;
-  background: #221a18;
-  color: #f3e9e2;
+  background: #EFE8D8;
+  color: #3B3528;
   overflow: hidden;
 }
 
@@ -21,7 +21,7 @@ page {
   top: 0;
   z-index: 30;
   padding: 0 28rpx 0 24rpx;
-  background: linear-gradient(to bottom, #221a18 60%, rgba(34, 26, 24, 0) 100%);
+  background: linear-gradient(to bottom, #EFE8D8 60%, rgba(239, 232, 216, 0) 100%);
 }
 
 .feedback-topbar__row {
@@ -36,8 +36,8 @@ page {
   align-items: center;
   gap: 12rpx;
   padding: 14rpx 22rpx 14rpx 18rpx;
-  background: #2c221e;
-  border: 1rpx solid #3a2e2a;
+  background: #FFFCF4;
+  border: 1rpx solid #E8DFC9;
   border-radius: 28rpx;
   box-shadow: 0 4rpx 12rpx -4rpx rgba(120, 100, 60, 0.12);
 }
@@ -55,7 +55,7 @@ page {
   top: 8rpx;
   height: 6rpx;
   background: #B68A5E;
-  border: 1rpx solid #f3e9e2;
+  border: 1rpx solid #3B3528;
   border-radius: 2rpx;
 }
 
@@ -64,7 +64,7 @@ page {
   top: 14rpx;
   width: 2rpx;
   height: 14rpx;
-  background: #f3e9e2;
+  background: #3B3528;
 }
 
 .feedback-topbar__desk-leg--l { left: 10rpx; }
@@ -78,7 +78,7 @@ page {
   width: 12rpx;
   height: 4rpx;
   background: #E5ECDA;
-  border: 1rpx solid #f3e9e2;
+  border: 1rpx solid #3B3528;
   border-radius: 2rpx;
 }
 
@@ -86,7 +86,7 @@ page {
   font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
   font-size: 22rpx;
   font-weight: 600;
-  color: #f3e9e2;
+  color: #3B3528;
   letter-spacing: 0.6rpx;
 }
 
@@ -98,7 +98,7 @@ page {
 
 .feedback-topbar__kicker {
   font-size: 20rpx;
-  color: #b09a8c;
+  color: #9A8F77;
   letter-spacing: 1.2rpx;
   font-weight: 500;
 }
@@ -107,7 +107,7 @@ page {
   font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
   font-size: 30rpx;
   font-weight: 600;
-  color: #f3e9e2;
+  color: #3B3528;
   letter-spacing: 0.4rpx;
   margin-top: 2rpx;
 }
@@ -157,8 +157,8 @@ page {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  background: #2c221e;
-  border: 1rpx solid #3a2e2a;
+  background: #FFFCF4;
+  border: 1rpx solid #E8DFC9;
   color: #6B5F4A;
   font-size: 24rpx;
   font-weight: 500;
@@ -169,7 +169,7 @@ page {
 .feedback-type--active {
   background: #E5ECDA;
   border-color: #7A9869;
-  color: #f3e9e2;
+  color: #3B3528;
   font-weight: 600;
 }
 
@@ -178,8 +178,8 @@ page {
   margin-top: 48rpx;
   padding: 36rpx 32rpx;
   border-radius: 28rpx;
-  background: #2c221e;
-  border: 1rpx solid #3a2e2a;
+  background: #FFFCF4;
+  border: 1rpx solid #E8DFC9;
   box-shadow: 0 4rpx 14rpx -6rpx rgba(120, 100, 60, 0.18);
   box-sizing: border-box;
 }
@@ -189,7 +189,7 @@ page {
   min-height: 350rpx;
   border: none;
   background: transparent;
-  color: #f3e9e2;
+  color: #3B3528;
   font-family: "Songti SC", "Noto Serif SC", "PingFang SC", serif;
   font-size: 30rpx;
   line-height: 1.85;
@@ -213,7 +213,7 @@ page {
 }
 
 .feedback-upload__icon {
-  color: #b09a8c;
+  color: #9A8F77;
   font-size: 44rpx;
 }
 
@@ -229,7 +229,7 @@ page {
   height: 220rpx;
   margin-top: 24rpx;
   border-radius: 24rpx;
-  border: 1rpx solid #3a2e2a;
+  border: 1rpx solid #E8DFC9;
 }
 
 .feedback-sparkles-wrap {
@@ -258,7 +258,7 @@ page {
   z-index: 28;
   padding: 28rpx 40rpx calc(34rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
-  background: linear-gradient(180deg, rgba(34, 26, 24, 0), rgba(34, 26, 24, 0.92) 34%, #221a18 100%);
+  background: linear-gradient(180deg, rgba(239, 232, 216, 0), rgba(239, 232, 216, 0.92) 34%, #EFE8D8 100%);
 }
 
 .feedback-submit-button {
@@ -371,3 +371,6 @@ page {
 .feedback-page.tod-night .field-placeholder {
   color: rgba(244, 239, 226, 0.45);
 }
+
+.feedback-upload__icon { width: 34rpx; height: 34rpx; opacity: 0.72; }
+.feedback-page.tod-night .feedback-upload__icon { filter: invert(1); }

@@ -1,6 +1,6 @@
 # YourHer Mini Program
 
-The original native WeChat client, connected to YourHer's shared backend. Includes the original desk home and onboarding, a dedicated mood check-in page, chat, memory, mood, letters, companion settings, feedback and account/data pages.
+The original native WeChat client, connected to YourHer's shared backend. Includes the original desk home and onboarding, the original desk mood check-in flow, chat, memory, mood, letters, companion settings, feedback and account/data pages.
 
 1. Run `npm start` from the repository root (Node.js 24+).
 2. Import this directory into WeChat DevTools using your own AppID or a test account.

@@ -1,12 +1,12 @@
 
 page {
-  background: #221a18;
+  background: #EFE8D8;
 }
 
 .security-page {
   min-height: 100vh;
-  background: #221a18;
-  color: #f3e9e2;
+  background: #EFE8D8;
+  color: #3B3528;
 }
 
 .security-scroll {
@@ -54,8 +54,8 @@ page {
 .security-card {
   overflow: hidden;
   border-radius: 28rpx;
-  background: #2c221e;
-  border: 1rpx solid #3a2e2a;
+  background: #FFFCF4;
+  border: 1rpx solid #E8DFC9;
   box-shadow: 0 8rpx 24rpx -10rpx rgba(120, 100, 60, 0.18);
 }
 
@@ -82,7 +82,7 @@ page {
 }
 
 .security-row__icon {
-  color: #b09a8c;
+  color: #9A8F77;
   font-size: 32rpx;
 }
 
@@ -91,7 +91,7 @@ page {
 }
 
 .security-row__title {
-  color: #f3e9e2;
+  color: #3B3528;
   font-size: 28rpx;
   font-weight: 500;
   letter-spacing: 0.4rpx;
@@ -113,7 +113,7 @@ page {
 .security-card__divider {
   height: 1rpx;
   margin: 0 28rpx;
-  background: #3a2e2a;
+  background: #E8DFC9;
 }
 
 .security-footnote {
@@ -164,7 +164,7 @@ page {
 }
 
 .security-footnote__text {
-  color: #b09a8c;
+  color: #9A8F77;
   font-size: 18rpx;
   font-weight: 500;
   letter-spacing: 1.4rpx;
@@ -244,3 +244,10 @@ page {
 .security-page.tod-night .security-footnote__text {
   color: rgba(244, 239, 226, 0.55);
 }
+
+.security-action--danger .security-row__title { color: #963E30; }
+.security-page.tod-night .security-action--danger .security-row__title { color: #F4AC98; }
+.security-card .security-row + .security-row { border-top: 1rpx solid #E8DFC9; }
+.security-page.tod-night .security-card .security-row + .security-row { border-color: rgba(244, 239, 226, 0.18); }
+
+.security-page .app-topbar__title { white-space: nowrap; }

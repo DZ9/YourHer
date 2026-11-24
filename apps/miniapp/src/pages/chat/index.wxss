@@ -1891,5 +1891,7 @@ page {
   font-size: 24rpx;
 }
 
-.chat-desk-link { position: fixed; left: 22rpx; z-index: 20; padding: 0 14rpx; margin: 0; line-height: 52rpx; color: #fff4e7; background: rgba(40,25,22,.35); border-radius: 26rpx; font-size: 24rpx; }
+.chat-desk-link { position: fixed; width: 112rpx; box-sizing: border-box; left: 22rpx; z-index: 20; padding: 0 14rpx; margin: 0; line-height: 52rpx; color: #fff4e7; background: rgba(40,25,22,.35); border-radius: 26rpx; font-size: 24rpx; }
 .chat-desk-link::after { border: none; }
+
+.chat-demo-label { position: fixed; left: 22rpx; z-index: 20; pointer-events: none; padding: 5rpx 12rpx; border-radius: 8rpx; background: rgba(40,25,22,.62); color: #FFF4E7; font-size: 20rpx; }

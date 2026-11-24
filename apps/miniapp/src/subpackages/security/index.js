@@ -1,7 +1,11 @@
+const { getNavigationLayout } = require("../../utils/layout");
+const { getTimeOfDay } = require("../../utils/time");
 const { request, clearSession, loginWechat } = require('../../services/http');
 Page({
-  data: { busy: false },
+  data: { busy: false, timeOfDay: "noon" },
+  onLoad() { this.setData(getNavigationLayout()); },
   async onShow() {
+    this.setData({ timeOfDay: getTimeOfDay() });
     try { this.setData({ account: await request('/api/me/security'), pendingOrder: wx.getStorageSync('yourher:pending-order') || '' }); }
     catch (error) { this.setData({ error: error.message || '无法读取账号状态' }); }
   },

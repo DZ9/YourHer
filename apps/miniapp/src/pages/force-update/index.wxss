@@ -1,7 +1,7 @@
 .force-update {
   position: fixed;
   inset: 0;
-  background: #221a18;
+  background: #F5EDE0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,3 +65,9 @@
   color: rgba(91, 80, 64, 0.7);
   line-height: 1.6;
 }
+
+.force-update.tod-night { background: #1F2236; }
+.force-update.tod-night .force-update__title { color: #F4EFE2; }
+.force-update.tod-night .force-update__desc,
+.force-update.tod-night .force-update__meta,
+.force-update.tod-night .force-update__hint { color: #D6CCDD; }

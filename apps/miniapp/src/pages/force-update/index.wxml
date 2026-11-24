@@ -1,8 +1,9 @@
-<view class="force-update">
+<page-meta background-color="{{timeOfDay === 'night' ? '#1F2236' : '#F5EDE0'}}" />
+<view class="force-update tod-{{timeOfDay}}">
   <view class="force-update__panel">
     <view class="force-update__title serif">{{copy.forceUpdate.title}}</view>
     <view class="force-update__desc">
-      此刻已经更新了，为了保证你的记录和聊天能正常同步，请升级到最新版后继续使用。
+      YourHer 已经更新了，为了保证你的记录和聊天能正常同步，请升级到最新版后继续使用。
     </view>
     <view class="force-update__meta sans">{{versionInfoText}}</view>
 

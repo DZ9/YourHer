@@ -25,4 +25,4 @@ The visual restoration ports the original miniapp chat CSS palette, overlay laye
 
 The HTTP client, device-session boundary, miniapp compatibility API, account/data screen and startup documentation were added for this edition. The miniapp backend shares the existing web turn pipeline, memory engine, provider adapter and persistence. It does not import the old third-party cloud backend. The native client's original Chinese interface is preserved; browser locale catalogues apply to the web UI only.
 
-The desk home page was recovered from the last revision before its removal (`0ff704d32b61a8c0b2536b32e581e52cfd5549e0`). The onboarding page was recovered separately from `fed1e3bc6b1442b066c657cf4795682dd1d80980`. The standalone check-in page adapts the original mood flow for the self-hosted backend.
+The desk home page was recovered from the last revision before its removal (`0ff704d32b61a8c0b2536b32e581e52cfd5549e0`). The onboarding page was recovered separately from `fed1e3bc6b1442b066c657cf4795682dd1d80980`. The restored desk mood card connects the original check-in-to-chat flow to the self-hosted backend.

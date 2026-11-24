@@ -1,13 +1,17 @@
+const { getTimeOfDay } = require("../../utils/time");
 const { copy, COPY } = require("../../utils/copy");
 
 Page({
   data: {
+    copy: COPY,
+    timeOfDay: "noon",
     currentVersion: "",
     minVersion: "",
     applying: false,
     showFallback: false
   },
 
+  onShow() { this.setData({ timeOfDay: getTimeOfDay() }); },
   onLoad(options) {
     const app = getApp();
     this.setData({

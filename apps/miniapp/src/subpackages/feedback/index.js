@@ -35,6 +35,7 @@ function chooseImage() {
 
 Page({
   data: {
+    copy: COPY,
     statusBarHeight: 20,
     topbarContentHeight: 32,
     topbarSideWidth: 112,

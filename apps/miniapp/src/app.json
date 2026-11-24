@@ -2,7 +2,6 @@
   "entryPagePath": "pages/home/index",
   "pages": [
     "pages/home/index",
-    "pages/checkin/index",
     "pages/onboarding/index",
     "pages/chat/index",
     "pages/records/index",

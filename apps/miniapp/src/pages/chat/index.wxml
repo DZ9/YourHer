@@ -323,7 +323,7 @@
 
 
   <view
-    wx:if="{{firstTouch && !loading && messages.length === 0 && !conversationId && !voiceRecording}}"
+    wx:if="{{firstTouch && !loading && !voiceRecording}}"
     class="chat-first-touch__consent"
     style="bottom: calc(176rpx + {{keyboardHeight || 0}}px + env(safe-area-inset-bottom));"
     bindtap="handleToggleConsent"
@@ -576,4 +576,4 @@
 
 </view>
 
-<view wx:if="{{demoMode}}" style="position:fixed;top:95rpx;left:24rpx;z-index:20;font-size:20rpx;color:#fff;background:rgba(0,0,0,.4);border-radius:8rpx;padding:5rpx 12rpx;pointer-events:none">离线规则演示</view>
+<view wx:if="{{demoMode}}" class="chat-demo-label" style="top: calc({{statusBarHeight + 6}}px + 58rpx);">离线规则演示</view>

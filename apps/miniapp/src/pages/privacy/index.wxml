@@ -1,1 +1,34 @@
-<view class="page-shell"><view style="padding:100rpx 40rpx;line-height:1.9"><text style="font-size:42rpx">YourHer · 数据与隐私</text><view>对话、记忆、心情与信件保存在你连接的自托管服务器。小程序本地保存设备会话凭证与界面缓存。清除本地缓存会失去访客会话，请先导出数据。</view><view>接入真实模型后，相关对话和记忆会发送给服务器配置的模型提供方。API 密钥仅由服务器持有。离线演示使用规则回复。</view><view>默认使用设备访客会话。部署者配置微信能力后，你可以主动关联微信或授权绑定手机号。服务器保存微信身份识别值、手机号绑定校验值和脱敏号码。语音插件默认关闭；管理员启用后需另行配置插件和隐私声明。</view><view>在「关于 → 账号与数据」可导出或删除当前设备会话对应的全部数据。部署者须根据自己的运行方式补充隐私声明和联系方式。</view><view>AI 回复可能出错，不作为专业诊断或建议。</view><button bindtap="handleBack">返回</button></view></view>
+<page-meta background-color="{{timeOfDay === 'night' ? '#1F2236' : '#F4EFE6'}}" />
+<view class="privacy-page tod-{{timeOfDay}}">
+  <view class="privacy-page__topbar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="privacy-page__topbar-inner" style="min-height: {{topbarContentHeight}}px; padding-right: {{topbarSideWidth}}px;">
+      <text class="privacy-page__title serif">隐私政策</text>
+    </view>
+  </view>
+  <scroll-view scroll-y class="privacy-page__body">
+    <view class="privacy-page__section">
+      <text class="privacy-page__h2 serif">数据存储</text>
+      <text class="privacy-page__p sans">对话、记忆、心情与信件保存在你连接的自托管服务器。小程序本地保存设备会话凭证与界面缓存。清除本地缓存会失去访客会话，请先导出数据。</text>
+    </view>
+    <view class="privacy-page__section">
+      <text class="privacy-page__h2 serif">模型调用</text>
+      <text class="privacy-page__p sans">接入真实模型后，相关对话和记忆会发送给服务器配置的模型提供方。API 密钥仅由服务器持有。离线演示使用规则回复。</text>
+    </view>
+    <view class="privacy-page__section">
+      <text class="privacy-page__h2 serif">微信授权</text>
+      <text class="privacy-page__p sans">默认使用设备访客会话。部署者配置微信能力后，你可以主动关联微信或授权绑定手机号。服务器保存微信身份识别值、手机号绑定校验值和脱敏号码。语音插件默认关闭；管理员启用后需另行配置插件和隐私声明。</text>
+    </view>
+    <view class="privacy-page__section">
+      <text class="privacy-page__h2 serif">数据管理</text>
+      <text class="privacy-page__p sans">在「关于 → 账号与数据」可导出或删除当前设备会话对应的全部数据。部署者须根据自己的运行方式补充隐私声明和联系方式。</text>
+    </view>
+    <view class="privacy-page__section">
+      <text class="privacy-page__h2 serif">使用提示</text>
+      <text class="privacy-page__p sans">AI 回复可能出错，不作为专业诊断或建议。</text>
+    </view>
+    <view class="privacy-page__bottom-spacer" />
+  </scroll-view>
+  <view class="privacy-page__footer">
+    <button class="privacy-page__btn privacy-page__btn--ghost" bindtap="handleBack">返回</button>
+  </view>
+</view>

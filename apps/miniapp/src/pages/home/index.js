@@ -1,3 +1,4 @@
+const { MOOD_FIRST_PERSON } = require("../../utils/mood-checkin");
 const api = require("../../services/api");
 const track = require("../../utils/track");
 const { switchRoot, syncCustomTabBar } = require("../../utils/nav");
@@ -158,17 +159,17 @@ Page({
     submitting: false,
     debugMode: false,
     heroDaysText: "",
-    journalLabel: "",
+    journalLabel: copy("home.diaryLabel"),
     weeklyNewLabel: "",
     replyButtonLabel: copy("home.replyButton"),
     brandText: copy("home.brand")
   },
 
-  onLoad() {
+  onLoad(options = {}) {
     try {
       const acc = wx.getAccountInfoSync && wx.getAccountInfoSync();
       const env = (acc && acc.miniProgram && acc.miniProgram.envVersion) || "";
-      if (env === "develop") {
+      if (env === "develop" && options.debug === "1") {
         this.setData({ debugMode: true });
       }
     } catch (_) { /* 老基础库读不到就不开 debug */ }
@@ -430,17 +431,21 @@ Page({
     wx.navigateTo({ url });
   },
 
-  handleMoodPick(event) {
-    const { value } = event.currentTarget.dataset;
-    wx.navigateTo({ url: "/pages/checkin/index?mood=" + encodeURIComponent(value) });
-  },
-
-  handleOpenCheckin() {
-    wx.navigateTo({ url: "/pages/checkin/index" });
-  },
-
-  handleAccount() {
-    wx.navigateTo({ url: "/subpackages/security/index" });
+  async handleMoodPick(event) {
+    const value = event.currentTarget.dataset.value;
+    const text = Object.prototype.hasOwnProperty.call(MOOD_FIRST_PERSON, value) && MOOD_FIRST_PERSON[value];
+    if (!text || this.data.submitting) return;
+    this.setData({ submitting: true });
+    try {
+      await api.submitCheckin({ mood: value });
+      this.setData({ needsCheckin: false });
+      track.track("mood_checkin_submit", { mood: value, from: "home" });
+      wx.navigateTo({ url: `/pages/chat/index?source=home_mood&autoSend=1&initialMessage=${encodeURIComponent(text)}&mood=${encodeURIComponent(value)}` });
+    } catch (error) {
+      wx.showToast({ title: error.message || "打卡保存失败，请重试", icon: "none" });
+    } finally {
+      this.setData({ submitting: false });
+    }
   },
 
   handleOpenOnboarding() {

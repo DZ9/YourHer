@@ -225,7 +225,7 @@ Page({
     try {
       const acc = wx.getAccountInfoSync && wx.getAccountInfoSync();
       const env = (acc && acc.miniProgram && acc.miniProgram.envVersion) || "";
-      if (env === "develop") {
+      if (env === "develop" && options?.debug === "1") {
         this.setData({ debugMode: true });
       }
     } catch (_) {  }
@@ -285,7 +285,7 @@ Page({
       if (me && me.aiMoodSnapshot) this.applyAiMood(me.aiMoodSnapshot);
       this._syncTrialState(me);
       if (!this._debugNewUserMode) {
-        this.setData({ demoMode: me && me.modelMode === "demo", firstTouch: !(me && (me.onboardingCompleted || me.privacyConsentAt)) });
+        this.setData({ demoMode: me && me.modelMode === "demo", firstTouch: !me?.privacyConsentAt });
       }
       if (me && (me.aiGender === "female" || me.aiGender === "male")) {
         this._genderResolved = true;
@@ -507,7 +507,7 @@ Page({
       track.track("chat_initial_mood_present", { mood: this._pendingInitialMood });
     }
     const _cachedMe = api.peekMe && api.peekMe();
-    const _isReturningUser = Boolean(_cachedMe && (_cachedMe.onboardingCompleted || _cachedMe.privacyConsentAt));
+    const _isReturningUser = Boolean(_cachedMe?.privacyConsentAt);
     this.setData({ firstTouch: !_isReturningUser, firstTouchOpener: getFirstTouchOpener() });
     this._maybeShowGenderSheet();
     this._a5Suppressed = decideA5Suppressed({ autoSend: options && options.autoSend });
@@ -569,7 +569,7 @@ Page({
       this.setData({
         inputValue: initialMessage
       });
-      await this.handleStreamingSend();
+      if (!this.data.firstTouch || this.data.consentChecked) await this.handleStreamingSend();
     }
   },
 

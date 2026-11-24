@@ -52,7 +52,7 @@
       </view>
 
       <view class="feedback-upload" bindtap="handleChooseImage">
-        <text class="symbol feedback-upload__icon">add_photo_alternate</text>
+        <image class="feedback-upload__icon" src="/assets/icons/add-photo-alternate.svg" mode="aspectFit" aria-hidden="true" />
         <text class="feedback-upload__label">{{attachments.length ? copy.feedback.screenshotAdded : copy.feedback.addScreenshot}}</text>
       </view>
 
