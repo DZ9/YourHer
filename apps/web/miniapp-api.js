@@ -185,7 +185,8 @@ export function createMiniappApi({ store, memory, active, runTurn, generateLette
     if (p === '/api/companion/stats') return { daysTogether: Math.max(1, Math.floor((clock() - Date.parse(user.createdAt)) / 86400000) + 1), userMessageCount: (await messages(user.id)).filter(m => m.role === 'user').length, memoryCount: (await memory.list(user.id)).length, aiName: user.profile.aiName };
     if (p === '/api/conversations') {
       if (method === 'POST') return conversation(user);
-      return { items: [{ ...conversation(user), lastMessageAt: (await messages(user.id)).at(-1)?.createdAt || user.createdAt }], nextCursor: null };
+      const last = (await messages(user.id)).at(-1);
+      return { items: last ? [{ ...conversation(user), lastMessageAt: last.createdAt }] : [], nextCursor: null };
     }
     if (/^\/api\/conversations\/[^/]+$/.test(p)) return { conversation: conversation(user), messages: (await messages(user.id)).flatMap(message) };
     if (/^\/api\/conversations\/[^/]+\/(stream-generate|messages)$/.test(p)) return generate(user, data);

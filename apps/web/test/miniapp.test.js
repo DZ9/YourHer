@@ -32,11 +32,13 @@ test('native contract runs chat, memory, checkins, letters and export using the 
   const {client} = await setup(t); const api = await client();
   assert.equal((await api('/api/login', 'POST')).body.wechatBound, false);
   assert.equal((await api('/api/me/settings', 'PATCH', {privacyConsentGranted:true})).status, 200);
+  assert.deepEqual((await api('/api/conversations')).body.items, []);
   const conversation = (await api('/api/conversations', 'POST')).body;
   const path = '/api/conversations/' + conversation.id + '/stream-generate';
   const first = await api(path, 'POST', {sessionId:randomUUID(), content:'我养了一只猫叫橘子'});
   assert.equal(first.status, 200); assert.ok(first.body.assistantMessages.length >= 1);
   assert.ok(first.body.assistantMessages.at(-1).replyCandidates.length);
+  assert.equal((await api('/api/conversations')).body.items[0].id, conversation.id);
   assert.doesNotMatch(first.body.assistantMessages[0].content, /CANDIDATES/);
   const memories = (await api('/api/memory')).body.items;
   assert.equal(memories.length, 1);

@@ -827,7 +827,7 @@ Page({
     return this.handleStreamingSend();
   },
   handleFirstMeetingChip(event) {
-    if (this.data.sending) return;
+    if (this.data.sending || this.data.inputValue || this.data.voiceRecording) return;
     const text = String((event && event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.text) || "").trim();
     if (!text) return;
     track.track("chat_first_meeting_chip_click", {
@@ -836,7 +836,7 @@ Page({
     this._lastChipStash = { source: "first_meeting", text };
     this._sendFrom = "first_meeting_chip";
     this.setData({ inputValue: text });
-    this.handleStreamingSend();
+    return this.handleStreamingSend();
   },
   _maybeShowA5() {
     const gate = evaluateA5Trigger({
@@ -875,7 +875,7 @@ Page({
     });
   },
   handleA5Chip(event) {
-    if (this.data.sending) return;
+    if (this.data.sending || this.data.inputValue || this.data.voiceRecording) return;
     const ds = (event && event.currentTarget && event.currentTarget.dataset) || {};
     const text = String(ds.text || "").trim();
     if (!text) return;
@@ -888,6 +888,7 @@ Page({
     this._sendFrom = "a5_chip";
     this.setData({ inputValue: text });
     this._clearA5("chip_clicked", { skipTrack: true });   // 点击不再走 dismiss 埋点（chip_click 已经覆盖）
+    return this.handleStreamingSend();
   },
   _clearA5(reason, options = {}) {
     if (!this.data.a5Tier) return;
@@ -906,7 +907,7 @@ Page({
   _debugCycleA5() { return debugFns.debugCycleA5(this); },
   _debugToggleA5Suppress() { return debugFns.debugToggleA5Suppress(this); },
   handleReplyChip(event) {
-    if (this.data.sending) return;
+    if (this.data.sending || this.data.inputValue || this.data.voiceRecording) return;
     const ds = (event && event.currentTarget && event.currentTarget.dataset) || {};
     const text = String(ds.text || "").trim();
     if (!text) return;
@@ -918,6 +919,7 @@ Page({
     this._lastChipStash = { source: "reply_chip", text, messageId: String(ds.messageId || "") };
     this._sendFrom = "reply_chip";
     this.setData({ inputValue: text });
+    return this.handleStreamingSend();
   },
   handleSendOrVoiceTap() {
     return voiceFns.handleSendOrVoiceTap(this);
