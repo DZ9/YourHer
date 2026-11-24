@@ -1,6 +1,6 @@
 const api = require("../../services/api");
 const track = require("../../utils/track");
-const { safeBack, switchRoot } = require("../../utils/nav");
+const { switchRoot } = require("../../utils/nav");
 const { getNavigationLayout } = require("../../utils/layout");
 const { getTimeOfDay, getWhisperByState, isDeepNight } = require("../../utils/time");
 const pendingFinalize = require("../../utils/pending-finalize");
@@ -1162,10 +1162,13 @@ Page({
     this.setData({ nameBanner: null });
   },
 
-  handleBack() {
-    if (this._navigatingBack) return;
-    this._navigatingBack = true;
-    safeBack("/pages/home/index");
+  handleOpenDesk() {
+    const previous = getCurrentPages().slice(-2, -1)[0];
+    if (previous?.route === "pages/home/index") {
+      wx.navigateBack();
+    } else {
+      wx.reLaunch({ url: "/pages/home/index" });
+    }
   },
   _syncTopNav() {
     const navUnread = computeNavUnread();

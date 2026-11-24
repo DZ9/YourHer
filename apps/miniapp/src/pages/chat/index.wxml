@@ -68,7 +68,7 @@
   </view>
 
 
-  <button class="chat-desk-link" style="top: {{statusBarHeight + 6}}px" bindtap="handleBack">‹ 首页</button>
+  <button class="chat-desk-link" style="top: {{statusBarHeight + 6}}px" bindtap="handleOpenDesk">‹ 回桌</button>
 
   <top-nav
     wx:if="{{!(firstTouch && messages.length === 0 && !conversationId)}}"

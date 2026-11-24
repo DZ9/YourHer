@@ -1,9 +1,9 @@
 {
-  "entryPagePath": "pages/home/index",
+  "entryPagePath": "pages/chat/index",
   "pages": [
+    "pages/chat/index",
     "pages/home/index",
     "pages/onboarding/index",
-    "pages/chat/index",
     "pages/records/index",
     "pages/me/index",
     "pages/force-update/index",
