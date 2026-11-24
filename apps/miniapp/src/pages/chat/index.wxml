@@ -213,7 +213,7 @@
         <block wx:for="{{messages}}" wx:key="id">
 
           <view
-            wx:if="{{!item.dateSeparator && item.role === 'assistant' && item.id === chipMessageId && item.replyCandidates && item.replyCandidates.length && !sending && !inputValue && !voiceRecording}}"
+            wx:if="{{!item.dateSeparator && item.role === 'assistant' && item.id === chipMessageId && item.replyCandidates && item.replyCandidates.length && !(a5Tier && a5Chips.length) && !sending && !inputValue && !voiceRecording}}"
             class="chat-reply-chips"
           >
             <scroll-view scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" class="chat-reply-chips__scroll">
