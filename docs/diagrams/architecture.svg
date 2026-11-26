@@ -1,52 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="474" viewBox="0 0 1200 474" role="img" aria-labelledby="title desc">
-  <title id="title">YourHer architecture</title>
-  <desc id="desc">The web app and WeChat Mini Program connect to one YourHer server. Conversation, memory, mood, letters, profiles and sessions share a model adapter and local JSON records.</desc>
-  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#302b35}.eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;fill:#87755f}.title{font-size:30px;font-weight:650;letter-spacing:-.6px}.sub{font-size:16px;fill:#776f79}.label{font-size:20px;font-weight:600}.body{font-size:15px;fill:#776f79}.small{font-size:13px;fill:#847b84}.kicker{font-size:12px;fill:#8a7b68;letter-spacing:1.3px;font-weight:600}.line{fill:none;stroke:#aaa0b0;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}</style>
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M1 1L8 5L1 9" fill="none" stroke="#aaa0b0" stroke-width="1.4" />
-    </marker>
-  </defs>
-  <rect x="0.5" y="0.5" width="1199" height="473" rx="20" fill="#faf8f5" stroke="#e5dfd7" />
-  <text x="44" y="39" class="eyebrow">YOURHER / ARCHITECTURE</text>
-  <text x="44" y="84" class="title">A web companion. A reusable core.</text>
-  <text x="44" y="113" class="sub">Shared conversation, memory and model services, with an optional native client.</text>
-  <rect x="44" y="158" width="226" height="106" rx="14" fill="#fff" stroke="#e1dce4" />
-  <text x="64" y="183" class="kicker">PRIMARY CLIENT</text>
-  <text x="64" y="213" class="label">Web app</text>
-  <text x="64" y="240" class="small">Responsive HTML / CSS / JS</text>
-  <rect x="44" y="286" width="226" height="106" rx="14" fill="#fff" stroke="#e1dce4" />
-  <text x="64" y="311" class="kicker">OPTIONAL CLIENT</text>
-  <text x="64" y="341" class="label">Mini Program</text>
-  <text x="64" y="368" class="small">Original native WXML / WXSS</text>
-  <rect x="346" y="146" width="508" height="264" rx="18" fill="#f1edf5" stroke="#d6cddd" />
-  <text x="370" y="181" class="label">YourHer server</text>
-  <text x="370" y="207" class="body">Shared services · one Node.js process</text>
-  <rect x="370" y="228" width="218" height="72" rx="10" fill="#fcfbfd" stroke="#e0d8e7" />
-  <text x="386" y="257" class="label">Conversation</text>
-  <text x="386" y="281" class="small">Streaming · bubbles · chips</text>
-  <rect x="612" y="228" width="218" height="72" rx="10" fill="#fcfbfd" stroke="#e0d8e7" />
-  <text x="628" y="257" class="label">Memory</text>
-  <text x="628" y="281" class="small">Extract · rank · forget</text>
-  <rect x="370" y="312" width="218" height="72" rx="10" fill="#fcfbfd" stroke="#e0d8e7" />
-  <text x="386" y="341" class="label">Mood &amp; letters</text>
-  <text x="386" y="365" class="small">Check-ins · weekly letters</text>
-  <rect x="612" y="312" width="218" height="72" rx="10" fill="#fcfbfd" stroke="#e0d8e7" />
-  <text x="628" y="341" class="label">Profiles &amp; sessions</text>
-  <text x="628" y="365" class="small">Preferences · user isolation</text>
-  <rect x="930" y="158" width="226" height="106" rx="14" fill="#fffdf9" stroke="#e5d9c7" />
-  <text x="950" y="190" class="label">Model provider</text>
-  <text x="950" y="217" class="body">OpenAI-compatible API</text>
-  <text x="950" y="240" class="small">or built-in scripted demo</text>
-  <rect x="930" y="286" width="226" height="106" rx="14" fill="#fffdf9" stroke="#e5d9c7" />
-  <text x="950" y="318" class="label">Local records</text>
-  <text x="950" y="345" class="body">JSON storage</text>
-  <text x="950" y="368" class="small">on your own instance</text>
-  <path d="M270 211H342" class="line" marker-end="url(#arrow)" />
-  <path d="M270 339H342" class="line" marker-end="url(#arrow)" />
-  <path d="M854 211H926" class="line" marker-end="url(#arrow)" />
-  <path d="M854 339H926" class="line" marker-end="url(#arrow)" />
-  <text x="44" y="447" class="kicker">CLIENTS</text>
-  <text x="346" y="447" class="kicker">REUSABLE CORE</text>
-  <text x="930" y="447" class="kicker">YOUR INFRASTRUCTURE</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="535" viewBox="0 0 1120 535" role="img" aria-labelledby="title desc">
+  <title id="title">YourHer conversational agent architecture</title>
+  <desc id="desc">The web client and optional WeChat Mini Program connect to one Node.js backend. A turn assembles persona, history, and ranked memories, streams a reply through a model adapter, and saves it before optional extraction. Candidate facts are validated and saved in self-hosted JSON records for future turns.</desc>
+  <style>
+    text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;fill:#2e2534}
+    .label{font-size:19px;font-weight:650}.note{font-size:14px;fill:#635768}.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.8px;fill:#715878}
+    .edge{fill:none;stroke:#84768f;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .card{fill:#fffdfb;stroke:#d9d1df}.accent{fill:#eee7f2;stroke:#c8b7d1}
+  </style>
+  <rect x=".5" y=".5" width="1119" height="534" rx="22" fill="#faf7f3" stroke="#e6ded8"/>
+  <text x="32" y="40" class="eyebrow">YOURHER / SYSTEM ARCHITECTURE</text>
+  <text x="32" y="80" font-size="31" font-weight="650">A conversational agent that remembers</text>
+
+  <g>
+    <rect x="32" y="120" width="180" height="86" rx="12" class="card"/>
+    <text x="48" y="153" class="label">Web app</text>
+    <text x="48" y="178" class="note">Primary client · SSE</text>
+    <rect x="32" y="228" width="180" height="86" rx="12" class="card"/>
+    <text x="48" y="261" class="label">Mini Program</text>
+    <text x="48" y="286" class="note">Optional · HTTP polling</text>
+  </g>
+
+  <rect x="244" y="105" width="636" height="302" rx="18" fill="#f5eff7" stroke="#d9ccdf"/>
+  <text x="268" y="137" class="eyebrow">SELF-HOSTED NODE.JS BACKEND</text>
+  <g>
+    <rect x="268" y="156" width="178" height="98" rx="12" class="card"/>
+    <text x="282" y="185" class="label">Build context</text>
+    <text x="282" y="210" class="note">Persona, history,</text>
+    <text x="282" y="231" class="note">summary, ranked facts</text>
+
+    <rect x="469" y="156" width="178" height="98" rx="12" class="card"/>
+    <text x="483" y="185" class="label">Stream reply</text>
+    <text x="483" y="210" class="note">Parse bubbles and</text>
+    <text x="483" y="231" class="note">follow-up suggestions</text>
+
+    <rect x="670" y="156" width="186" height="98" rx="12" class="accent"/>
+    <text x="684" y="185" class="label">Save reply</text>
+    <text x="684" y="210" class="note">Persist to JSON</text>
+    <text x="684" y="231" class="note">before analysis</text>
+
+    <rect x="268" y="311" width="178" height="76" rx="12" class="card"/>
+    <text x="282" y="342" class="label">Rank memories</text>
+    <text x="282" y="368" class="note">User scope and expiry</text>
+
+    <rect x="469" y="311" width="178" height="76" rx="12" class="card"/>
+    <text x="483" y="342" class="label">Validate facts</text>
+    <text x="483" y="368" class="note">Schema and exact dedup</text>
+
+    <rect x="670" y="311" width="186" height="76" rx="12" class="card"/>
+    <text x="684" y="342" class="label">Extract facts</text>
+    <text x="684" y="368" class="note">Only if the gate passes</text>
+  </g>
+
+  <rect x="912" y="146" width="176" height="117" rx="12" class="card"/>
+  <text x="928" y="178" class="label">Model adapter</text>
+  <text x="928" y="205" class="note">OpenAI-compatible</text>
+  <text x="928" y="227" class="note">or scripted demo</text>
+
+  <rect x="244" y="450" width="636" height="56" rx="12" class="card"/>
+  <text x="268" y="484" class="label">Local JSON store</text>
+  <text x="444" y="484" class="note">User-scoped messages, profiles and long-term memories</text>
+
+  <path d="M212 163H226V195H264 M258 191L264 195L258 199" class="edge"/>
+  <path d="M212 271H226V216H264 M258 212L264 216L258 220" class="edge"/>
+  <path d="M446 205H465 M459 201L465 205L459 209" class="edge"/>
+  <path d="M647 205H666 M660 201L666 205L660 209" class="edge"/>
+  <path d="M763 254V307 M759 301L763 307L767 301" class="edge"/>
+  <path d="M670 349H651 M657 345L651 349L657 353" class="edge"/>
+  <path d="M357 311V258 M353 264L357 258L361 264" class="edge"/>
+  <path d="M558 156V145H895V199H908 M902 195L908 199L902 203" class="edge"/>
+  <path d="M856 350H895V238H908 M902 234L908 238L902 242" class="edge"/>
+  <path d="M558 387V446 M554 440L558 446L562 440" class="edge"/>
+  <path d="M357 450V391 M353 397L357 391L361 397" class="edge"/>
+  <text x="375" y="434" class="note">Read next turn</text>
+  <text x="572" y="434" class="note">Write facts</text>
 </svg>

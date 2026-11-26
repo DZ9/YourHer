@@ -2,39 +2,48 @@
 
 # YourHer
 
-### A familiar voice. A connection that grows.
+### An open-source AI companion with a conversational agent and long-term memory
 
-A self-hosted AI companion with personality, memory, and conversations that carry on.
+`AI Companion` · `Conversational Agent` · `Long-term Memory` · `Self-hosted`
 
 [![CI](https://github.com/DZ9/YourHer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/DZ9/YourHer/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-8b7355.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-24%2B-607a58.svg)](https://nodejs.org/)
 
-[**Get started**](#quickstart) · [**Features**](#features) · [**Languages**](docs/i18n.md) · [**Documentation**](#documentation)
+[**Get started**](#quickstart) · [**Agent architecture**](#how-the-agent-works) · [**Languages**](docs/i18n.md) · [**Documentation**](#documentation)
 
 English · [简体中文](README.zh-CN.md)
 
 </div>
 
 <p align="center">
-  <img src="docs/screenshots/first-meeting-english.jpg" width="250" alt="First conversation">
-  <img src="docs/screenshots/conversation.jpg" width="250" alt="Chat with suggested replies">
-  <img src="docs/screenshots/memory.jpg" width="250" alt="Saved memories">
+  <img src="docs/screenshots/portfolio-chat.jpg" width="250" alt="Chat and follow-up suggestions">
+  <img src="docs/screenshots/portfolio-memory.jpg" width="250" alt="Long-term memory management">
+  <img src="docs/screenshots/portfolio-mood.jpg" width="250" alt="Mood calendar">
 </p>
 
-YourHer is an AI companion you can host yourself. Choose a name, appearance and speaking style, connect your model, and come back to a conversation that remembers what you've shared.
+Stream a reply and pick a follow-up suggestion. Inspect or forget saved facts in Memory, or record a check-in in Mood.
 
-Run the web app on your own server, or reuse its conversation and memory packages in your own project.
+## How the agent works
 
-## How it works
+Each turn combines the companion’s persona, recent messages, a compact summary, and ranked long-term memories. An OpenAI-compatible adapter streams the response. The server saves the reply before optional analysis extracts facts for later turns.
 
-The web app keeps model calls, memory processing and data storage on your server.
+[![Clients, agent turn pipeline, model adapter, and local memory storage](docs/diagrams/architecture.svg)](docs/architecture.md)
 
-![YourHer architecture](docs/diagrams/architecture.svg)
+### Try memory across turns
 
-Replies are saved before optional fact analysis. Accepted memories enter later context; extraction failures do not discard the conversation.
+1. In the offline demo, send **“My cat is named Mango.”** Wait for the memory confirmation and open **Memory** to see the stored fact.
+2. Back in chat, ask **“Do you remember my cat?”** The reply recalls Mango. The screenshots above use this scripted demo with sample data.
 
-![YourHer conversation lifecycle](docs/diagrams/conversation-loop.svg)
+### Engineering decisions
+
+| Decision | Why it matters |
+| --- | --- |
+| Persist the reply before memory analysis | An extraction failure cannot discard an already saved reply. The web client can also recover a completed turn by request ID. |
+| Keep memory explicit and user-scoped | Facts have types, exact deduplication, ranking and expiry rules. Users can view or forget individual facts. Recent messages may still contain them. |
+| Share one backend across two clients | The web client uses server-sent events, while the optional Mini Program polls for updates. Both use the same turn and memory logic. |
+
+See the [validation notes](docs/validation.md) and [CI checks](https://github.com/DZ9/YourHer/actions/workflows/ci.yml) for reproducible checks. The rule-based memory suite runs with `npm run eval`.
 
 ## Quickstart
 
@@ -105,7 +114,7 @@ See the [component guide](docs/components.md) for package boundaries and a memor
 <details>
 <summary>About the optional Mini Program</summary>
 
-The native client preserves the original WXML/WXSS pages, portrait artwork and chat interactions, and connects to the same backend. It requires WeChat DevTools and your own AppID or a test account. DevTools compilation and physical-device preview have not yet been verified. Its model reply language is configurable; the interface remains Chinese.
+The native client preserves the original WXML/WXSS pages, portrait artwork and chat interactions, and connects to the same backend. It requires WeChat DevTools and your own AppID or a test account. The core chat flows have been checked in WeChat DevTools. Physical-device verification remains pending. Its model reply language is configurable; the interface remains Chinese.
 
 See the [setup guide](docs/miniapp.md) for local networking and optional voice support.
 
